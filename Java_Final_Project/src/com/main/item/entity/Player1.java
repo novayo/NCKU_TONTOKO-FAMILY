@@ -9,13 +9,12 @@ import com.main.item.tile.Tile;
 
 public class Player1 extends Entity{
 
-	private final double player_jumping_height = 5.0; // 跳躍高度
-	private final double jumping_speed = 0.1;
-	private final int animation_speed = 15; // 每 (1/animation_speed) 秒 變換一次動畫
-	
+	private final double player_jumping_height = 8.0; // 跳躍高度
+	private final double jumping_speed = 0.3; // 跳躍高度
+	private int animation_speed = 60/moveSpeedfloor1; // 每 (1/animation_speed) 秒 變換一次動畫
+	protected int immutableSpeed = 64*2/moveSpeedfloor1 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
 	protected double player_gravity = 0.8; // 下降重力
-	private int animation = 0;
-	private int animationDelay = 0;
+	
 	
 	public Player1(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -33,12 +32,15 @@ public class Player1 extends Entity{
 		y += velY;
 		
 		// 判斷碰撞
-		for (Tile tile:handler.tileLinkedList) {
-			if (tile.getId() == Id.Stone) {
+		for (int i=0; i<Game.handler.tileLinkedList.size(); i++) {
+			Tile tile = Game.handler.tileLinkedList.get(i);
+			if (tile.getId() == Id.Floor1_Obstacle) {
 				if (getBounds().intersects(tile.getBounds())) {
-					// 生命 - 1
 					// 做出跌倒的動畫
-					System.out.println("碰到石頭");
+					if (Game.GAME_NOT_STARTED == false && immutable == false) {
+						fallDown(); // 遊戲開始後，非無敵狀態，生命 - 1
+						tile.setHitByPlayer(true);
+					}
 				}
 			}
 		}
@@ -71,6 +73,7 @@ public class Player1 extends Entity{
 		}
 		
 		// 處理動畫
+		animation_speed = (60/moveSpeedfloor1 > 0) ? 60/moveSpeedfloor1 : 1;
 		animationDelay++;
 		if (animationDelay >= animation_speed) {
 			animation++;
@@ -79,8 +82,24 @@ public class Player1 extends Entity{
 			}
 			animationDelay = 0;
 		}
+		
+		// 處理無敵
+		if (immutable == true) {
+			immutableDelay++;
+			if (immutableDelay >= immutableSpeed) {
+				immutable = false;
+				immutableDelay = 0;
+			}
+		}
 	}
 
+	@Override
+	public void doKeyPressed() {
+		if (jumping == false && falling == false) {
+			jumping = true;
+			player_gravity = player_jumping_height;
+		}
+	}
 	
 	
 	/* Getters and Setters
@@ -88,22 +107,6 @@ public class Player1 extends Entity{
 	 */
 	public double getJumping_speed() {
 		return jumping_speed;
-	}
-
-	@Override
-	public double getPlayer_gravity() {
-		return player_gravity;
-	}
-
-	@Override
-	public double getPlayer_jumping_height() {
-		// TODO Auto-generated method stub
-		return player_jumping_height;
-	}
-
-	@Override
-	public void setPlayer_gravity(double player_gravity) {
-		this.player_gravity = player_gravity;
-	}
+	}	
 	
 }

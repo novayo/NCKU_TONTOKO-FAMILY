@@ -18,26 +18,41 @@ public class KeyInput implements KeyListener{
 	public void keyPressed(KeyEvent e) {
 		int key = e.getKeyCode(); // 當我們按下Ａ的時候，key = KeyEvent.VK_A;
 		
-		for (Entity entity:Game.handler.entityLinkedList) {
-			switch (key) {
-			case KeyEvent.VK_A:
-				if (entity.getId() == Id.Player1) {
-					if (entity.isJumping() == false && entity.isFalling() == false) {
-						entity.setJumping(true);
-						entity.setPlayer_gravity(entity.getPlayer_jumping_height());
+		if (Game.GAME_NOT_STARTED == false) { // 遊戲開始時，才能接收asdf
+			for (int i=0; i<Game.handler.entityLinkedList.size(); i++) {
+				Entity entity = Game.handler.entityLinkedList.get(i);
+				switch (key) {
+				case KeyEvent.VK_A:
+					if (entity.getId() == Id.Player1) {
+						entity.doKeyPressed();
 					}
-				}
-				break;
-			case KeyEvent.VK_S:
-				if (entity.getId() == Id.Player2) {
-					if (entity.isJumping() == false && entity.isFalling() == false) {
-						entity.setJumping(true);
-						entity.setPlayer_gravity(entity.getPlayer_jumping_height());
+					break;
+				case KeyEvent.VK_S:
+					if (entity.getId() == Id.Player2) {
+						entity.doKeyPressed();
 					}
+					break;
+				case KeyEvent.VK_D:
+					if (entity.getId() == Id.Player3) {
+						entity.doKeyPressed();
+					}
+					break;
+				case KeyEvent.VK_F:
+					if (entity.getId() == Id.Player4) {
+						entity.doKeyPressed();
+					}
+					break;
+				default:
+					break;
 				}
-				break;
-			default:
-				break;
+			}
+		}
+		
+		if (key == KeyEvent.VK_SPACE) {
+			if (Game.GAME_NOT_STARTED == true) {
+				Game.FIRST_RUN = false;
+				Game.GAME_NOT_STARTED = false;
+				Game.gameReset();
 			}
 		}
 	}
@@ -46,12 +61,29 @@ public class KeyInput implements KeyListener{
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode(); // 當我們按下Ａ的時候，key = KeyEvent.VK_A;
 		
-		for (Entity entity:Game.handler.entityLinkedList) {
+		for (int i=0; i<Game.handler.entityLinkedList.size(); i++) {
+			Entity entity = Game.handler.entityLinkedList.get(i);
 			switch (key) {
 			case KeyEvent.VK_A:
-				entity.setVelY(0);
+				if (entity.getId() == Id.Player1) {
+					entity.setVelY(0);
+				}
 				break;
-
+			case KeyEvent.VK_S:
+				if (entity.getId() == Id.Player2) {
+					entity.setVelY(0);
+				}
+				break;
+			case KeyEvent.VK_D:
+				if (entity.getId() == Id.Player3) {
+					entity.setVelY(0);
+				}
+				break;
+			case KeyEvent.VK_F:
+				if (entity.getId() == Id.Player4) {
+					entity.setVelY(0);
+				}
+				break;
 			default:
 				break;
 			}

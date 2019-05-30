@@ -2,6 +2,7 @@ package com.main.item.entity;
 
 import java.awt.Rectangle;
 
+import com.main.Game;
 import com.main.item.Handler;
 import com.main.item.Id;
 import com.main.item.Item;
@@ -10,27 +11,35 @@ public abstract class Entity extends Item{
 	
 	private final int start_y; // 起始位置
 	protected int velY;
+	protected int animation = 0;
+	protected int animationDelay = 0;
+	protected int immutableDelay = 0;
 	protected boolean jumping = false;
 	protected boolean falling = false;
+	protected boolean immutable = false; // 無敵狀態
 
 	public Entity(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
 		this.start_y = y;
 	}
 
-	@Override
-	public void die() {
-		handler.removeEntity(this);
+	public void fallDown() {
+		if (immutable == false) {
+			Game.life--;
+			if (Game.life <= 0) {
+				Game.heartObj.update(); // 更新死亡後的愛心
+				Game.GAME_NOT_STARTED = true;
+			}
+			immutable = true;
+		}
 	}
+	
+	public abstract void doKeyPressed();
 	
 	@Override
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
 	}
-	
-	public abstract double getPlayer_gravity();
-	public abstract double getPlayer_jumping_height();
-	public abstract void setPlayer_gravity(double player_gravity);
 	
 	/* 偵測碰撞 (還沒用到)
 	 * 

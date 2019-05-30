@@ -8,11 +8,6 @@ import com.main.item.Handler;
 import com.main.item.Id;
 
 public class Floor2 extends Tile{
-
-	private int moveSpeed = 5;
-	private final int animation_speed = 20; // 每 (1/animation_speed) 秒 地板就往左走一格
-	private int animationDelay = 0;
-	private int three_floor_x[] = new int[3];
 	
 	public Floor2(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -30,11 +25,16 @@ public class Floor2 extends Tile{
 
 	@Override
 	public void update() {
+		if (tmp_maxObstaclesOnScreen != Game.maxObstaclesOnScreen) {
+			tmp_maxObstaclesOnScreen = Game.maxObstaclesOnScreen;
+			moveSpeedfloor2 += 1;
+		}
+		
 		animationDelay++;
 		if (animationDelay > animation_speed) {
-			three_floor_x[0]-=moveSpeed;
-			three_floor_x[1]-=moveSpeed;
-			three_floor_x[2]-=moveSpeed;
+			three_floor_x[0]-=moveSpeedfloor2;
+			three_floor_x[1]-=moveSpeedfloor2;
+			three_floor_x[2]-=moveSpeedfloor2;
 		}
 		if (three_floor_x[0] <= -GameParameter.FLOOR_WIDTH) {
 			three_floor_x[0] = three_floor_x[2] + GameParameter.FLOOR_WIDTH; // 接在最右邊，營造出一直向前走的假象
