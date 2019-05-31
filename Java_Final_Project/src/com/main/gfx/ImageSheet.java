@@ -25,7 +25,8 @@ public class ImageSheet {
 	}
 	
 	public BufferedImage getImage(int x, int y, int numOfSheet) {
-		return imageSheet.getSubimage(x*perImageSize-perImageSize+offset, y*perImageSize-perImageSize+offset, perImageSize*numOfSheet-offset, perImageSize-offset);
+		if (numOfSheet == -1) return imageSheet; // 拿到整張圖片
+		else return imageSheet.getSubimage(x*perImageSize-perImageSize+offset, y*perImageSize-perImageSize+offset, perImageSize*numOfSheet-offset, perImageSize-offset);
 	}
 	
 }

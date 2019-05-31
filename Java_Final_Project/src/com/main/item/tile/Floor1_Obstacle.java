@@ -30,7 +30,7 @@ public class Floor1_Obstacle extends Tile {
 			for (int i = 0; i < Game.handler.entityLinkedList.size(); i++) {
 				Entity entity = Game.handler.entityLinkedList.get(i);
 				if (entity.getId() == Id.Player1) {
-					if (x <= entity.getX()) {
+					if (x <= entity.getX() - entity.getWidth()) {
 						if (isHitByPlayer == true) {
 							Game.game_bonus = 1;
 						} else if (isHitByPlayer == false) {

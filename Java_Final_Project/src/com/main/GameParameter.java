@@ -13,6 +13,11 @@ public interface GameParameter {
 	public static int totalObstacles = 100; // 障礙物總數
 	public static int difficulty = 15; // 過了幾個障礙物時，難度增加
 	public static int spriteSize = 48;
+	public static int LOGO_WIDTH = 400;
+	public static int LOGO_HEIGHT = 128;
+	public static int LOGO_DEATH_WIDTH = 574;
+	public static int LOGO_DEATH_HEIGHT = 736;
+	
 	public abstract void render(Graphics g);
 	public abstract void update();
 }

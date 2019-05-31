@@ -50,9 +50,7 @@ public class KeyInput implements KeyListener{
 		
 		if (key == KeyEvent.VK_SPACE) {
 			if (Game.GAME_NOT_STARTED == true) {
-				Game.FIRST_RUN = false;
-				Game.GAME_NOT_STARTED = false;
-				Game.gameReset();
+				Game.button.click();
 			}
 		}
 	}
