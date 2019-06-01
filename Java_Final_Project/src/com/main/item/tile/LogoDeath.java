@@ -32,13 +32,13 @@ public class LogoDeath extends Tile{
 	
 	public void animation() {
 		if (this.y < target_Y) {
-			this.y += 5;
+			this.y += 4;
 		}
-		else if (this.y < target_Y + 20) {
+		else if (this.y < target_Y + 30) {
 			this.y += 1;
 		}
 		else {
-			if (i < 5) i++;
+			if (i < 4) i++;
 			else{
 				this.y = target_Y;
 				isAnimation = false;

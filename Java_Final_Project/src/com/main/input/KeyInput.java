@@ -7,6 +7,7 @@ import com.main.Game;
 import com.main.item.Id;
 import com.main.item.entity.Entity;
 
+
 public class KeyInput implements KeyListener{
 
 	@Override
@@ -23,23 +24,39 @@ public class KeyInput implements KeyListener{
 				Entity entity = Game.handler.entityLinkedList.get(i);
 				switch (key) {
 				case KeyEvent.VK_A:
-					if (entity.getId() == Id.Player1) {
-						entity.doKeyPressed();
+					if (entity.getId() == Id.Dino_Stand_Run) {
+						entity.doKeyPressed1();
+					}
+					break;
+				case KeyEvent.VK_Z:
+					if (entity.getId() == Id.Dino_Stand_Run) {
+						entity.doKeyPressed2();
+					} else if (entity.getId() == Id.Dino_Squart) {
+						entity.doKeyPressed2();
 					}
 					break;
 				case KeyEvent.VK_S:
+					System.out.println("Hit Red");
+					Game.floor2_Background.hitRed();
 					if (entity.getId() == Id.Player2) {
-						entity.doKeyPressed();
+						entity.doKeyPressed1();
+					}
+					break;
+				case KeyEvent.VK_X:
+					System.out.println("Hit Blue");
+					Game.floor2_Background.hitBlue();
+					if (entity.getId() == Id.Player2) {
+						entity.doKeyPressed1();
 					}
 					break;
 				case KeyEvent.VK_D:
 					if (entity.getId() == Id.Player3) {
-						entity.doKeyPressed();
+						entity.doKeyPressed1();
 					}
 					break;
 				case KeyEvent.VK_F:
 					if (entity.getId() == Id.Player4) {
-						entity.doKeyPressed();
+						entity.doKeyPressed1();
 					}
 					break;
 				default:
@@ -63,7 +80,7 @@ public class KeyInput implements KeyListener{
 			Entity entity = Game.handler.entityLinkedList.get(i);
 			switch (key) {
 			case KeyEvent.VK_A:
-				if (entity.getId() == Id.Player1) {
+				if (entity.getId() == Id.Dino_Stand_Run) {
 					entity.setVelY(0);
 				}
 				break;

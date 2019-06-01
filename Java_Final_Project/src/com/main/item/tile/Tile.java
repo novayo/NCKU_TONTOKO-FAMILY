@@ -9,8 +9,10 @@ import com.main.item.Item;
 
 public abstract class Tile extends Item{
 
-	protected final int animation_speed = 20; // 每 (1/animation_speed) 秒 地板就往左走一格
+	protected int sheetLength = 0;
+	protected int animation_speed = 0; // 每 (animation_speed/60) 秒 地板就往左走一格
 	protected int animationDelay = 0;
+	protected int animation = 0;
 	protected int three_floor_x[] = new int[3];
 	protected int tmp_maxObstaclesOnScreen = Game.maxObstaclesOnScreen;
 	protected boolean isHitByPlayer = false;
@@ -25,6 +27,19 @@ public abstract class Tile extends Item{
 		handler.removeTile(this);
 		if (Game.GAME_NOT_STARTED == false) {
 			Game.numOfObstacles--; // 每死掉一個障礙物，就讓值-1
+		}
+	}
+	
+	public void doAnimation() {
+		animationDelay++;
+		x -= moveSpeedfloor1;
+
+		if (animationDelay >= animation_speed/2) {
+			animation++;
+			if (animation >= sheetLength) {
+				animation = 0;
+			}
+			animationDelay = 0;
 		}
 	}
 	
