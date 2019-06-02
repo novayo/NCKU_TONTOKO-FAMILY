@@ -208,11 +208,11 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			int randomFloor = rnd.nextInt(4) + 1;
 			int randomPos = rnd.nextInt(100) + 60;
 			
-//			randomFloor = 2;
+//			randomFloor = 3;
 			
 			for (Tile tile : handler.tileLinkedList) {
-				if (tile.getId() == Id.Dino_Obstacle) {
-					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - 60 - 32) {
+				if (tile.getId() == Id.Tontoko_Obstacle) {
+					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - 51 - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange) {
 							break loop1;
 						}
@@ -227,8 +227,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
 					} // 若出現的位置太相近就break掉
-				} else if (tile.getId() == Id.Tontoko_Obstacle) {
-					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - 51 - 32) {
+				} else if (tile.getId() == Id.Dino_Obstacle) {
+					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - 60 - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
 					} // 若出現的位置太相近就break掉
@@ -242,11 +242,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			int whichObstacle = rnd.nextInt(2);
 			switch (randomFloor) {
 			case 1:
-				int addY = 0;
-				if (whichObstacle == 0)
-					addY = -40; // 如果是飛龍，位置上升40
-				handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-						GameParameter.HEIGHT * 1 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 60, 60, whichObstacle));
+				handler.addTile(new Tontoko_Obstacle(Id.Tontoko_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
+						GameParameter.HEIGHT * 1 / 4 - 51 - Game.FLOOR_HEIGHT, 60, 51));
 				break;
 			case 2:
 				if (whichObstacle == 0)
@@ -265,8 +262,11 @@ public class Game extends Canvas implements Runnable, GameParameter {
 								GameParameter.HEIGHT * 3 / 4 - Game.FLOOR_HEIGHT - 40 - randomY, 40, 40));
 				break;
 			case 4:
-				handler.addTile(new Tontoko_Obstacle(Id.Tontoko_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-						GameParameter.HEIGHT * 4 / 4 - 51 - Game.FLOOR_HEIGHT, 60, 51));
+				int addY = 0;
+				if (whichObstacle == 0)
+					addY = -40; // 如果是飛龍，位置上升40
+				handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
+						GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 60, 60, whichObstacle));
 				break;
 			default:
 				break;

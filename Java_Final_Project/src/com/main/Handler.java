@@ -84,11 +84,8 @@ public class Handler implements GameParameter {
 	public void createStuff() {
 
 		// Entity 1
-		Game.dino_Stand_Run = new Dino_Stand_Run(Id.Dino_Stand_Run, Game.handler, GameParameter.WIDTH / 7,
-				GameParameter.HEIGHT * 1 / 4 - 53 - 32, 49, 53);
-		Game.dino_Squart = new Dino_Squart(Id.Dino_Squart, Game.handler, GameParameter.WIDTH / 7,
-				GameParameter.HEIGHT * 1 / 4 - 29 - 32, 60, 29);
-		addEntity(Game.dino_Stand_Run); // 建立站著恐龍
+		addEntity(new Tontoko(Id.Tontoko_Player, Game.handler, GameParameter.WIDTH / 7,
+				GameParameter.HEIGHT * 1 / 4 - 60 - 32, 41, 60)); // 讀進來是32 * 32 => 設定成64 * 64會自動放大
 
 		// Entity 2
 		addEntity(new TaikoPlayer(Id.TAIKOPLAYER, Game.handler, 0,
@@ -102,8 +99,11 @@ public class Handler implements GameParameter {
 		addEntity(Game.contra_Run); // 讀進來是32 * 32 => 設定成64 * 64會自動放大
 
 		// Entity 4
-		addEntity(new Tontoko(Id.Tontoko_Player, Game.handler, GameParameter.WIDTH / 7,
-				GameParameter.HEIGHT * 4 / 4 - 60 - 32, 41, 60)); // 讀進來是32 * 32 => 設定成64 * 64會自動放大
+		Game.dino_Stand_Run = new Dino_Stand_Run(Id.Dino_Stand_Run, Game.handler, GameParameter.WIDTH / 7,
+				GameParameter.HEIGHT * 4 / 4 - 53 - 32, 49, 53);
+		Game.dino_Squart = new Dino_Squart(Id.Dino_Squart, Game.handler, GameParameter.WIDTH / 7,
+				GameParameter.HEIGHT * 4 / 4 - 29 - 32, 60, 29);
+		addEntity(Game.dino_Stand_Run); // 建立站著恐龍
 
 		// Tile 1
 		addTile(new Floor1(Id.Floor1, Game.handler, 0, GameParameter.HEIGHT * 1 / 4 - Game.FLOOR_HEIGHT,

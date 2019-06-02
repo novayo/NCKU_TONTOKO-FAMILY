@@ -24,8 +24,8 @@ public class Dino_Stand_Run extends Entity {
 		for (int i = 0; i < sheetLength - 2; i++)
 			dino_Stand_Run_Images[i] = new Image(Game.imageSheet, i + 1, 1, Id.GET_DINO_STAND_RUN);
 
-		immutableSpeed = 64 * 2 / moveSpeedfloor1 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
-		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		immutableSpeed = 64 * 2 / moveSpeedfloor4 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
+		animation_speed = (60 / moveSpeedfloor4 > 0) ? 60 / moveSpeedfloor4 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 	}
 
 	@Override
@@ -57,8 +57,8 @@ public class Dino_Stand_Run extends Entity {
 	public void update() {
 		/***** 更新數據 *****/
 		y += velY;
-		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
-		immutableSpeed = 64 * 2 / moveSpeedfloor1 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
+		animation_speed = (60 / moveSpeedfloor4 > 0) ? 60 / moveSpeedfloor4 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		immutableSpeed = 64 * 2 / moveSpeedfloor4 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
 
 		/***** 做事 *****/
 		jump(); // 跳躍

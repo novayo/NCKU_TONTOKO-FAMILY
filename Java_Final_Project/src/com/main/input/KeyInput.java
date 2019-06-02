@@ -26,17 +26,8 @@ public class KeyInput implements KeyListener{
 					switch (key) {
 					// Player1
 					case KeyEvent.VK_A:
-						if (entity.getId() == Id.Dino_Stand_Run) {
+						if (entity.getId() == Id.Tontoko_Player) {
 							entity.doKeyPressed1();
-							hitOnce = true;
-						}
-						break;
-					case KeyEvent.VK_Z:
-						if (entity.getId() == Id.Dino_Stand_Run) {
-							entity.doKeyPressed2();
-							hitOnce = true;
-						} else if (entity.getId() == Id.Dino_Squart) {
-							entity.doKeyPressed2();
 							hitOnce = true;
 						}
 						break;
@@ -72,8 +63,17 @@ public class KeyInput implements KeyListener{
 						}
 						break;
 					case KeyEvent.VK_F:
-						if (entity.getId() == Id.Tontoko_Player) {
+						if (entity.getId() == Id.Dino_Stand_Run) {
 							entity.doKeyPressed1();
+							hitOnce = true;
+						}
+						break;
+					case KeyEvent.VK_V:
+						if (entity.getId() == Id.Dino_Stand_Run) {
+							entity.doKeyPressed2();
+							hitOnce = true;
+						} else if (entity.getId() == Id.Dino_Squart) {
+							entity.doKeyPressed2();
 							hitOnce = true;
 						}
 						break;
@@ -100,12 +100,9 @@ public class KeyInput implements KeyListener{
 			Entity entity = Game.handler.entityLinkedList.get(i);
 			switch (key) {
 			case KeyEvent.VK_A:
-				if (entity.getId() == Id.Dino_Stand_Run) {
+				if (entity.getId() == Id.Tontoko_Player) {
 					entity.setVelY(0);
 				}
-				break;
-			case KeyEvent.VK_Z:
-				//
 				break;
 			case KeyEvent.VK_D:
 				if (entity.getId() == Id.ContraJump) {
@@ -113,7 +110,7 @@ public class KeyInput implements KeyListener{
 				}
 				break;
 			case KeyEvent.VK_F:
-				if (entity.getId() == Id.Tontoko_Player) {
+				if (entity.getId() == Id.Dino_Stand_Run) {
 					entity.setVelY(0);
 				}
 				break;

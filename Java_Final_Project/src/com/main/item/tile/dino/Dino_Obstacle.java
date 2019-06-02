@@ -22,7 +22,7 @@ public class Dino_Obstacle extends Tile {
 		dino_Obstacle[2] = new Image(Game.imageSheet, 8, 1, Id.GET_ONE_OF_SHEET); // 仙人掌0, whichObstacle = 1
 		
 		this.whichObstacle = whichObstacle;
-		moveSpeed = moveSpeedfloor1;
+		moveSpeed = moveSpeedfloor4;
 		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 		sheetLength = 2;
 	}
