@@ -3,14 +3,14 @@ package com.main.item.entity.contra;
 import java.awt.Graphics;
 
 import com.main.Game;
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.entity.Entity;
 
 public class Contra_Run extends Entity {
 
-	public static Image contraRunImages[] = new Image[3];
+	private Image contraRunImages[] = new Image[3];
 
 	public Contra_Run(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -29,12 +29,18 @@ public class Contra_Run extends Entity {
 	public void render(Graphics g) {
 		// 設定圖片
 		// 走路
-		if (animation % 3 == 0)
-			g.drawImage(contraRunImages[0].getBufferedImage(), x, y, width, height, null);
-		else if (animation % 3 == 1)
-			g.drawImage(contraRunImages[1].getBufferedImage(), x, y, width, height, null);
-		else if (animation % 3 == 2)
-			g.drawImage(contraRunImages[2].getBufferedImage(), x, y, width, height, null);
+		if (immutable == true && twinkling == true) {
+			g.drawImage(Game.immutableSheet.getBufferedImage(), x, y, width, height, null);
+			twinkling = false;
+		} else {
+			if (animation % 3 == 0)
+				g.drawImage(contraRunImages[0].getBufferedImage(), x, y, width, height, null);
+			else if (animation % 3 == 1)
+				g.drawImage(contraRunImages[1].getBufferedImage(), x, y, width, height, null);
+			else if (animation % 3 == 2)
+				g.drawImage(contraRunImages[2].getBufferedImage(), x, y, width, height, null);
+			twinkling = true;
+		}
 	}
 
 	@Override

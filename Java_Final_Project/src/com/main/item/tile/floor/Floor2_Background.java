@@ -2,10 +2,10 @@ package com.main.item.tile.floor;
 
 import java.awt.Graphics;
 
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
 import com.main.gfx.ImageSheet;
-import com.main.item.Handler;
-import com.main.item.Id;
 
 public class Floor2_Background extends Floor2 {
 

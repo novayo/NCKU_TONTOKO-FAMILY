@@ -1,7 +1,7 @@
 package com.main.item.tile.floor;
 
-import com.main.item.Handler;
-import com.main.item.Id;
+import com.main.Handler;
+import com.main.Id;
 
 public class Floor1 extends Floor{
 

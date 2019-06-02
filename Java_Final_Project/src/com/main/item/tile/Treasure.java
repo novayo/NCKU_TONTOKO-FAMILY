@@ -3,29 +3,42 @@ package com.main.item.tile;
 import java.awt.Graphics;
 
 import com.main.Game;
-import com.main.item.Handler;
-import com.main.item.Id;
+import com.main.Handler;
+import com.main.Id;
+import com.main.gfx.Image;
+import com.main.gfx.ImageSheet;
 
 public class Treasure extends Tile{
 
+	
+	private Image boxImage[] = new Image[3];
 	private final int boxAnimationTime = 300; // 1/60秒 （設定五秒）
 	private int countBoxAnimationTime = 0;
 	private boolean boxAnimationFlag = false;
 	
 	public Treasure(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
+		
+		ImageSheet tmpImageSheet = new ImageSheet("/Treasure/box0.png");
+		boxImage[0] = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
+
+		tmpImageSheet = new ImageSheet("/Treasure/box1.png");
+		boxImage[1] = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
+
+		tmpImageSheet = new ImageSheet("/Treasure/box2.png");
+		boxImage[2] = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
 	}
 
 	@Override
 	public void render(Graphics g) {
 		if (countBoxAnimationTime < boxAnimationTime*3/5) {
-			g.drawImage(Game.box0Image.getBufferedImage(), x, y, width, height, null);
+			g.drawImage(boxImage[0].getBufferedImage(), x, y, width, height, null);
 		} else if (countBoxAnimationTime < boxAnimationTime) {
 			if (boxAnimationFlag == false) {
-				g.drawImage(Game.box1Image.getBufferedImage(), x, y, width, height, null);
+				g.drawImage(boxImage[1].getBufferedImage(), x, y, width, height, null);
 				boxAnimationFlag = true;
 			} else {
-				g.drawImage(Game.box2Image.getBufferedImage(), x, y, width, height, null);
+				g.drawImage(boxImage[2].getBufferedImage(), x, y, width, height, null);
 				boxAnimationFlag = false;
 			}
 		} else {

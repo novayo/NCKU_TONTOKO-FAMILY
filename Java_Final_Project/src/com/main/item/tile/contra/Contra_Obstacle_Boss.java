@@ -2,15 +2,15 @@ package com.main.item.tile.contra;
 
 import java.awt.Graphics;
 
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
 import com.main.gfx.ImageSheet;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.tile.Tile;
 
 public class Contra_Obstacle_Boss extends Tile {
 
-	public static Image contra_Obstacle_Boss[] = new Image[3];
+	private Image contra_Obstacle_Boss[] = new Image[3];
 
 	public Contra_Obstacle_Boss(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -23,7 +23,8 @@ public class Contra_Obstacle_Boss extends Tile {
 		tmpImageSheet = new ImageSheet("/Scenes/Contra_Monster2.png");
 		contra_Obstacle_Boss[2] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET); // 魂斗羅怪物2
 
-		animation_speed = (60 / moveSpeedfloor3 > 0) ? 60 / moveSpeedfloor3 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		moveSpeed = moveSpeedfloor3;
+		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 		sheetLength = contra_Obstacle_Boss.length;
 	}
 
@@ -40,7 +41,7 @@ public class Contra_Obstacle_Boss extends Tile {
 
 	@Override
 	public void update() {
-		animation_speed = (60 / moveSpeedfloor3 > 0) ? 60 / moveSpeedfloor3 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 
 		doAnimation();
 		doScoreCompute();

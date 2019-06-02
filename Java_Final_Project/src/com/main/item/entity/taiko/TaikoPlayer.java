@@ -3,15 +3,15 @@ package com.main.item.entity.taiko;
 import java.awt.Graphics;
 
 import com.main.Game;
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.entity.Entity;
 import com.main.item.tile.Tile;
 
 public class TaikoPlayer extends Entity{
 	
-	public static Image taiko_Showing[] = new Image[3];
+	private Image taiko_Showing[] = new Image[3];
 	private Image nowImage = null;
 	private boolean isHit = false;
 	

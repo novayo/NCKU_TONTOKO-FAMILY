@@ -15,8 +15,6 @@ import com.main.gfx.Image;
 import com.main.gfx.ImageSheet;
 import com.main.input.Button;
 import com.main.input.KeyInput;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.entity.contra.Contra_Jump;
 import com.main.item.entity.contra.Contra_Run;
 import com.main.item.entity.dino.Dino_Squart;
@@ -32,6 +30,7 @@ import com.main.item.tile.contra.Contra_Obstacle_Insects;
 import com.main.item.tile.dino.Dino_Obstacle;
 import com.main.item.tile.floor.Floor2_Background;
 import com.main.item.tile.taiko.Taiko_Obstacle;
+import com.main.item.tile.tontoko.Tontoko_Obstacle;
 
 @SuppressWarnings("serial") // 有個奇怪的warning，用這個可以消除
 public class Game extends Canvas implements Runnable, GameParameter {
@@ -52,26 +51,15 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static boolean FIRST_RUN = true;
 	public static ImageSheet imageSheet = null;
 	public static Image immutableSheet = null; // 變成透明，顯示為無敵
-//	public static Image player4Image[] = new Image[4];
-
-//	public static Image floor4Image[] = new Image[3];
-//	public static Image floor3_obstacleImage;
-//	public static Image floor4_obstacleImage;
 	public static Dino_Stand_Run dino_Stand_Run = null;
 	public static Dino_Squart dino_Squart = null;
 	public static Contra_Run contra_Run = null;
 	public static Contra_Jump contra_Jump = null;
+	public static int contra_InsectBullets = 0;
 	public static Contra_Obstacle_Boss contra_Obstacle_Boss = null;
 	public static Floor2_Background floor2_Background = null;
 	public static Heart heartObj;
-	public static Image heartImage[] = new Image[2];
-	public static Image logoImage;
-	public static Image logoDeathImage;
 	public static Image treasureImage;
-	public static Image box0Image;
-	public static Image box1Image;
-	public static Image box2Image;
-
 	public static boolean runOnce = false;
 	public static Handler handler; // 新增所有遊戲物件
 	private static Random rnd = new Random();
@@ -87,52 +75,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		// 拿到圖片資源
 		imageSheet = new ImageSheet("/ResSheet1.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
-//		for (int i = 0; i < player2Image.length; i++) {
-//			player2Image[i] = new Image(imageSheet, i + 1, 15, 1);
-//		}
-//
-//		for (int i = 0; i < player3Image.length; i++) {
-//			player3Image[i] = new Image(imageSheet, i + 1, 2, 1);
-//		}
-//
-//		for (int i = 0; i < player4Image.length; i++) {
-//			player4Image[i] = new Image(imageSheet, i + 1, 1, 1);
-//		}
-//
-//		for (int i = 0; i < floor2Image.length; i++) {
-//			floor2Image[i] = new Image(imageSheet, 1, 32, 7);
-//		}
-//
-//		for (int i = 0; i < floor3Image.length; i++) {
-//			floor3Image[i] = new Image(imageSheet, 1, 32, 7);
-//		}
-//
-//		for (int i = 0; i < floor4Image.length; i++) {
-//			floor4Image[i] = new Image(imageSheet, 1, 32, 7);
-//		}
-//
-//		floor2_obstacleImage = new Image(imageSheet, 1, 2, 1);
-//		floor3_obstacleImage = new Image(imageSheet, 1, 3, 1);
-//		floor4_obstacleImage = new Image(imageSheet, 1, 15, 1);
-
-		for (int i = 0; i < heartImage.length; i++) {
-			heartImage[i] = new Image(imageSheet, i + 2, 1, Id.GET_ONE_OF_SHEET);
-		}
-
-		ImageSheet tmpImageSheet = new ImageSheet("/Scenes/Logo.png");
-		logoImage = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
-
-		tmpImageSheet = new ImageSheet("/Scenes/DeathScreen.png");
-		logoDeathImage = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
-
-		tmpImageSheet = new ImageSheet("/Treasure/box0.png");
-		box0Image = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
-
-		tmpImageSheet = new ImageSheet("/Treasure/box1.png");
-		box1Image = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
-
-		tmpImageSheet = new ImageSheet("/Treasure/box2.png");
-		box2Image = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
 
 		// 在一開始的時候新增東西
 		handler = new Handler();
@@ -149,14 +91,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	private Thread threadUpdate;
 	private Thread threadRender;
 	private int controlThread = 0;
-
-	// 控制每秒可以跑幾次 render() ＆ update()
-	private long lastTime = System.nanoTime();
-	private long timer = System.currentTimeMillis();
-	private double ns = 1000000000.0 / 60.0;
-	private double delta = 0.0;
 	private int frames = 0;
-	private int updates = 0;
 
 	public synchronized void start() {
 		if (GAME_STATE == true)
@@ -198,15 +133,22 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 		if (controlThread == 1) {
 			while (GAME_STATE == true) {
-				render(background);
-				frames++;
 				controlThread++;
+				frames++;
+				render(background);
 			}
 		}
 
 		controlThread++;
 		while (controlThread > 2)
 			;
+
+		// 控制每秒可以跑幾次 render() ＆ update()
+		long lastTime = System.nanoTime();
+		long timer = System.currentTimeMillis();
+		double ns = 1000000000.0 / 60.0;
+		double delta = 0.0;
+		int updates = 0;
 		while (GAME_STATE == true) {
 			long nowTime = System.nanoTime();
 			delta += (nowTime - lastTime) / ns;
@@ -261,30 +203,32 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			obstacleRange = 1000;
 		}
 
-		int tmp = handler.tileLinkedList.size() - initialNumTile;
+		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
 		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
 			int randomFloor = rnd.nextInt(4) + 1;
-			int randomPos = rnd.nextInt(100) + spriteSize;
-			randomFloor = 3;
+			int randomPos = rnd.nextInt(100) + 60;
+			
+			randomFloor = 1;
+			
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Dino_Obstacle) {
-					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - spriteSize - 32) {
+					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - 60 - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange) {
 							break loop1;
 						}
 					} // 若出現的位置太相近就break掉
 				} else if (tile.getId() == Id.Taiko_Obstacle_RED || tile.getId() == Id.Taiko_Obstacle_BLUE) {
-					if (randomFloor == 2 && tile.getY() <= GameParameter.HEIGHT * 2 / 4 - spriteSize - 32) {
+					if (randomFloor == 2 && tile.getY() <= GameParameter.HEIGHT * 2 / 4 - 60 - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
 					} // 若出現的位置太相近就break掉
-				} else if (tile.getId() == Id.Floor3_Obstacle) {
-					if (randomFloor == 3 && tile.getY() <= GameParameter.HEIGHT * 3 / 4 - spriteSize - 32) {
+				} else if (tile.getId() == Id.ContraInsects) {
+					if (randomFloor == 3 && tile.getY() <= GameParameter.HEIGHT * 3 / 4 - 40 - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
 					} // 若出現的位置太相近就break掉
-				} else if (tile.getId() == Id.Floor4_Obstacle) {
-					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - spriteSize - 32) {
+				} else if (tile.getId() == Id.Tontoko_Obstacle) {
+					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - 51 - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
 					} // 若出現的位置太相近就break掉
@@ -302,28 +246,28 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				if (whichObstacle == 0)
 					addY = -40; // 如果是飛龍，位置上升40
 				handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-						GameParameter.HEIGHT * 1 / 4 - spriteSize - Game.FLOOR_HEIGHT + addY, spriteSize, spriteSize,
-						whichObstacle));
+						GameParameter.HEIGHT * 1 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 60, 60, whichObstacle));
 				break;
 			case 2:
 				if (whichObstacle == 0)
 					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_RED, Game.handler,
 							GameParameter.WIDTH + randomPos,
-							GameParameter.HEIGHT * 2 / 4 - spriteSize - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
+							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
 				else
 					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_BLUE, Game.handler,
 							GameParameter.WIDTH + randomPos,
-							GameParameter.HEIGHT * 2 / 4 - spriteSize - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
+							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
 				break;
 			case 3:
+				int randomY = rnd.nextInt(106) + 5; // 5 ~ 110
 				handler.addTile(
 						new Contra_Obstacle_Insects(Id.ContraInsects, Game.handler, Game.contra_Obstacle_Boss.getX(),
-								GameParameter.HEIGHT * 3 / 4 - Game.FLOOR_HEIGHT - 64 - 32, 64, 64));
+								GameParameter.HEIGHT * 3 / 4 - Game.FLOOR_HEIGHT - 40 - randomY, 40, 40));
 				break;
-//			case 4:
-//				handler.addTile(new Floor4_Obstacle(Id.Floor4_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-//						GameParameter.HEIGHT * 4 / 4 - spriteSize - Game.FLOOR_HEIGHT, spriteSize, spriteSize));
-//				break;
+			case 4:
+				handler.addTile(new Tontoko_Obstacle(Id.Tontoko_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
+						GameParameter.HEIGHT * 4 / 4 - 51 - Game.FLOOR_HEIGHT, 60, 51));
+				break;
 			default:
 				break;
 			}
@@ -352,13 +296,12 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 		// 顯示得到分數
 		background.setColor(Color.MAGENTA);
-		background.setFont(new Font("Courier", Font.BOLD, spriteSize));
+		background.setFont(new Font("Courier", Font.BOLD, 60));
 		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
 			Tile tile = Game.handler.tileLinkedList.get(i);
-			if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Floor3_Obstacle
-					|| tile.getId() == Id.Floor4_Obstacle) {
+			if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Tontoko_Obstacle) {
 				if (tile.isScoreAdd() == true) {
-					background.drawString("10x" + (game_bonus - 1), tile.getX() - spriteSize / 2, tile.getY());
+					background.drawString("10x" + (game_bonus - 1), tile.getX() - 30, tile.getY());
 				}
 			}
 		}
@@ -443,7 +386,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 						LOGO_DEATH_HEIGHT * 4 / 5)); // (574, 736)
 
 				// 建立treasure圖案
-
 				ImageSheet imageSheet = null;
 				// 確認分數，得到寶物
 				if (game_score >= 1000) {

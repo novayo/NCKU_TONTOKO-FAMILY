@@ -3,13 +3,14 @@ package com.main.item.tile;
 import java.awt.Rectangle;
 
 import com.main.Game;
-import com.main.item.Handler;
-import com.main.item.Id;
+import com.main.Handler;
+import com.main.Id;
 import com.main.item.Item;
 import com.main.item.entity.Entity;
 
 public abstract class Tile extends Item {
 
+	protected int moveSpeed = 0;
 	protected int sheetLength = 0;
 	protected int animation_speed = 0; // 每 (animation_speed/60) 秒 地板就往左走一格
 	protected int animationDelay = 0;
@@ -32,8 +33,8 @@ public abstract class Tile extends Item {
 		if (Game.GAME_NOT_STARTED == false && isScoreAdd == false) {
 			for (int i = 0; i < Game.handler.entityLinkedList.size(); i++) {
 				Entity entity = Game.handler.entityLinkedList.get(i);
-				if (entity.getId() == Id.Dino_Stand_Run || entity.getId() == Id.Dino_Squart) {
-					if (x <= entity.getX() - entity.getWidth()) {
+				if (entity.getId() == Id.Dino_Stand_Run || entity.getId() == Id.Dino_Squart || entity.getId() == Id.Tontoko_Player) {
+					if (x <= entity.getX() - entity.getWidth() - 10) {
 						if (isHitByPlayer == true) {
 							Game.game_bonus = 1;
 						} else if (isHitByPlayer == false) {

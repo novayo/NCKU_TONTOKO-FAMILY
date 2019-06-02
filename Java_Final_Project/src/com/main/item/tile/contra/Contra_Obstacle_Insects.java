@@ -3,14 +3,15 @@ package com.main.item.tile.contra;
 import java.awt.Graphics;
 
 import com.main.Game;
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.tile.Tile;
 
 public class Contra_Obstacle_Insects extends Tile {
 
-	public static Image contra_Obstacle_Insects[] = new Image[4];
+	private Image contra_Obstacle_Insects[] = new Image[4];
+	private int countTime = 0;
 
 	public Contra_Obstacle_Insects(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -21,32 +22,52 @@ public class Contra_Obstacle_Insects extends Tile {
 		contra_Obstacle_Insects[2] = new Image(Game.imageSheet, 11, 3, Id.GET_CONTRA_INSECTS); // 昆蟲2
 		contra_Obstacle_Insects[3] = new Image(Game.imageSheet, 12, 3, Id.GET_CONTRA_INSECTS); // 昆蟲3
 
-		animation_speed = (60 / moveSpeedfloor3 > 0) ? 60 / moveSpeedfloor3 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		moveSpeed = moveSpeedfloor3;
+		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 		sheetLength = contra_Obstacle_Insects.length;
 	}
 
 	@Override
 	public void render(Graphics g) {
 		// 設定圖片
-		if (animation % 4 == 0)
-			g.drawImage(contra_Obstacle_Insects[0].getBufferedImage(), x, y, width, height, null);
-		else if (animation % 4 == 1)
-			g.drawImage(contra_Obstacle_Insects[1].getBufferedImage(), x, y, width, height, null);
-		else if (animation % 4 == 2)
-			g.drawImage(contra_Obstacle_Insects[2].getBufferedImage(), x, y, width, height, null);
-		else if (animation % 4 == 3)
-			g.drawImage(contra_Obstacle_Insects[3].getBufferedImage(), x, y, width, height, null);
+		if (isScoreAdd == true) {
+			if (countTime % 3 == 0) y--;
+			g.drawString("10x" + (Game.game_bonus - 1), x, y);
+			if (countTime >= 20) Game.handler.removeTile(this);
+		} else {
+			if (animation % 4 == 0)
+				g.drawImage(contra_Obstacle_Insects[0].getBufferedImage(), x, y, width, height, null);
+			else if (animation % 4 == 1)
+				g.drawImage(contra_Obstacle_Insects[1].getBufferedImage(), x, y, width, height, null);
+			else if (animation % 4 == 2)
+				g.drawImage(contra_Obstacle_Insects[2].getBufferedImage(), x, y, width, height, null);
+			else if (animation % 4 == 3)
+				g.drawImage(contra_Obstacle_Insects[3].getBufferedImage(), x, y, width, height, null);
+		}
 	}
 
 	@Override
 	public void update() {
-		animation_speed = (60 / moveSpeedfloor3 > 0) ? 60 / moveSpeedfloor3 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		if (isScoreAdd == true) countTime++;
+		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 
 		doAnimation();
-		doScoreCompute();
 
 		if (x <= -width)
 			die();
+	}
+	
+	public void doAnimation() {
+		animationDelay++;
+		if (isScoreAdd == false) x -= moveSpeed;
+
+		if (animationDelay >= animation_speed / 2) {
+			animation++;
+			if (animation >= sheetLength) {
+				animation = 0;
+			}
+			animationDelay = 0;
+		}
 	}
 
 }

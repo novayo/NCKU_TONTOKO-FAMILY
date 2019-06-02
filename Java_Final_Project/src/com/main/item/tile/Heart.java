@@ -3,22 +3,28 @@ package com.main.item.tile;
 import java.awt.Graphics;
 
 import com.main.Game;
-import com.main.item.Handler;
-import com.main.item.Id;
+import com.main.Handler;
+import com.main.Id;
+import com.main.gfx.Image;
 
 public class Heart extends Tile{
 
+	private Image heartImage[] = new Image[2];
 	private int numOfHeart[] = new int[3];
 	
 	public Heart(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
+		
+		for (int i = 0; i < heartImage.length; i++) {
+			heartImage[i] = new Image(Game.imageSheet, i + 1, 31, Id.GET_HEART);
+		}
 	}
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Game.heartImage[numOfHeart[0]].getBufferedImage(), x, y, width, height, null); // 最右邊的
-		g.drawImage(Game.heartImage[numOfHeart[1]].getBufferedImage(), x-32-10, y, width, height, null); // -32是因為愛心大小為32
-		g.drawImage(Game.heartImage[numOfHeart[2]].getBufferedImage(), x-32*2-20, y, width, height, null);
+		g.drawImage(heartImage[numOfHeart[0]].getBufferedImage(), x, y, width, height, null); // 最右邊的
+		g.drawImage(heartImage[numOfHeart[1]].getBufferedImage(), x-38-10, y, width, height, null); // -32是因為愛心大小為32
+		g.drawImage(heartImage[numOfHeart[2]].getBufferedImage(), x-38*2-20, y, width, height, null);
 	}
 
 	@Override

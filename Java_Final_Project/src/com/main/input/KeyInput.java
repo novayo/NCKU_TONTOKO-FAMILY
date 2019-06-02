@@ -4,7 +4,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 import com.main.Game;
-import com.main.item.Id;
+import com.main.Id;
 import com.main.item.entity.Entity;
 
 
@@ -72,7 +72,7 @@ public class KeyInput implements KeyListener{
 						}
 						break;
 					case KeyEvent.VK_F:
-						if (entity.getId() == Id.Player4) {
+						if (entity.getId() == Id.Tontoko_Player) {
 							entity.doKeyPressed1();
 							hitOnce = true;
 						}
@@ -113,7 +113,7 @@ public class KeyInput implements KeyListener{
 				}
 				break;
 			case KeyEvent.VK_F:
-				if (entity.getId() == Id.Player4) {
+				if (entity.getId() == Id.Tontoko_Player) {
 					entity.setVelY(0);
 				}
 				break;

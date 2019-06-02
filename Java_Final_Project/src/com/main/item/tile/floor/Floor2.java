@@ -1,8 +1,8 @@
 package com.main.item.tile.floor;
 
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
-import com.main.item.Handler;
-import com.main.item.Id;
 
 public class Floor2 extends Floor{
 

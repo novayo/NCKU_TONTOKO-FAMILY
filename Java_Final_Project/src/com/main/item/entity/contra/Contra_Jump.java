@@ -3,16 +3,17 @@ package com.main.item.entity.contra;
 import java.awt.Graphics;
 
 import com.main.Game;
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.entity.Entity;
 
 public class Contra_Jump extends Entity {
 
-	public static Image contraJumpImages[] = new Image[4];
+	private Image contraJumpImages[] = new Image[4];
 
 	private final double player_jumping_height = 8.0; // 跳躍高度
+
 	public double getPlayer_jumping_height() {
 		return player_jumping_height;
 	}
@@ -35,8 +36,7 @@ public class Contra_Jump extends Entity {
 
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
 		for (int i = 0; i < contraJumpImages.length; i++)
-			contraJumpImages[i] = new Image(Game.imageSheet, i + 1 + Contra_Run.contraRunImages.length, 3,
-					Id.GET_CONTRA_JUMP);
+			contraJumpImages[i] = new Image(Game.imageSheet, i + 1 + 3, 3, Id.GET_CONTRA_JUMP);
 
 		immutableSpeed = 64 * 2 / moveSpeedfloor3 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
 		animation_speed = (60 / moveSpeedfloor3 > 0) ? 60 / moveSpeedfloor3 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
@@ -45,18 +45,24 @@ public class Contra_Jump extends Entity {
 	@Override
 	public void render(Graphics g) {
 		// 設定圖片
-		if (jumping == true || falling == true) { // 跳躍途中
-			if (animation % 4 == 0)
-				g.drawImage(contraJumpImages[0].getBufferedImage(), x, y, width, height, null);
-			else if (animation % 4 == 1)
-				g.drawImage(contraJumpImages[1].getBufferedImage(), x, y, width, height, null);
-			else if (animation % 4 == 2)
-				g.drawImage(contraJumpImages[2].getBufferedImage(), x, y, width, height, null);
-			else if (animation % 4 == 3)
-				g.drawImage(contraJumpImages[3].getBufferedImage(), x, y, width, height, null);
+		if (immutable == true && twinkling == true) {
+			g.drawImage(Game.immutableSheet.getBufferedImage(), x, y, width, height, null);
+			twinkling = false;
 		} else {
-			Game.handler.addEntity(Game.contra_Run); // 建立跑步魂斗羅
-			Game.handler.removeEntity(this);
+			if (jumping == true || falling == true) { // 跳躍途中
+				if (animation % 4 == 0)
+					g.drawImage(contraJumpImages[0].getBufferedImage(), x, y, width, height, null);
+				else if (animation % 4 == 1)
+					g.drawImage(contraJumpImages[1].getBufferedImage(), x, y, width, height, null);
+				else if (animation % 4 == 2)
+					g.drawImage(contraJumpImages[2].getBufferedImage(), x, y, width, height, null);
+				else if (animation % 4 == 3)
+					g.drawImage(contraJumpImages[3].getBufferedImage(), x, y, width, height, null);
+			} else {
+				Game.handler.addEntity(Game.contra_Run); // 建立跑步魂斗羅
+				Game.handler.removeEntity(this);
+			}
+			twinkling = true;
 		}
 	}
 
@@ -75,12 +81,12 @@ public class Contra_Jump extends Entity {
 
 	@Override
 	public void doKeyPressed1() {
-		// 
+		//
 	}
 
 	@Override
 	public void doKeyPressed2() {
-		Game.handler.addEntity(new Contra_Bullet(Id.ContraBullet, Game.handler, x + width, y+18, 8, 8));
+		Game.handler.addEntity(new Contra_Bullet(Id.ContraBullet, Game.handler, x + width, y + 18, 8, 8));
 	}
 
 	public void jump() {

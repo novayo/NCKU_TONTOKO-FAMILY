@@ -2,25 +2,32 @@ package com.main.item.tile;
 
 import java.awt.Graphics;
 
-import com.main.Game;
-import com.main.item.Handler;
-import com.main.item.Id;
+import com.main.Handler;
+import com.main.Id;
+import com.main.gfx.Image;
+import com.main.gfx.ImageSheet;
 
 public class LogoDeath extends Tile{
 
+	private Image logoDeathImage;
+	
 	private final int target_Y;
 	private boolean isAnimation = true;
 	private int i=0;
 	
 	public LogoDeath(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
+		
+		ImageSheet tmpImageSheet = new ImageSheet("/Scenes/DeathScreen.png");
+		logoDeathImage = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
+		
 		target_Y = y;
 		this.y = y - 500;
 	}
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(Game.logoDeathImage.getBufferedImage(), x, this.y, width, height, null);
+		g.drawImage(logoDeathImage.getBufferedImage(), x, this.y, width, height, null);
 	}
 
 	@Override

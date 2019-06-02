@@ -3,14 +3,14 @@ package com.main.item.tile.dino;
 import java.awt.Graphics;
 
 import com.main.Game;
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.tile.Tile;
 
 public class Dino_Obstacle extends Tile {
 
-	public static Image dino_Obstacle[] = new Image[3];
+	private Image dino_Obstacle[] = new Image[3];
 	private int whichObstacle = 0;
 	
 	public Dino_Obstacle(Id id, Handler handler, int x, int y, int width, int height, int whichObstacle) {
@@ -22,7 +22,8 @@ public class Dino_Obstacle extends Tile {
 		dino_Obstacle[2] = new Image(Game.imageSheet, 8, 1, Id.GET_ONE_OF_SHEET); // 仙人掌0, whichObstacle = 1
 		
 		this.whichObstacle = whichObstacle;
-		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		moveSpeed = moveSpeedfloor1;
+		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 		sheetLength = 2;
 	}
 
@@ -39,7 +40,7 @@ public class Dino_Obstacle extends Tile {
 
 	@Override
 	public void update() {
-		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 		
 		doAnimation();
 		doScoreCompute();

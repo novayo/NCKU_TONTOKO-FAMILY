@@ -4,15 +4,14 @@ import java.awt.Graphics;
 
 import com.main.Game;
 import com.main.GameParameter;
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.tile.Tile;
 
 public class Floor extends Tile{
 	
-	public static Image floorImage[] = new Image[3];
-	protected int moveSpeed = 0;
+	private Image floorImage[] = new Image[3];
 	
 	public Floor(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);

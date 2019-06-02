@@ -2,7 +2,7 @@ package com.main.gfx;
 
 import java.awt.image.BufferedImage;
 
-import com.main.item.Id;
+import com.main.Id;
 
 /*
  * 使用圖片資源

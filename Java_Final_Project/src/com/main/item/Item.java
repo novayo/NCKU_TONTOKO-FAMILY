@@ -3,6 +3,8 @@ package com.main.item;
 import java.awt.Rectangle;
 
 import com.main.GameParameter;
+import com.main.Handler;
+import com.main.Id;
 
 public abstract class Item implements GameParameter{
 	

@@ -3,9 +3,9 @@ package com.main.item.entity.dino;
 import java.awt.Graphics;
 
 import com.main.Game;
+import com.main.Handler;
+import com.main.Id;
 import com.main.gfx.Image;
-import com.main.item.Handler;
-import com.main.item.Id;
 import com.main.item.entity.Entity;
 
 public class Dino_Stand_Run extends Entity {
