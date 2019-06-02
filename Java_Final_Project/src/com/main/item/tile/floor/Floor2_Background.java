@@ -15,11 +15,11 @@ public class Floor2_Background extends Floor2 {
 	public Floor2_Background(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
 
-		ImageSheet tmpImageSheet = new ImageSheet("/Scenes/Taiko_map0.png"); // 正常沒打的
+		ImageSheet tmpImageSheet = new ImageSheet("/Image/Scenes/Taiko_map0.png"); // 正常沒打的
 		floor2_BackgroundImages[0] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET);
-		tmpImageSheet = new ImageSheet("/Scenes/Taiko_map1.png"); // 打紅色
+		tmpImageSheet = new ImageSheet("/Image/Scenes/Taiko_map1.png"); // 打紅色
 		floor2_BackgroundImages[1] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET);
-		tmpImageSheet = new ImageSheet("/Scenes/Taiko_map2.png"); // 打藍色
+		tmpImageSheet = new ImageSheet("/Image/Scenes/Taiko_map2.png"); // 打藍色
 		floor2_BackgroundImages[2] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET);
 
 		nowImage = floor2_BackgroundImages[0];

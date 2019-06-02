@@ -92,7 +92,7 @@ public class Handler implements GameParameter {
 
 		// Entity 2
 		addEntity(new TaikoPlayer(Id.TAIKOPLAYER, Game.handler, 0,
-				GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 75, 60, 60)); // 讀進來是32 * 32 => 設定成64 *
+				GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60)); // 讀進來是32 * 32 => 設定成64 *
 
 		// Entity 3
 		Game.contra_Run = new Contra_Run(Id.ContraRun, Game.handler, GameParameter.WIDTH / 7,

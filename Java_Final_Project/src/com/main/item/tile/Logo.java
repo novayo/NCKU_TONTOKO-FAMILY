@@ -15,7 +15,7 @@ public class Logo extends Tile{
 	public Logo(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
 		
-		ImageSheet tmpImageSheet = new ImageSheet("/Scenes/Logo.png");
+		ImageSheet tmpImageSheet = new ImageSheet("/Image/Scenes/Logo.png");
 		logoImage = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
 	}
 

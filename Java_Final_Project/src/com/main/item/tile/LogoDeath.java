@@ -18,7 +18,7 @@ public class LogoDeath extends Tile{
 	public LogoDeath(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
 		
-		ImageSheet tmpImageSheet = new ImageSheet("/Scenes/DeathScreen.png");
+		ImageSheet tmpImageSheet = new ImageSheet("/Image/Scenes/DeathScreen.png");
 		logoDeathImage = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
 		
 		target_Y = y;

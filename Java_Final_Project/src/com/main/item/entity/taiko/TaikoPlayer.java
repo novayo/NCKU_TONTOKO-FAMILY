@@ -18,8 +18,8 @@ public class TaikoPlayer extends Entity{
 	public TaikoPlayer(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
-		taiko_Showing[0] = new Image(Game.imageSheet, 8, 2, Id.GET_ONE_OF_SHEET); // 金色笑臉
-		taiko_Showing[1] = new Image(Game.imageSheet, 9, 2, Id.GET_ONE_OF_SHEET); // 白色笑臉
+		taiko_Showing[0] = new Image(Game.imageSheet, 3, 2, Id.GET_ONE_OF_SHEET); // 金色笑臉
+		taiko_Showing[1] = new Image(Game.imageSheet, 4, 2, Id.GET_ONE_OF_SHEET); // 白色笑臉
 		taiko_Showing[2] = Game.immutableSheet; // 透明
 		
 		nowImage = taiko_Showing[2];
@@ -28,7 +28,7 @@ public class TaikoPlayer extends Entity{
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(nowImage.getBufferedImage(), x + 175, y, width, height, null);
+		g.drawImage(nowImage.getBufferedImage(), 175, y, width, height, null);
 		
 		if (isHit == true) {
 			animation++;

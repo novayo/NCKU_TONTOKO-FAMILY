@@ -73,7 +73,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	private void initialize() {
 		// 拿到圖片資源
-		imageSheet = new ImageSheet("/ResSheet1.png"); // 拿取圖片資源
+		imageSheet = new ImageSheet("/Image/ResSheet.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
 
 		// 在一開始的時候新增東西
@@ -208,7 +208,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			int randomFloor = rnd.nextInt(4) + 1;
 			int randomPos = rnd.nextInt(100) + 60;
 			
-			randomFloor = 1;
+//			randomFloor = 2;
 			
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Dino_Obstacle) {
@@ -252,11 +252,11 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				if (whichObstacle == 0)
 					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_RED, Game.handler,
 							GameParameter.WIDTH + randomPos,
-							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
+							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
 				else
 					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_BLUE, Game.handler,
 							GameParameter.WIDTH + randomPos,
-							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
+							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
 				break;
 			case 3:
 				int randomY = rnd.nextInt(106) + 5; // 5 ~ 110
@@ -390,37 +390,37 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				// 確認分數，得到寶物
 				if (game_score >= 1000) {
 					dataFile.gainTreasure(10);
-					imageSheet = new ImageSheet("/Treasure/10.png");
+					imageSheet = new ImageSheet("/Image/Treasure/10.png");
 				} else if (game_score >= 900) {
 					dataFile.gainTreasure(9);
-					imageSheet = new ImageSheet("/Treasure/9.png");
+					imageSheet = new ImageSheet("/Image/Treasure/9.png");
 				} else if (game_score >= 800) {
 					dataFile.gainTreasure(8);
-					imageSheet = new ImageSheet("/Treasure/8.png");
+					imageSheet = new ImageSheet("/Image/Treasure/8.png");
 				} else if (game_score >= 700) {
 					dataFile.gainTreasure(7);
-					imageSheet = new ImageSheet("/Treasure/7.png");
+					imageSheet = new ImageSheet("/Image/Treasure/7.png");
 				} else if (game_score >= 600) {
 					dataFile.gainTreasure(6);
-					imageSheet = new ImageSheet("/Treasure/6.png");
+					imageSheet = new ImageSheet("/Image/Treasure/6.png");
 				} else if (game_score >= 500) {
 					dataFile.gainTreasure(5);
-					imageSheet = new ImageSheet("/Treasure/5.png");
+					imageSheet = new ImageSheet("/Image/Treasure/5.png");
 				} else if (game_score >= 400) {
 					dataFile.gainTreasure(4);
-					imageSheet = new ImageSheet("/Treasure/4.png");
+					imageSheet = new ImageSheet("/Image/Treasure/4.png");
 				} else if (game_score >= 300) {
 					dataFile.gainTreasure(3);
-					imageSheet = new ImageSheet("/Treasure/3.png");
+					imageSheet = new ImageSheet("/Image/Treasure/3.png");
 				} else if (game_score >= 200) {
 					dataFile.gainTreasure(2);
-					imageSheet = new ImageSheet("/Treasure/2.png");
+					imageSheet = new ImageSheet("/Image/Treasure/2.png");
 				} else if (game_score >= 100) {
 					dataFile.gainTreasure(1);
-					imageSheet = new ImageSheet("/Treasure/1.png");
+					imageSheet = new ImageSheet("/Image/Treasure/1.png");
 				} else {
 					dataFile.gainTreasure(0);
-					imageSheet = new ImageSheet("/Treasure/0.png");
+					imageSheet = new ImageSheet("/Image/Treasure/0.png");
 				}
 
 				treasureImage = new Image(imageSheet, 0, 0, Id.GET_WHOLE_SHEET);
@@ -446,8 +446,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		handler.createStuff();
 		game_time = 0;
 		numOfObstacles = totalObstacles;
-//		life = GameParameter.INIT_LIVES;
-		life = 100;
+		life = GameParameter.INIT_LIVES;
+//		life = 100;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;

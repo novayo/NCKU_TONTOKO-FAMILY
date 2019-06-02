@@ -14,10 +14,10 @@ import com.main.GameParameter;
 public class Button extends JButton implements ActionListener {
 
 	public JButton button;
-	private ImageIcon grayIcon = new ImageIcon(getClass().getResource("/Button/Play_gray.png"));
-	private ImageIcon redIcon = new ImageIcon(getClass().getResource("/Button/Play_red.png"));
-	private ImageIcon retry_gray = new ImageIcon(getClass().getResource("/Button/Retry_gray.png"));
-	private ImageIcon retry_red = new ImageIcon(getClass().getResource("/Button/Retry_red.png"));
+	private ImageIcon grayIcon = new ImageIcon(getClass().getResource("/Image/Button/Play_gray.png"));
+	private ImageIcon redIcon = new ImageIcon(getClass().getResource("/Image/Button/Play_red.png"));
+	private ImageIcon retry_gray = new ImageIcon(getClass().getResource("/Image/Button/Retry_gray.png"));
+	private ImageIcon retry_red = new ImageIcon(getClass().getResource("/Image/Button/Retry_red.png"));
 	
 	public Button() {
 		// 轉換圖案大小

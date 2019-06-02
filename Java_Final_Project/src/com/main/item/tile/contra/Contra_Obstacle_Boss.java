@@ -16,11 +16,11 @@ public class Contra_Obstacle_Boss extends Tile {
 		super(id, handler, x, y, width, height);
 
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
-		ImageSheet tmpImageSheet = new ImageSheet("/Scenes/Contra_Monster0.png");
+		ImageSheet tmpImageSheet = new ImageSheet("/Image/Scenes/Contra_Monster0.png");
 		contra_Obstacle_Boss[0] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET); // 魂斗羅怪物0
-		tmpImageSheet = new ImageSheet("/Scenes/Contra_Monster1.png");
+		tmpImageSheet = new ImageSheet("/Image/Scenes/Contra_Monster1.png");
 		contra_Obstacle_Boss[1] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET); // 魂斗羅怪物1
-		tmpImageSheet = new ImageSheet("/Scenes/Contra_Monster2.png");
+		tmpImageSheet = new ImageSheet("/Image/Scenes/Contra_Monster2.png");
 		contra_Obstacle_Boss[2] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET); // 魂斗羅怪物2
 
 		moveSpeed = moveSpeedfloor3;

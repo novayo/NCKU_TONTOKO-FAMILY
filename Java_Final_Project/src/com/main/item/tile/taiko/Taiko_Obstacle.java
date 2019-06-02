@@ -17,8 +17,8 @@ public class Taiko_Obstacle extends Tile {
 		super(id, handler, x, y, width, height);
 
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
-		taiko_Obstacle[0] = new Image(Game.imageSheet, 6, 2, Id.GET_TAIKO_RED); // 紅音符
-		taiko_Obstacle[1] = new Image(Game.imageSheet, 7, 2, Id.GET_TAIKO_GREEN); // 藍音符
+		taiko_Obstacle[0] = new Image(Game.imageSheet, 1, 2, Id.GET_TAIKO_RED); // 紅音符
+		taiko_Obstacle[1] = new Image(Game.imageSheet, 2, 2, Id.GET_TAIKO_GREEN); // 藍音符
 		
 		this.whichObstacle = whichObstacle;
 		

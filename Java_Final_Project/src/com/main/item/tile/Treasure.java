@@ -19,13 +19,13 @@ public class Treasure extends Tile{
 	public Treasure(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
 		
-		ImageSheet tmpImageSheet = new ImageSheet("/Treasure/box0.png");
+		ImageSheet tmpImageSheet = new ImageSheet("/Image/Treasure/box0.png");
 		boxImage[0] = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
 
-		tmpImageSheet = new ImageSheet("/Treasure/box1.png");
+		tmpImageSheet = new ImageSheet("/Image/Treasure/box1.png");
 		boxImage[1] = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
 
-		tmpImageSheet = new ImageSheet("/Treasure/box2.png");
+		tmpImageSheet = new ImageSheet("/Image/Treasure/box2.png");
 		boxImage[2] = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
 	}
 
