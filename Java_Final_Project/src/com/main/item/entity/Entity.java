@@ -67,7 +67,7 @@ public abstract class Entity extends Item {
 	public void doCollidingDetection() {
 		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
 			Tile tile = Game.handler.tileLinkedList.get(i);
-			if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Floor2_Obstacle
+			if (tile.getId() == Id.Dino_Obstacle
 					|| tile.getId() == Id.Floor3_Obstacle || tile.getId() == Id.Floor4_Obstacle) {
 				if (getBounds().intersects(tile.getBounds())) {
 					// 做出跌倒的動畫

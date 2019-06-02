@@ -6,8 +6,9 @@ import com.main.Game;
 import com.main.item.Handler;
 import com.main.item.Id;
 import com.main.item.Item;
+import com.main.item.entity.Entity;
 
-public abstract class Tile extends Item{
+public abstract class Tile extends Item {
 
 	protected int sheetLength = 0;
 	protected int animation_speed = 0; // 每 (animation_speed/60) 秒 地板就往左走一格
@@ -18,23 +19,42 @@ public abstract class Tile extends Item{
 	protected boolean isHitByPlayer = false;
 	protected boolean isScoreAdd = false;
 	private int velY;
-	
+
 	public Tile(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
 	}
-	
+
 	public void die() {
 		handler.removeTile(this);
 		if (Game.GAME_NOT_STARTED == false) {
 			Game.numOfObstacles--; // 每死掉一個障礙物，就讓值-1
 		}
 	}
-	
+
+	public void doScoreCompute() {
+		if (Game.GAME_NOT_STARTED == false && isScoreAdd == false) {
+			for (int i = 0; i < Game.handler.entityLinkedList.size(); i++) {
+				Entity entity = Game.handler.entityLinkedList.get(i);
+				if (entity.getId() == Id.Dino_Stand_Run || entity.getId() == Id.Dino_Squart) {
+					if (x <= entity.getX() - entity.getWidth()) {
+						if (isHitByPlayer == true) {
+							Game.game_bonus = 1;
+						} else if (isHitByPlayer == false) {
+							Game.game_score += 10 * Game.game_bonus;
+							Game.game_bonus += 1;
+							isScoreAdd = true;
+						}
+					}
+				}
+			}
+		}
+	}
+
 	public void doAnimation() {
 		animationDelay++;
 		x -= moveSpeedfloor1;
 
-		if (animationDelay >= animation_speed/2) {
+		if (animationDelay >= animation_speed / 2) {
 			animation++;
 			if (animation >= sheetLength) {
 				animation = 0;
@@ -42,15 +62,14 @@ public abstract class Tile extends Item{
 			animationDelay = 0;
 		}
 	}
-	
+
 	@Override
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
 	}
 
-	
-	
-	/* Getters and Setters
+	/*
+	 * Getters and Setters
 	 * 
 	 */
 	public int getVelY() {

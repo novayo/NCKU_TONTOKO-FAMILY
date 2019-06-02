@@ -17,11 +17,14 @@ import com.main.input.Button;
 import com.main.input.KeyInput;
 import com.main.item.Handler;
 import com.main.item.Id;
+import com.main.item.entity.dino.Dino_Squart;
+import com.main.item.entity.dino.Dino_Stand_Run;
 import com.main.item.tile.Dino_Obstacle;
 //import com.main.item.tile.Floor2_Obstacle;
 //import com.main.item.tile.Floor3_Obstacle;
 //import com.main.item.tile.Floor4_Obstacle;
 import com.main.item.tile.Heart;
+import com.main.item.tile.Taiko_Obstacle;
 import com.main.item.tile.Tile;
 import com.main.item.tile.Treasure;
 import com.main.item.tile.floor.Floor2_Background;
@@ -52,9 +55,10 @@ public class Game extends Canvas implements Runnable, GameParameter {
 //	public static Image floor2Image[] = new Image[3];
 //	public static Image floor3Image[] = new Image[3];
 //	public static Image floor4Image[] = new Image[3];
-//	public static Image floor2_obstacleImage;
 //	public static Image floor3_obstacleImage;
 //	public static Image floor4_obstacleImage;
+	public static Dino_Stand_Run dino_Stand_Run = null;
+	public static Dino_Squart dino_Squart = null;
 	public static Floor2_Background floor2_Background = null;
 	public static Heart heartObj;
 	public static Image heartImage[] = new Image[2];
@@ -132,10 +136,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		handler.createStuff();
 		initialNumTile = handler.tileLinkedList.size() + 1; // 1是包含logo
 		life = GameParameter.INIT_LIVES - 1; // 還沒開始遊戲之前，命是兩條
-
-		// 加入偵測鍵盤
-		addKeyListener(new KeyInput());
-		requestFocus(); // 讓我們的按下的按鍵都會被我們的程式讀取到
 	}
 
 	/*
@@ -146,7 +146,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	private Thread threadUpdate;
 	private Thread threadRender;
 	private int controlThread = 0;
-	
+
 	// 控制每秒可以跑幾次 render() ＆ update()
 	private long lastTime = System.nanoTime();
 	private long timer = System.currentTimeMillis();
@@ -163,11 +163,15 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 		threadUpdate = new Thread(this, "threadUpdate");
 		threadUpdate.start(); // thread 開始
-		
-		while(controlThread>0);
+
+		while (controlThread > 0)
+			;
 		threadRender = new Thread(this, "ThreadRender");
 		threadRender.start();
 		
+		// 加入偵測鍵盤
+		addKeyListener(new KeyInput());
+		requestFocus(); // 讓我們的按下的按鍵都會被我們的程式讀取到
 	}
 
 	private synchronized void stop() {
@@ -193,10 +197,12 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			while (GAME_STATE == true) {
 				render(background);
 				frames++;
+				controlThread++;
 			}
 		}
 
 		controlThread++;
+		while(controlThread > 2);
 		while (GAME_STATE == true) {
 			long nowTime = System.nanoTime();
 			delta += (nowTime - lastTime) / ns;
@@ -255,7 +261,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		loop1: while (tmp < maxObstaclesOnScreen) {
 			int randomFloor = rnd.nextInt(4) + 1;
 			int randomPos = rnd.nextInt(100) + spriteSize;
-//			randomFloor = 1;
+			//randomFloor = 2;
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Dino_Obstacle) {
 					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - spriteSize - 32) {
@@ -263,27 +269,27 @@ public class Game extends Canvas implements Runnable, GameParameter {
 							break loop1;
 						}
 					} // 若出現的位置太相近就break掉
-				} else if (tile.getId() == Id.Floor2_Obstacle) {
+				} else if (tile.getId() == Id.Taiko_Obstacle_RED || tile.getId() == Id.Taiko_Obstacle_BLUE) {
 					if (randomFloor == 2 && tile.getY() <= GameParameter.HEIGHT * 2 / 4 - spriteSize - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
-							randomPos += 300;
+							break loop1;
 					} // 若出現的位置太相近就break掉
 				} else if (tile.getId() == Id.Floor3_Obstacle) {
 					if (randomFloor == 3 && tile.getY() <= GameParameter.HEIGHT * 3 / 4 - spriteSize - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
-							randomPos += 300;
+							break loop1;
 					} // 若出現的位置太相近就break掉
 				} else if (tile.getId() == Id.Floor4_Obstacle) {
 					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - spriteSize - 32) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
-							randomPos += 300;
+							break loop1;
 					} // 若出現的位置太相近就break掉
 				}
 			}
 
+			int whichObstacle = rnd.nextInt(2);
 			switch (randomFloor) {
 			case 1:
-				int whichObstacle = rnd.nextInt(2);
 				int addY = 0;
 				if (whichObstacle == 0)
 					addY = -40; // 如果是飛龍，位置上升40
@@ -291,10 +297,16 @@ public class Game extends Canvas implements Runnable, GameParameter {
 						GameParameter.HEIGHT * 1 / 4 - spriteSize - Game.FLOOR_HEIGHT + addY, spriteSize, spriteSize,
 						whichObstacle));
 				break;
-//			case 2:
-//				handler.addTile(new Floor2_Obstacle(Id.Floor2_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-//						GameParameter.HEIGHT * 2 / 4 - spriteSize - Game.FLOOR_HEIGHT, spriteSize, spriteSize));
-//				break;
+			case 2:
+				if (whichObstacle == 0)
+					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_RED, Game.handler,
+							GameParameter.WIDTH + randomPos,
+							GameParameter.HEIGHT * 2 / 4 - spriteSize - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
+				else
+					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_BLUE, Game.handler,
+							GameParameter.WIDTH + randomPos,
+							GameParameter.HEIGHT * 2 / 4 - spriteSize - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
+				break;
 //			case 3:
 //				handler.addTile(new Floor3_Obstacle(Id.Floor3_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
 //						GameParameter.HEIGHT * 3 / 4 - spriteSize - Game.FLOOR_HEIGHT, spriteSize, spriteSize));
@@ -334,8 +346,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		background.setFont(new Font("Courier", Font.BOLD, spriteSize));
 		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
 			Tile tile = Game.handler.tileLinkedList.get(i);
-			if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Floor2_Obstacle
-					|| tile.getId() == Id.Floor3_Obstacle || tile.getId() == Id.Floor4_Obstacle) {
+			if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Floor3_Obstacle
+					|| tile.getId() == Id.Floor4_Obstacle) {
 				if (tile.isScoreAdd() == true) {
 					background.drawString("10x" + (game_bonus - 1), tile.getX() - spriteSize / 2, tile.getY());
 				}
@@ -483,8 +495,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		handler.createStuff();
 		game_time = 0;
 		numOfObstacles = totalObstacles;
-//		life = GameParameter.INIT_LIVES;
-		life = 200;
+		life = GameParameter.INIT_LIVES;
+//		life = 1;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;

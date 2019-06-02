@@ -3,7 +3,6 @@ package com.main.item.entity.dino;
 import java.awt.Graphics;
 
 import com.main.Game;
-import com.main.GameParameter;
 import com.main.gfx.Image;
 import com.main.item.Handler;
 import com.main.item.Id;
@@ -79,12 +78,12 @@ public class Dino_Stand_Run extends Entity {
 	@Override
 	public void doKeyPressed2() {
 		if (jumping == false && falling == false) {
-			Game.handler.addEntity(new Dino_Squart(Id.Dino_Squart, Game.handler, GameParameter.WIDTH / 7,
-					GameParameter.HEIGHT * 1 / 4 - 29 - 32, 60, 29)); // 建立蹲下恐龍
+			Game.handler.addEntity(Game.dino_Squart); // 建立蹲下恐龍
 			Game.handler.removeEntity(this);
+			System.out.println("SQUART");
 		}
 	}
-	
+
 	public void jump() {
 		if (jumping == true) {
 			player_gravity -= jumping_speed;

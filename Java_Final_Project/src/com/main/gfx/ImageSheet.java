@@ -44,6 +44,12 @@ public class ImageSheet {
 		} else if (kind == Id.GET_DINO_DRAGON_1) { // 拿飛龍1
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 8,
 					y * perImageSize - perImageSize + offset + 15, perImageSize - offset - 8, perImageSize - offset - 15);
+		} else if (kind == Id.GET_TAIKO_RED) { // 拿太鼓達人 紅敵人
+			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
+					y * perImageSize - perImageSize + offset, perImageSize - offset, perImageSize - offset);
+		} else if (kind == Id.GET_TAIKO_GREEN) { // 拿太鼓達人 藍敵人
+			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
+					y * perImageSize - perImageSize + offset, perImageSize - offset, perImageSize - offset);
 		} else if (kind == Id.GET_FLOOR) { // 拿到地板
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
 					y * perImageSize - perImageSize + offset, perImageSize * 7 - offset, perImageSize - offset);
