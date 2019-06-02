@@ -27,6 +27,8 @@ import com.main.item.entity.dino.Dino_Stand_Run;
 import com.main.item.tile.Heart;
 import com.main.item.tile.Tile;
 import com.main.item.tile.Treasure;
+import com.main.item.tile.contra.Contra_Obstacle_Boss;
+import com.main.item.tile.contra.Contra_Obstacle_Insects;
 import com.main.item.tile.dino.Dino_Obstacle;
 import com.main.item.tile.floor.Floor2_Background;
 import com.main.item.tile.taiko.Taiko_Obstacle;
@@ -59,6 +61,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static Dino_Squart dino_Squart = null;
 	public static Contra_Run contra_Run = null;
 	public static Contra_Jump contra_Jump = null;
+	public static Contra_Obstacle_Boss contra_Obstacle_Boss = null;
 	public static Floor2_Background floor2_Background = null;
 	public static Heart heartObj;
 	public static Image heartImage[] = new Image[2];
@@ -82,7 +85,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	private void initialize() {
 		// 拿到圖片資源
-		imageSheet = new ImageSheet("/ResSheet0.png"); // 拿取圖片資源
+		imageSheet = new ImageSheet("/ResSheet1.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
 //		for (int i = 0; i < player2Image.length; i++) {
 //			player2Image[i] = new Image(imageSheet, i + 1, 15, 1);
@@ -168,7 +171,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			;
 		threadRender = new Thread(this, "ThreadRender");
 		threadRender.start();
-		
+
 		// 加入偵測鍵盤
 		addKeyListener(new KeyInput());
 		requestFocus(); // 讓我們的按下的按鍵都會被我們的程式讀取到
@@ -202,7 +205,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		}
 
 		controlThread++;
-		while(controlThread > 2);
+		while (controlThread > 2)
+			;
 		while (GAME_STATE == true) {
 			long nowTime = System.nanoTime();
 			delta += (nowTime - lastTime) / ns;
@@ -261,7 +265,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
 			int randomFloor = rnd.nextInt(4) + 1;
 			int randomPos = rnd.nextInt(100) + spriteSize;
-			randomFloor = 1;
+			randomFloor = 3;
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Dino_Obstacle) {
 					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - spriteSize - 32) {
@@ -290,7 +294,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			if (GAME_NOT_STARTED == false) {
 				numOfObstacles--; // 每死掉一個障礙物，就讓值-1
 			}
-			
+
 			int whichObstacle = rnd.nextInt(2);
 			switch (randomFloor) {
 			case 1:
@@ -311,10 +315,11 @@ public class Game extends Canvas implements Runnable, GameParameter {
 							GameParameter.WIDTH + randomPos,
 							GameParameter.HEIGHT * 2 / 4 - spriteSize - Game.FLOOR_HEIGHT - 75, 60, 60, whichObstacle));
 				break;
-//			case 3:
-//				handler.addTile(new Floor3_Obstacle(Id.Floor3_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-//						GameParameter.HEIGHT * 3 / 4 - spriteSize - Game.FLOOR_HEIGHT, spriteSize, spriteSize));
-//				break;
+			case 3:
+				handler.addTile(
+						new Contra_Obstacle_Insects(Id.ContraInsects, Game.handler, Game.contra_Obstacle_Boss.getX(),
+								GameParameter.HEIGHT * 3 / 4 - Game.FLOOR_HEIGHT - 64 - 32, 64, 64));
+				break;
 //			case 4:
 //				handler.addTile(new Floor4_Obstacle(Id.Floor4_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
 //						GameParameter.HEIGHT * 4 / 4 - spriteSize - Game.FLOOR_HEIGHT, spriteSize, spriteSize));

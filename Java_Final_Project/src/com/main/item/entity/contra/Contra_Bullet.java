@@ -3,7 +3,6 @@ package com.main.item.entity.contra;
 import java.awt.Graphics;
 
 import com.main.Game;
-import com.main.GameParameter;
 import com.main.gfx.Image;
 import com.main.item.Handler;
 import com.main.item.Id;
@@ -23,7 +22,10 @@ public class Contra_Bullet extends Entity {
 	@Override
 	public void render(Graphics g) {
 		// 設定圖片
-		if (x > GameParameter.WIDTH) Game.handler.removeEntity(this);
+		if (x > Game.contra_Obstacle_Boss.getX()) {
+			Game.handler.removeEntity(this);
+			// Contra_Boss生出更多昆蟲
+		}
 		g.drawImage(contraBulletImages.getBufferedImage(), x, y, width, height, null);
 	}
 

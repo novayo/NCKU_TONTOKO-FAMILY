@@ -59,6 +59,12 @@ public class ImageSheet {
 		} else if (kind == Id.GET_CONTRA_BULLET) { // 拿魂斗羅 子彈
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 26,
 					y * perImageSize - perImageSize + offset + 26, perImageSize - offset - 52, perImageSize - offset - 52);
+		} else if (kind == Id.GET_CONTRA_BOSS) { // 拿魂斗羅 Boss
+			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
+					y * perImageSize - perImageSize + offset, perImageSize - offset, perImageSize - offset);
+		} else if (kind == Id.GET_CONTRA_INSECTS) { // 拿魂斗羅 昆蟲
+			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
+					y * perImageSize - perImageSize + offset, perImageSize - offset, perImageSize - offset);
 		} else if (kind == Id.GET_FLOOR) { // 拿到地板
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
 					y * perImageSize - perImageSize + offset, perImageSize * 7 - offset, perImageSize - offset);
