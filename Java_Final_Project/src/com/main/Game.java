@@ -17,17 +17,19 @@ import com.main.input.Button;
 import com.main.input.KeyInput;
 import com.main.item.Handler;
 import com.main.item.Id;
+import com.main.item.entity.contra.Contra_Jump;
+import com.main.item.entity.contra.Contra_Run;
 import com.main.item.entity.dino.Dino_Squart;
 import com.main.item.entity.dino.Dino_Stand_Run;
-import com.main.item.tile.Dino_Obstacle;
 //import com.main.item.tile.Floor2_Obstacle;
 //import com.main.item.tile.Floor3_Obstacle;
 //import com.main.item.tile.Floor4_Obstacle;
 import com.main.item.tile.Heart;
-import com.main.item.tile.Taiko_Obstacle;
 import com.main.item.tile.Tile;
 import com.main.item.tile.Treasure;
+import com.main.item.tile.dino.Dino_Obstacle;
 import com.main.item.tile.floor.Floor2_Background;
+import com.main.item.tile.taiko.Taiko_Obstacle;
 
 @SuppressWarnings("serial") // 有個奇怪的warning，用這個可以消除
 public class Game extends Canvas implements Runnable, GameParameter {
@@ -48,17 +50,15 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static boolean FIRST_RUN = true;
 	public static ImageSheet imageSheet = null;
 	public static Image immutableSheet = null; // 變成透明，顯示為無敵
-//	public static Image player2Image[] = new Image[3];
-//	public static Image player3Image[] = new Image[4];
 //	public static Image player4Image[] = new Image[4];
 
-//	public static Image floor2Image[] = new Image[3];
-//	public static Image floor3Image[] = new Image[3];
 //	public static Image floor4Image[] = new Image[3];
 //	public static Image floor3_obstacleImage;
 //	public static Image floor4_obstacleImage;
 	public static Dino_Stand_Run dino_Stand_Run = null;
 	public static Dino_Squart dino_Squart = null;
+	public static Contra_Run contra_Run = null;
+	public static Contra_Jump contra_Jump = null;
 	public static Floor2_Background floor2_Background = null;
 	public static Heart heartObj;
 	public static Image heartImage[] = new Image[2];
@@ -258,10 +258,10 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		}
 
 		int tmp = handler.tileLinkedList.size() - initialNumTile;
-		loop1: while (tmp < maxObstaclesOnScreen) {
+		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
 			int randomFloor = rnd.nextInt(4) + 1;
 			int randomPos = rnd.nextInt(100) + spriteSize;
-			//randomFloor = 2;
+			randomFloor = 1;
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Dino_Obstacle) {
 					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - spriteSize - 32) {
@@ -287,6 +287,10 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				}
 			}
 
+			if (GAME_NOT_STARTED == false) {
+				numOfObstacles--; // 每死掉一個障礙物，就讓值-1
+			}
+			
 			int whichObstacle = rnd.nextInt(2);
 			switch (randomFloor) {
 			case 1:
@@ -495,8 +499,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		handler.createStuff();
 		game_time = 0;
 		numOfObstacles = totalObstacles;
-		life = GameParameter.INIT_LIVES;
-//		life = 1;
+//		life = GameParameter.INIT_LIVES;
+		life = 100;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
@@ -523,7 +527,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dataFile.writeFile();
-				System.out.println(dataFile.getNumOfTreasure());
 			}
 		});
 

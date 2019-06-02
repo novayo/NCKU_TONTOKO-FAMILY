@@ -1,4 +1,4 @@
-package com.main.item.tile;
+package com.main.item.tile.taiko;
 
 import java.awt.Graphics;
 
@@ -6,6 +6,7 @@ import com.main.Game;
 import com.main.gfx.Image;
 import com.main.item.Handler;
 import com.main.item.Id;
+import com.main.item.tile.Tile;
 
 public class Taiko_Obstacle extends Tile {
 
@@ -67,7 +68,6 @@ public class Taiko_Obstacle extends Tile {
 		Game.handler.removeTile(this);
 		if (Game.GAME_NOT_STARTED == false) {
 			if (isScoreAdd == false) Game.life--;
-			Game.numOfObstacles--; // 每死掉一個障礙物，就讓值-1
 		}
 		
 		if (Game.life <= 0) {

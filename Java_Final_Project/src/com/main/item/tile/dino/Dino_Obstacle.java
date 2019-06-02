@@ -1,4 +1,4 @@
-package com.main.item.tile;
+package com.main.item.tile.dino;
 
 import java.awt.Graphics;
 
@@ -6,6 +6,7 @@ import com.main.Game;
 import com.main.gfx.Image;
 import com.main.item.Handler;
 import com.main.item.Id;
+import com.main.item.tile.Tile;
 
 public class Dino_Obstacle extends Tile {
 

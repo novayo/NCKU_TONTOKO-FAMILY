@@ -1,4 +1,4 @@
-package com.main.item.entity;
+package com.main.item.entity.taiko;
 
 import java.awt.Graphics;
 
@@ -6,6 +6,7 @@ import com.main.Game;
 import com.main.gfx.Image;
 import com.main.item.Handler;
 import com.main.item.Id;
+import com.main.item.entity.Entity;
 import com.main.item.tile.Tile;
 
 public class TaikoPlayer extends Entity{
@@ -19,7 +20,7 @@ public class TaikoPlayer extends Entity{
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
 		taiko_Showing[0] = new Image(Game.imageSheet, 8, 2, Id.GET_ONE_OF_SHEET); // 金色笑臉
 		taiko_Showing[1] = new Image(Game.imageSheet, 9, 2, Id.GET_ONE_OF_SHEET); // 白色笑臉
-		taiko_Showing[2] = new Image(Game.imageSheet, 32, 32, Id.GET_ONE_OF_SHEET); // 透明
+		taiko_Showing[2] = Game.immutableSheet; // 透明
 		
 		nowImage = taiko_Showing[2];
 		animation_speed = 100; // (animation_speed/500)秒

@@ -80,7 +80,6 @@ public class Dino_Stand_Run extends Entity {
 		if (jumping == false && falling == false) {
 			Game.handler.addEntity(Game.dino_Squart); // 建立蹲下恐龍
 			Game.handler.removeEntity(this);
-			System.out.println("SQUART");
 		}
 	}
 

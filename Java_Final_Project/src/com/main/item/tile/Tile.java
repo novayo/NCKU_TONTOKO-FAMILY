@@ -26,9 +26,6 @@ public abstract class Tile extends Item {
 
 	public void die() {
 		handler.removeTile(this);
-		if (Game.GAME_NOT_STARTED == false) {
-			Game.numOfObstacles--; // 每死掉一個障礙物，就讓值-1
-		}
 	}
 
 	public void doScoreCompute() {

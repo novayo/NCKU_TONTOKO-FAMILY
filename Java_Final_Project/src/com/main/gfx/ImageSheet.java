@@ -50,6 +50,15 @@ public class ImageSheet {
 		} else if (kind == Id.GET_TAIKO_GREEN) { // 拿太鼓達人 藍敵人
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
 					y * perImageSize - perImageSize + offset, perImageSize - offset, perImageSize - offset);
+		} else if (kind == Id.GET_CONTRA_RUN) { // 拿魂斗羅 走路
+			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset+14,
+					y * perImageSize - perImageSize + offset, perImageSize - offset-14, perImageSize - offset);
+		} else if (kind == Id.GET_CONTRA_JUMP) { // 拿魂斗羅 跳躍
+			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset+7,
+					y * perImageSize - perImageSize + offset + 10, perImageSize - offset-15, perImageSize - offset - 20);
+		} else if (kind == Id.GET_CONTRA_BULLET) { // 拿魂斗羅 子彈
+			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 26,
+					y * perImageSize - perImageSize + offset + 26, perImageSize - offset - 52, perImageSize - offset - 52);
 		} else if (kind == Id.GET_FLOOR) { // 拿到地板
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
 					y * perImageSize - perImageSize + offset, perImageSize * 7 - offset, perImageSize - offset);
