@@ -18,7 +18,7 @@ public abstract class Tile extends Item {
 	protected int three_floor_x[] = new int[3];
 	protected int tmp_maxObstaclesOnScreen = Game.maxObstaclesOnScreen;
 	protected boolean isHitByPlayer = false;
-	protected boolean isScoreAdd = false;
+	private boolean done = false;
 	private int velY;
 
 	public Tile(Id id, Handler handler, int x, int y, int width, int height) {
@@ -30,18 +30,19 @@ public abstract class Tile extends Item {
 	}
 
 	public void doScoreCompute() {
-		if (Game.GAME_NOT_STARTED == false && isScoreAdd == false) {
+		if (Game.GAME_NOT_STARTED == false && done == false) {
 			for (int i = 0; i < Game.handler.entityLinkedList.size(); i++) {
 				Entity entity = Game.handler.entityLinkedList.get(i);
 				if (entity.getId() == Id.Dino_Stand_Run || entity.getId() == Id.Dino_Squart || entity.getId() == Id.Tontoko_Player) {
-					if (x <= entity.getX() - entity.getWidth() - 10) {
+					if (x <= entity.getX() - entity.getWidth() - 30) {
 						if (isHitByPlayer == true) {
 							Game.game_bonus = 1;
 						} else if (isHitByPlayer == false) {
-							Game.game_score += 10 * Game.game_bonus;
-							Game.game_bonus += 1;
-							isScoreAdd = true;
+							@SuppressWarnings("unused")
+							AddScore addScore = new AddScore(Id.AddScore, Game.handler, x, y, 100, 60, Game.game_bonus);
+							Game.playSoundEffect("./res/Music/addscore.wav");
 						}
+						done = true;
 					}
 				}
 			}
@@ -108,14 +109,6 @@ public abstract class Tile extends Item {
 
 	public void setHitByPlayer(boolean isHitByPlayer) {
 		this.isHitByPlayer = isHitByPlayer;
-	}
-
-	public boolean isScoreAdd() {
-		return isScoreAdd;
-	}
-
-	public void setScoreAdd(boolean isScoreAdd) {
-		this.isScoreAdd = isScoreAdd;
 	}
 
 	public int getAnimation_speed() {

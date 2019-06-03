@@ -15,6 +15,7 @@ public class Treasure extends Tile{
 	private final int boxAnimationTime = 300; // 1/60秒 （設定五秒）
 	private int countBoxAnimationTime = 0;
 	private boolean boxAnimationFlag = false;
+	private boolean doOnce = false;
 	
 	public Treasure(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -42,7 +43,9 @@ public class Treasure extends Tile{
 				boxAnimationFlag = false;
 			}
 		} else {
+			if (doOnce == false) Game.playSoundEffect("./res/Music/openbox.wav");
 			g.drawImage(Game.treasureImage.getBufferedImage(), x, y, width, height, null);
+			doOnce = true;
 		}
 	}
 

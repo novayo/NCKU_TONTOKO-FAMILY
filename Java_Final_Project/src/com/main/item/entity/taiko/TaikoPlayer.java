@@ -59,6 +59,7 @@ public class TaikoPlayer extends Entity{
 
 	@Override
 	public void doKeyPressed1() {
+		Game.playSoundEffect("./res/Music/taiko_hitred.wav");
 		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
 			Tile tile = Game.handler.tileLinkedList.get(i);
 			if (tile.getId() == Id.Taiko_Obstacle_RED) {
@@ -85,12 +86,15 @@ public class TaikoPlayer extends Entity{
 					isHit = true;
 					tile.doScoreCompute();
 				} 
+			} else if ((220 >= tile.getX() && tile.getX() > 130) && tile.getId() == Id.Taiko_Obstacle_BLUE){
+				tile.die();
 			}
 		}
 	}
 
 	@Override
 	public void doKeyPressed2() {
+		Game.playSoundEffect("./res/Music/taiko_hitblue.wav");
 		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
 			Tile tile = Game.handler.tileLinkedList.get(i);
 			if (tile.getId() == Id.Taiko_Obstacle_BLUE) {
@@ -117,6 +121,8 @@ public class TaikoPlayer extends Entity{
 					isHit = true;
 					tile.doScoreCompute();
 				} 
+			} else if ((220 >= tile.getX() && tile.getX() > 130) && tile.getId() == Id.Taiko_Obstacle_RED){
+				tile.die();
 			}
 		}
 	}

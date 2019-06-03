@@ -74,13 +74,13 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	private void initialize() {
 		// 拿到圖片資源
-		imageSheet = new ImageSheet("/Image/ResSheet.png"); // 拿取圖片資源
+		imageSheet = new ImageSheet("/Image/ResSheet_Demo.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
 
 		// 在一開始的時候新增東西
 		handler = new Handler();
 		handler.createStuff();
-		initialNumTile = handler.tileLinkedList.size() + 1; // 1是包含logo
+		initialNumTile = handler.tileLinkedList.size(); // 1是包含logo
 		life = GameParameter.INIT_LIVES - 1; // 還沒開始遊戲之前，命是兩條
 	}
 
@@ -209,7 +209,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			int randomFloor = rnd.nextInt(4) + 1;
 			int randomPos = rnd.nextInt(100) + 60;
 			
-//			randomFloor = 2;
+			randomFloor = 4;
 			
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Tontoko_Obstacle) {
@@ -264,10 +264,11 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				break;
 			case 4:
 				int addY = 0;
+				whichObstacle= 0;
 				if (whichObstacle == 0)
 					addY = -40; // 如果是飛龍，位置上升40
 				handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-						GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 60, 60, whichObstacle));
+						GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
 				break;
 			default:
 				break;
@@ -294,19 +295,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		background = bufferStrategy.getDrawGraphics();
 		background.setColor(Color.WHITE); // 設定background顏色 // 也可以用 new Color(r, g, b)
 		background.fillRect(0, 0, GameParameter.WIDTH, GameParameter.HEIGHT); // 設定background位置跟大小
-
-		// 顯示得到分數
-		background.setColor(Color.MAGENTA);
-		background.setFont(new Font("Courier", Font.BOLD, 60));
-		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
-			Tile tile = Game.handler.tileLinkedList.get(i);
-			if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Tontoko_Obstacle) {
-				if (tile.isScoreAdd() == true) {
-					if (game_bonus == 1) background.drawString("10x1", tile.getX() - 30, tile.getY());
-					else background.drawString("10x" + (game_bonus - 1), tile.getX() - 30, tile.getY());
-				}
-			}
-		}
 
 		// 顯示所有的 linkedlist 的東西，所有的entity跟tile
 		handler.render(background);
@@ -385,6 +373,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 						(GameParameter.WIDTH - LOGO_DEATH_WIDTH * 4 / 5) / 2,
 						(GameParameter.WIDTH - LOGO_DEATH_HEIGHT * 4 / 5) / 2 - 180, LOGO_DEATH_WIDTH * 4 / 5,
 						LOGO_DEATH_HEIGHT * 4 / 5)); // (574, 736)
+				Game.playSoundEffect("./res/Music/showdeathscene.wav");
 
 				// 建立treasure圖案
 				ImageSheet imageSheet = null;
@@ -448,7 +437,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		game_time = 0;
 		numOfObstacles = totalObstacles;
 		life = GameParameter.INIT_LIVES;
-//		life = 100;
+//		life = 1;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;

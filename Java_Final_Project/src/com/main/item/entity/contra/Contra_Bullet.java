@@ -7,6 +7,7 @@ import com.main.Handler;
 import com.main.Id;
 import com.main.gfx.Image;
 import com.main.item.entity.Entity;
+import com.main.item.tile.AddScore;
 import com.main.item.tile.Tile;
 import com.main.item.tile.contra.Contra_Obstacle_Insects;
 
@@ -19,6 +20,7 @@ public class Contra_Bullet extends Entity {
 
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
 		contraBulletImages = new Image(Game.imageSheet, 8, 3, Id.GET_CONTRA_BULLET);
+		Game.playSoundEffect("./res/Music/contra_shoot.wav");
 	}
 
 	@Override
@@ -50,11 +52,12 @@ public class Contra_Bullet extends Entity {
 					if (tile.getId() == Id.ContraInsectsBullet) {
 						Game.handler.removeEntity(this);
 						Game.handler.removeTile(tile);
-					} else if (tile.isScoreAdd() == false) {
+					} else {
 						Game.handler.removeEntity(this);
-						Game.game_score += 10 * Game.game_bonus;
-						Game.game_bonus += 1;
-						tile.setScoreAdd(true);
+						Game.handler.removeTile(tile);
+						@SuppressWarnings("unused")
+						AddScore addScore = new AddScore(Id.AddScore, Game.handler, x, y, 100, 60, Game.game_bonus);
+						Game.playSoundEffect("./res/Music/addscore.wav");
 					}
 				}
 			}

@@ -11,7 +11,6 @@ import com.main.item.tile.Tile;
 public class Contra_Obstacle_Insects extends Tile {
 
 	private Image contra_Obstacle_Insects[] = new Image[4];
-	private int countTime = 0;
 
 	public Contra_Obstacle_Insects(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -30,25 +29,18 @@ public class Contra_Obstacle_Insects extends Tile {
 	@Override
 	public void render(Graphics g) {
 		// 設定圖片
-		if (isScoreAdd == true) {
-			if (countTime % 3 == 0) y--;
-			g.drawString("10x" + (Game.game_bonus - 1), x, y);
-			if (countTime >= 20) Game.handler.removeTile(this);
-		} else {
-			if (animation % 4 == 0)
-				g.drawImage(contra_Obstacle_Insects[0].getBufferedImage(), x, y, width, height, null);
-			else if (animation % 4 == 1)
-				g.drawImage(contra_Obstacle_Insects[1].getBufferedImage(), x, y, width, height, null);
-			else if (animation % 4 == 2)
-				g.drawImage(contra_Obstacle_Insects[2].getBufferedImage(), x, y, width, height, null);
-			else if (animation % 4 == 3)
-				g.drawImage(contra_Obstacle_Insects[3].getBufferedImage(), x, y, width, height, null);
-		}
+		if (animation % 4 == 0)
+			g.drawImage(contra_Obstacle_Insects[0].getBufferedImage(), x, y, width, height, null);
+		else if (animation % 4 == 1)
+			g.drawImage(contra_Obstacle_Insects[1].getBufferedImage(), x, y, width, height, null);
+		else if (animation % 4 == 2)
+			g.drawImage(contra_Obstacle_Insects[2].getBufferedImage(), x, y, width, height, null);
+		else if (animation % 4 == 3)
+			g.drawImage(contra_Obstacle_Insects[3].getBufferedImage(), x, y, width, height, null);
 	}
 
 	@Override
 	public void update() {
-		if (isScoreAdd == true) countTime++;
 		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 
 		doAnimation();
@@ -56,10 +48,10 @@ public class Contra_Obstacle_Insects extends Tile {
 		if (x <= -width)
 			die();
 	}
-	
+
 	public void doAnimation() {
 		animationDelay++;
-		if (isScoreAdd == false) x -= moveSpeed;
+		x -= moveSpeed;
 
 		if (animationDelay >= animation_speed / 2) {
 			animation++;

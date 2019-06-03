@@ -32,7 +32,7 @@ public class Dino_Obstacle extends Tile {
 		// 設定圖片
 		if (whichObstacle == 0) {
 			if (animation % 2 == 0) g.drawImage(dino_Obstacle[0].getBufferedImage(), x, y, width, height, null);
-			else if (animation % 2 == 1) g.drawImage(dino_Obstacle[1].getBufferedImage(), x, y, width, height, null);
+			else if (animation % 2 == 1) g.drawImage(dino_Obstacle[1].getBufferedImage(), x, y - 9, width, height, null);
 		} else if (whichObstacle == 1) {
 			g.drawImage(dino_Obstacle[2].getBufferedImage(), x, y, width, height, null);
 		}

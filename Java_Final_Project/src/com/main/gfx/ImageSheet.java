@@ -47,13 +47,13 @@ public class ImageSheet {
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
 					y * perImageSize - perImageSize + offset + 31, perImageSize - offset, perImageSize - offset - 31);
 		} else if (kind == Id.GET_DINO_DRAGON_0) { // 拿飛龍0
-			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 8,
-					y * perImageSize - perImageSize + offset + 20, perImageSize - offset - 8,
+			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 6,
+					y * perImageSize - perImageSize + offset+20, perImageSize - offset - 6,
 					perImageSize - offset - 20);
 		} else if (kind == Id.GET_DINO_DRAGON_1) { // 拿飛龍1
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 8,
 					y * perImageSize - perImageSize + offset + 15, perImageSize - offset - 8,
-					perImageSize - offset - 15);
+					perImageSize - offset - 25);
 		} else if (kind == Id.GET_TAIKO_RED) { // 拿太鼓達人 紅敵人
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
 					y * perImageSize - perImageSize + offset, perImageSize - offset, perImageSize - offset);
