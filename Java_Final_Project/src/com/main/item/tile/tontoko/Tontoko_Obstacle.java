@@ -17,7 +17,6 @@ public class Tontoko_Obstacle extends Tile {
 		
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
 		tontoko_Obstacle = new Image(Game.imageSheet, 7, 4, Id.GET_TONTOKO_OBSTACLE); // 石頭
-		
 		moveSpeed = moveSpeedfloor1;
 		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 		sheetLength = 2;

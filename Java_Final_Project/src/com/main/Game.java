@@ -19,9 +19,6 @@ import com.main.item.entity.contra.Contra_Jump;
 import com.main.item.entity.contra.Contra_Run;
 import com.main.item.entity.dino.Dino_Squart;
 import com.main.item.entity.dino.Dino_Stand_Run;
-//import com.main.item.tile.Floor2_Obstacle;
-//import com.main.item.tile.Floor3_Obstacle;
-//import com.main.item.tile.Floor4_Obstacle;
 import com.main.item.tile.Heart;
 import com.main.item.tile.Tile;
 import com.main.item.tile.Treasure;
@@ -74,7 +71,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	private void initialize() {
 		// 拿到圖片資源
-		imageSheet = new ImageSheet("/Image/ResSheet_Demo.png"); // 拿取圖片資源
+		imageSheet = new ImageSheet("/Image/ResSheet.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
 
 		// 在一開始的時候新增東西
@@ -100,13 +97,9 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		else
 			GAME_STATE = true;
 
+		threadRender = new Thread(this, "ThreadRender");
 		threadUpdate = new Thread(this, "threadUpdate");
 		threadUpdate.start(); // thread 開始
-
-		while (controlThread > 0)
-			;
-		threadRender = new Thread(this, "ThreadRender");
-		threadRender.start();
 
 		// 加入偵測鍵盤
 		addKeyListener(new KeyInput());
@@ -131,19 +124,16 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	// 這裡就是跑所有game的地方
 	public void run() {
 		initialize();
-
+		
 		if (controlThread == 1) {
 			while (GAME_STATE == true) {
-				controlThread++;
 				frames++;
 				render(background);
 			}
 		}
 
 		controlThread++;
-		while (controlThread > 2)
-			;
-
+		threadRender.start(); // 保證會先跑update再跑render
 		// 控制每秒可以跑幾次 render() ＆ update()
 		long lastTime = System.nanoTime();
 		long timer = System.currentTimeMillis();
@@ -176,106 +166,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		stop(); // 整個遊戲停止
 	}
 
-	/*
-	 * 隨機出障礙物 總共的陷阱個數為100個（numObstacle = 100） 一開始畫面中只會出先最多2個障礙物（maxObstaclesOnScreen
-	 * = 3） 之後每過20個就會多增加1格障礙物（difficulty = 15）
-	 * 
-	 * Game.handler.tileLinkedList.size() 初始為5個
-	 */
-	public void buildObstacles() {
-		int obstacleRange = 500;
-		if (numOfObstacles > totalObstacles - 1 * difficulty) {
-			maxObstaclesOnScreen = 2;
-			obstacleRange = 500; // 依照難度增加，速度變快，距離隨之增加
-		} else if (numOfObstacles > totalObstacles - 2 * difficulty) {
-			maxObstaclesOnScreen = 3;
-			obstacleRange = 600;
-		} else if (numOfObstacles > totalObstacles - 3 * difficulty) {
-			maxObstaclesOnScreen = 4;
-			obstacleRange = 700;
-		} else if (numOfObstacles > totalObstacles - 4 * difficulty) {
-			maxObstaclesOnScreen = 5;
-			obstacleRange = 800;
-		} else if (numOfObstacles > totalObstacles - 5 * difficulty) {
-			maxObstaclesOnScreen = 6;
-			obstacleRange = 900;
-		} else {
-			maxObstaclesOnScreen = 8;
-			obstacleRange = 1000;
-		}
-
-		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
-		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
-			int randomFloor = rnd.nextInt(4) + 1;
-			int randomPos = rnd.nextInt(100) + 60;
-			
-			randomFloor = 4;
-			
-			for (Tile tile : handler.tileLinkedList) {
-				if (tile.getId() == Id.Tontoko_Obstacle) {
-					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - 51 - 32) {
-						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange) {
-							break loop1;
-						}
-					} // 若出現的位置太相近就break掉
-				} else if (tile.getId() == Id.Taiko_Obstacle_RED || tile.getId() == Id.Taiko_Obstacle_BLUE) {
-					if (randomFloor == 2 && tile.getY() <= GameParameter.HEIGHT * 2 / 4 - 60 - 32) {
-						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
-							break loop1;
-					} // 若出現的位置太相近就break掉
-				} else if (tile.getId() == Id.ContraInsects) {
-					if (randomFloor == 3 && tile.getY() <= GameParameter.HEIGHT * 3 / 4 - 40 - 32) {
-						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
-							break loop1;
-					} // 若出現的位置太相近就break掉
-				} else if (tile.getId() == Id.Dino_Obstacle) {
-					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - 60 - 32) {
-						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
-							break loop1;
-					} // 若出現的位置太相近就break掉
-				}
-			}
-
-			if (GAME_NOT_STARTED == false) {
-				numOfObstacles--; // 每死掉一個障礙物，就讓值-1
-			}
-
-			int whichObstacle = rnd.nextInt(2);
-			switch (randomFloor) {
-			case 1:
-				handler.addTile(new Tontoko_Obstacle(Id.Tontoko_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-						GameParameter.HEIGHT * 1 / 4 - 51 - Game.FLOOR_HEIGHT, 60, 51));
-				break;
-			case 2:
-				if (whichObstacle == 0)
-					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_RED, Game.handler,
-							GameParameter.WIDTH + randomPos,
-							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
-				else
-					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_BLUE, Game.handler,
-							GameParameter.WIDTH + randomPos,
-							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
-				break;
-			case 3:
-				int randomY = rnd.nextInt(106) + 5; // 5 ~ 110
-				handler.addTile(
-						new Contra_Obstacle_Insects(Id.ContraInsects, Game.handler, Game.contra_Obstacle_Boss.getX(),
-								GameParameter.HEIGHT * 3 / 4 - Game.FLOOR_HEIGHT - 40 - randomY, 40, 40));
-				break;
-			case 4:
-				int addY = 0;
-				whichObstacle= 0;
-				if (whichObstacle == 0)
-					addY = -40; // 如果是飛龍，位置上升40
-				handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-						GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
-				break;
-			default:
-				break;
-			}
-			tmp++;
-		}
-	}
+	
 
 	/*
 	 * 顯示圖片
@@ -345,9 +236,10 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		// 顯示background
 		background.dispose();
 		bufferStrategy.show();
-
 	}
 
+	
+	
 	/*
 	 * 更新數據
 	 * 
@@ -430,14 +322,116 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		}
 
 	}
+	
+	
+	
+	/*
+	 * 隨機出障礙物 總共的陷阱個數為100個（numObstacle = 100） 一開始畫面中只會出先最多2個障礙物（maxObstaclesOnScreen
+	 * = 3） 之後每過20個就會多增加1格障礙物（difficulty = 15）
+	 * 
+	 * Game.handler.tileLinkedList.size() 初始為5個
+	 */
+	public void buildObstacles() {
+		int obstacleRange = 500;
+		if (numOfObstacles > totalObstacles - 1 * difficulty) {
+			maxObstaclesOnScreen = 2;
+		} else if (numOfObstacles > totalObstacles - 2 * difficulty) {
+			maxObstaclesOnScreen = 3;
+		} else if (numOfObstacles > totalObstacles - 3 * difficulty) {
+			maxObstaclesOnScreen = 4;
+		} else if (numOfObstacles > totalObstacles - 4 * difficulty) {
+			maxObstaclesOnScreen = 5;
+		} else if (numOfObstacles > totalObstacles - 5 * difficulty) {
+			maxObstaclesOnScreen = 6;
+		} else {
+			maxObstaclesOnScreen = 8;
+		}
+
+		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4:(maxObstaclesOnScreen - 1);
+		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
+		if (numOfObstacles == 0 && tmp == 0) {
+			GAME_NOT_STARTED = true;
+			System.out.println("Win");
+		}
+		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
+			int randomFloor = rnd.nextInt(floorCanMove) + 1;
+			int randomPos = rnd.nextInt(100) + 60;
+			
+			//randomFloor = 4;
+			
+			for (Tile tile : handler.tileLinkedList) {
+				if (tile.getId() == Id.Tontoko_Obstacle) {
+					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - 51 - 32) {
+						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange) {
+							break loop1;
+						}
+					} // 若出現的位置太相近就break掉
+				} else if (tile.getId() == Id.Taiko_Obstacle_RED || tile.getId() == Id.Taiko_Obstacle_BLUE) {
+					if (randomFloor == 2 && tile.getY() <= GameParameter.HEIGHT * 2 / 4 - 60 - 32) {
+						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
+							break loop1;
+					} // 若出現的位置太相近就break掉
+				} else if (tile.getId() == Id.ContraInsects) {
+					if (randomFloor == 3 && tile.getY() <= GameParameter.HEIGHT * 3 / 4 - 40 - 32) {
+						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
+							break loop1;
+					} // 若出現的位置太相近就break掉
+				} else if (tile.getId() == Id.Dino_Obstacle) {
+					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - 60 - 32) {
+						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
+							break loop1;
+					} // 若出現的位置太相近就break掉
+				}
+			}
+
+			if (GAME_NOT_STARTED == false) {
+				numOfObstacles--; // 每死掉一個障礙物，就讓值-1
+			}
+
+			int whichObstacle = rnd.nextInt(2);
+			switch (randomFloor) {
+			case 1:
+				handler.addTile(new Tontoko_Obstacle(Id.Tontoko_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
+						GameParameter.HEIGHT * 1 / 4 - 51 - Game.FLOOR_HEIGHT, 60, 51));
+				break;
+			case 2:
+				if (whichObstacle == 0)
+					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_RED, Game.handler,
+							GameParameter.WIDTH + randomPos,
+							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
+				else
+					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_BLUE, Game.handler,
+							GameParameter.WIDTH + randomPos,
+							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
+				break;
+			case 3:
+				int randomY = rnd.nextInt(106) + 5; // 5 ~ 110
+				handler.addTile(
+						new Contra_Obstacle_Insects(Id.ContraInsects, Game.handler, Game.contra_Obstacle_Boss.getX(),
+								GameParameter.HEIGHT * 3 / 4 - Game.FLOOR_HEIGHT - 40 - randomY, 40, 40));
+				break;
+			case 4:
+				int addY = 0;
+				whichObstacle= 0;
+				if (whichObstacle == 0)
+					addY = -40; // 如果是飛龍，位置上升40
+				handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
+						GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
+				break;
+			default:
+				break;
+			}
+			tmp++;
+		}
+	}
 
 	public static void gameReset() {
 		handler.resetLinkedList();
 		handler.createStuff();
 		game_time = 0;
 		numOfObstacles = totalObstacles;
-		life = GameParameter.INIT_LIVES;
-//		life = 1;
+//		life = GameParameter.INIT_LIVES;
+		life = 1000;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
@@ -445,17 +439,17 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	}
 
 	public static void playBackgroundMusic(String path) {
+		@SuppressWarnings("unused")
 		Music music = new Music(path, Id.Music_Background);
-		music.start();
 	}
 	
 	public static void playSoundEffect(String path) {
+		@SuppressWarnings("unused")
 		Music music = new Music(path, Id.Music_SoundEffect);
-		music.start();
 	}
 	
 	public static void main(String[] args) {
-//		rnd.setSeed();
+		rnd.setSeed(System.currentTimeMillis());
 		dataFile = new DataFile();
 
 		// 建立遊戲

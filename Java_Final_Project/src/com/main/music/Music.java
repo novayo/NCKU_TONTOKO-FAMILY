@@ -16,6 +16,7 @@ public class Music extends Thread {
 	public Music(String wavfile, Id id) {
 		filename = wavfile;
 		this.id = id;
+		this.start();
 	}
 
 	public void run() {
@@ -34,38 +35,29 @@ public class Music extends Thread {
 		try {
 			clip = AudioSystem.getClip();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		try {
 			clip.open(audioInputStream);
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		clip.start();
-		
 
 		if (id == Id.Music_Background) {
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
 			while (Game.GAME_NOT_STARTED == false || Game.FIRST_RUN == true) {
-				if (Game.FIRST_RUN == true) {
-					
-				}
+				if (Game.FIRST_RUN == true)
+					;
 				System.out.print("");
 			}
 			clip.stop();
 		} else if (id == Id.Music_SoundEffect) {
-			
+
 		}
-		
-			
-		
-		
 
 		/*
 		 * 

@@ -51,7 +51,7 @@ public abstract class Tile extends Item {
 
 	public void doAnimation() {
 		animationDelay++;
-		x -= moveSpeedfloor1;
+		x -= moveSpeed;
 
 		if (animationDelay >= animation_speed / 2) {
 			animation++;
