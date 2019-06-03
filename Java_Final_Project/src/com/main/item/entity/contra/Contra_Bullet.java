@@ -23,6 +23,7 @@ public class Contra_Bullet extends Entity {
 
 	@Override
 	public void render(Graphics g) {
+		if (Game.GAME_NOT_STARTED == true) Game.handler.removeEntity(this);
 		// 設定圖片
 		if (x > Game.contra_Obstacle_Boss.getX()) {
 			Game.handler.removeEntity(this);

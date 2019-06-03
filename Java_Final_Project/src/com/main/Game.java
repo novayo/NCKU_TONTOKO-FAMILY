@@ -31,6 +31,7 @@ import com.main.item.tile.dino.Dino_Obstacle;
 import com.main.item.tile.floor.Floor2_Background;
 import com.main.item.tile.taiko.Taiko_Obstacle;
 import com.main.item.tile.tontoko.Tontoko_Obstacle;
+import com.main.music.Music;
 
 @SuppressWarnings("serial") // 有個奇怪的warning，用這個可以消除
 public class Game extends Canvas implements Runnable, GameParameter {
@@ -208,7 +209,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			int randomFloor = rnd.nextInt(4) + 1;
 			int randomPos = rnd.nextInt(100) + 60;
 			
-//			randomFloor = 3;
+//			randomFloor = 2;
 			
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Tontoko_Obstacle) {
@@ -301,7 +302,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			Tile tile = Game.handler.tileLinkedList.get(i);
 			if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Tontoko_Obstacle) {
 				if (tile.isScoreAdd() == true) {
-					background.drawString("10x" + (game_bonus - 1), tile.getX() - 30, tile.getY());
+					if (game_bonus == 1) background.drawString("10x1", tile.getX() - 30, tile.getY());
+					else background.drawString("10x" + (game_bonus - 1), tile.getX() - 30, tile.getY());
 				}
 			}
 		}
@@ -373,7 +375,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 								(GameParameter.WIDTH - LOGO_HEIGHT) / 2 - 250, LOGO_WIDTH, LOGO_HEIGHT)); // (574, 736)
 				runOnce = true;
 			}
-
 		} else if (FIRST_RUN == false && GAME_NOT_STARTED == true) {
 			// 當遊戲死亡
 			button.showDeathScreen();
@@ -451,8 +452,19 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
+		playBackgroundMusic("./res/Music/overworld0.wav");
 	}
 
+	public static void playBackgroundMusic(String path) {
+		Music music = new Music(path, Id.Music_Background);
+		music.start();
+	}
+	
+	public static void playSoundEffect(String path) {
+		Music music = new Music(path, Id.Music_SoundEffect);
+		music.start();
+	}
+	
 	public static void main(String[] args) {
 //		rnd.setSeed();
 		dataFile = new DataFile();
@@ -469,17 +481,14 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 讓視窗按下x時關閉
 		gameFrame.setVisible(true); // 讓視窗顯示出來
 		game.start(); // 開始thread
-
+		playBackgroundMusic("./res/Music/opening.wav");
+		
 		gameFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				dataFile.writeFile();
 			}
 		});
-
-		/*
-		 * 用thread的wait()才能暫停音樂 http://www.javazoom.net/javalayer/javalayer.html
-		 */
 	}
 
 }

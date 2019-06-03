@@ -6,12 +6,13 @@ import com.main.Game;
 import com.main.Handler;
 import com.main.Id;
 import com.main.gfx.Image;
+import com.main.gfx.ImageSheet;
 import com.main.item.entity.Entity;
 import com.main.item.tile.Tile;
 
 public class TaikoPlayer extends Entity{
 	
-	private Image taiko_Showing[] = new Image[3];
+	private Image taiko_Showing[] = new Image[5];
 	private Image nowImage = null;
 	private boolean isHit = false;
 	
@@ -21,6 +22,10 @@ public class TaikoPlayer extends Entity{
 		taiko_Showing[0] = new Image(Game.imageSheet, 3, 2, Id.GET_ONE_OF_SHEET); // 金色笑臉
 		taiko_Showing[1] = new Image(Game.imageSheet, 4, 2, Id.GET_ONE_OF_SHEET); // 白色笑臉
 		taiko_Showing[2] = Game.immutableSheet; // 透明
+		ImageSheet tmpImageSheet = new ImageSheet("/Image/Scenes/Taiko_obj2_effect.png"); // 金色笑臉 煙火
+		taiko_Showing[3] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET);
+		tmpImageSheet = new ImageSheet("/Image/Scenes/Taiko_obj3_effect.png"); // 白色笑臉 煙火
+		taiko_Showing[4] = new Image(tmpImageSheet, 1, 1, Id.GET_WHOLE_SHEET);
 		
 		nowImage = taiko_Showing[2];
 		animation_speed = 100; // (animation_speed/500)秒
@@ -28,7 +33,14 @@ public class TaikoPlayer extends Entity{
 
 	@Override
 	public void render(Graphics g) {
-		g.drawImage(nowImage.getBufferedImage(), 175, y, width, height, null);
+		if (nowImage == taiko_Showing[2]) g.drawImage(nowImage.getBufferedImage(), 175, y, width, height, null);
+		else if (nowImage == taiko_Showing[0]) {
+			g.drawImage(nowImage.getBufferedImage(), 175, y + 3, width, height, null);
+			g.drawImage(taiko_Showing[3].getBufferedImage(), 105, y - 68, 200, 200, null);
+		} else if (nowImage == taiko_Showing[1]) {
+			g.drawImage(nowImage.getBufferedImage(), 175, y + 3, width, height, null);
+			g.drawImage(taiko_Showing[4].getBufferedImage(), 105, y - 68, 200, 200, null);
+		}
 		
 		if (isHit == true) {
 			animation++;

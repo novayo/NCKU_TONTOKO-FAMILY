@@ -9,6 +9,7 @@ import com.main.gfx.ImageSheet;
 
 public class Floor2_Background extends Floor2 {
 
+	public Image floor2_BackgroundImages[] = new Image[3]; // 設定圖片
 	private Image nowImage = null;
 	private boolean isHit = false;
 
