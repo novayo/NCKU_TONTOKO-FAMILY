@@ -1,5 +1,8 @@
 # Java Final Project
 
+## How to run?
+> [Set up res folder](https://www.youtube.com/watch?v=iC2X8gkhsXA&list=PL0k-vA0349lFudGAz91Vj3kgcTFj2ZgJO&index=15&t=5m15s) first
+
 ## Needed Element
 
 ### Sprite
