@@ -11,16 +11,11 @@ import com.main.item.tile.Tile;
 public abstract class Entity extends Item {
 
 	private final int start_y; // 起始位置
-	protected int velY;
-	protected int sheetLength = 0;
-	protected int animation = 0;
-	protected int animationDelay = 0;
-	protected int animation_speed = 0;
 	protected boolean jumping = false;
 	protected boolean falling = false;
 	protected int immutableDelay = 0;
 	protected boolean immutable = false; // 無敵狀態
-	protected boolean twinkling = false; // 無敵狀態
+	protected boolean twinkling = false; // 是否要閃爍
 	protected int immutableSpeed = 0;
 
 	public Entity(Id id, Handler handler, int x, int y, int width, int height) {
@@ -42,7 +37,6 @@ public abstract class Entity extends Item {
 	}
 
 	public abstract void doKeyPressed1();
-
 	public abstract void doKeyPressed2();
 
 	public void do_check_Immutable() {

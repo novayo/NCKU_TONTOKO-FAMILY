@@ -11,15 +11,10 @@ import com.main.item.entity.Entity;
 public abstract class Tile extends Item {
 
 	protected int moveSpeed = 0;
-	protected int sheetLength = 0;
-	protected int animation_speed = 0; // 每 (animation_speed/60) 秒 地板就往左走一格
-	protected int animationDelay = 0;
-	protected int animation = 0;
 	protected int three_floor_x[] = new int[3];
 	protected int tmp_maxObstaclesOnScreen = Game.maxObstaclesOnScreen;
 	protected boolean isHitByPlayer = false;
 	private boolean done = false;
-	private int velY;
 
 	public Tile(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -34,7 +29,7 @@ public abstract class Tile extends Item {
 			for (int i = 0; i < Game.handler.entityLinkedList.size(); i++) {
 				Entity entity = Game.handler.entityLinkedList.get(i);
 				if (entity.getId() == Id.Dino_Stand_Run || entity.getId() == Id.Dino_Squart || entity.getId() == Id.Tontoko_Player) {
-					if (x <= entity.getX() - entity.getWidth() - 30) {
+					if (x <= entity.getX() - entity.getWidth() - 40) {
 						if (isHitByPlayer == true) {
 							Game.game_bonus = 1;
 						} else if (isHitByPlayer == false) {

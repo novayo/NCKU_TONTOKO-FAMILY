@@ -79,7 +79,7 @@ public class Tontoko extends Entity {
 	public void update() {
 		/***** 更新數據 *****/
 		y += velY;
-		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (animation_speed/60) 秒 變換一次動畫
 		immutableSpeed = 64 * 2 / moveSpeedfloor1 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
 
 		/***** 做事 *****/

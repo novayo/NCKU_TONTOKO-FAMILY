@@ -12,7 +12,7 @@ public interface GameParameter {
 	public static final String TITLE_STRING = "Java Project Demo";
 	public static int totalObstacles = 100; // 障礙物總數
 	public static int difficulty = 5; // 過了幾個障礙物時，難度增加
-//	public static int spriteSize = 60;
+
 	public static int LOGO_WIDTH = 400;
 	public static int LOGO_HEIGHT = 128;
 	public static int LOGO_DEATH_WIDTH = 574;

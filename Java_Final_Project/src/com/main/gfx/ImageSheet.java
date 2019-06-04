@@ -30,7 +30,10 @@ public class ImageSheet {
 		if (kind == Id.GET_ONE_OF_SHEET) { // 拿到Sheet的其中一格
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
 					y * perImageSize - perImageSize + offset, perImageSize - offset, perImageSize - offset);
-		} else if (kind == Id.GET_HEART) { // 拿愛心
+		} 
+		
+		
+		else if (kind == Id.GET_HEART) { // 拿愛心
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 6,
 					y * perImageSize - perImageSize + offset + 10, perImageSize - offset - 12, perImageSize - offset - 20);
 		} else if (kind == Id.GET_TONTOKO_PLAYER) { // 拿Tontoko Player
@@ -43,10 +46,16 @@ public class ImageSheet {
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 11,
 					y * perImageSize - perImageSize + offset + 7, perImageSize - offset - 11,
 					perImageSize - offset - 7);
-		} else if (kind == Id.GET_DINO_SQUART) { // 拿恐龍蹲下
+		} 
+		
+		
+		else if (kind == Id.GET_DINO_SQUART) { // 拿恐龍蹲下
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset,
 					y * perImageSize - perImageSize + offset + 31, perImageSize - offset, perImageSize - offset - 31);
-		} else if (kind == Id.GET_DINO_DRAGON_0) { // 拿飛龍0
+		} 
+		
+		
+		else if (kind == Id.GET_DINO_DRAGON_0) { // 拿飛龍0
 			return imageSheet.getSubimage(x * perImageSize - perImageSize + offset + 6,
 					y * perImageSize - perImageSize + offset+20, perImageSize - offset - 6,
 					perImageSize - offset - 20);

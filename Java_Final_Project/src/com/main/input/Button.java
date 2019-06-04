@@ -41,7 +41,7 @@ public class Button extends JButton implements ActionListener {
 				redIcon.getIconHeight());
 		
 		// 設定 addActionListener
-		button.addActionListener(this);
+		button.addActionListener(this); // 讓button可以被按，然後自動跑進去actionPerformed
 	}
 
 	@Override

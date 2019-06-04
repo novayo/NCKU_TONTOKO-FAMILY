@@ -11,6 +11,11 @@ public abstract class Item implements GameParameter{
 	protected int x, y, width, height;
 	protected Id id;
 	protected Handler handler;
+	protected int sheetLength = 0; // 動畫格數的長度
+	protected int animation = 0;
+	protected int animationDelay = 0;
+	protected int animation_speed = 0;
+	protected int velY;
 	public static int moveSpeedfloor1 = 5;
 	public static int moveSpeedfloor2 = 4;
 	public static int moveSpeedfloor3 = 6;

@@ -59,6 +59,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static Floor2_Background floor2_Background = null;
 	public static Heart heartObj;
 	public static Image treasureImage;
+	public static Image showbuttons[] = new Image[14];
 	public static boolean runOnce = false;
 	public static Handler handler; // 新增所有遊戲物件
 	private static Random rnd = new Random();
@@ -74,12 +75,17 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		// 拿到圖片資源
 		imageSheet = new ImageSheet("/Image/ResSheet_Demo.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
+//		showbuttons[0] = new 
 
 		// 在一開始的時候新增東西
 		handler = new Handler();
 		handler.createStuff();
 		initialNumTile = handler.tileLinkedList.size(); // 1是包含logo
 		life = GameParameter.INIT_LIVES - 1; // 還沒開始遊戲之前，命是兩條
+
+		// 加入偵測鍵盤
+		addKeyListener(new KeyInput());
+		requestFocus(); // 讓我們的按下的按鍵都會被我們的程式讀取到
 	}
 
 	/*
@@ -101,10 +107,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		threadRender = new Thread(this, "ThreadRender");
 		threadUpdate = new Thread(this, "threadUpdate");
 		threadUpdate.start(); // thread 開始
-
-		// 加入偵測鍵盤
-		addKeyListener(new KeyInput());
-		requestFocus(); // 讓我們的按下的按鍵都會被我們的程式讀取到
 	}
 
 	private synchronized void stop() {
@@ -124,7 +126,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	// Thread 會自己跑這裡
 	// 這裡就是跑所有game的地方
 	public void run() {
-		initialize();
 
 		if (controlThread == 1) {
 			while (GAME_STATE == true) {
@@ -132,7 +133,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				render(background);
 			}
 		}
-
+		
+		initialize();
 		controlThread++;
 		threadRender.start(); // 保證會先跑update再跑render
 		// 控制每秒可以跑幾次 render() ＆ update()
@@ -141,6 +143,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		double ns = 1000000000.0 / 60.0;
 		double delta = 0.0;
 		int updates = 0;
+		
 		while (GAME_STATE == true) {
 			long nowTime = System.nanoTime();
 			delta += (nowTime - lastTime) / ns;
@@ -178,7 +181,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		// 可以讓我們的畫面看起來更流暢
 		BufferStrategy bufferStrategy = getBufferStrategy(); // 拿到圖層
 		if (bufferStrategy == null) { // 如果沒有
-			createBufferStrategy(3); // 建立三個圖層
+			createBufferStrategy(4); // 建立四個圖層
 			return;
 		}
 
@@ -344,7 +347,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
 		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
-		if (numOfObstacles == 0 && tmp == 0) {
+		System.out.println(tmp);
+		if (numOfObstacles == 0 && tmp <= 2) {
 			GAME_NOT_STARTED = true;
 			System.out.println("Win");
 		}
@@ -352,7 +356,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			int randomFloor = rnd.nextInt(floorCanMove) + 1;
 			int randomPos = rnd.nextInt(100) + 60;
 
-//			 randomFloor = 4;
+//			 randomFloor = 1;
 
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Tontoko_Obstacle) {
@@ -408,7 +412,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			case 4:
 				int addY = 0;
 				if (whichObstacle == 0) {
-					addY = -40; // 如果是飛龍，位置上升40
+					addY = -20; // 如果是飛龍，位置上升40
 					handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
 							GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
 				} else {
@@ -428,11 +432,12 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		handler.createStuff();
 		game_time = 0;
 		numOfObstacles = totalObstacles;
-//		life = GameParameter.INIT_LIVES;
-		life = 1000;
+		life = GameParameter.INIT_LIVES;
+//		life = 1000;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
+		contra_InsectBullets = 0;
 		Item.moveSpeedfloor1 = 3;
 		Item.moveSpeedfloor2 = 2;
 		Item.moveSpeedfloor3 = 4;
@@ -451,8 +456,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	}
 
 	public static void main(String[] args) {
-		rnd.setSeed(System.currentTimeMillis());
-		dataFile = new DataFile();
+		rnd.setSeed(System.currentTimeMillis()); // 設定 亂數的種子
+		dataFile = new DataFile(); // 記錄寶物
 
 		// 建立遊戲
 		Game game = new Game();
@@ -468,6 +473,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		game.start(); // 開始thread
 		playBackgroundMusic("./res/Music/opening.wav");
 
+		// 當你按下右上角叉叉後
 		gameFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
