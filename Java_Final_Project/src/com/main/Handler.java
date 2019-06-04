@@ -14,6 +14,7 @@ import com.main.item.entity.tontoko.Tontoko;
 //import com.main.item.tile.Floor3;
 //import com.main.item.tile.Floor4;
 import com.main.item.tile.Heart;
+import com.main.item.tile.ShowingButtons;
 import com.main.item.tile.Tile;
 import com.main.item.tile.contra.Contra_Obstacle_Boss;
 import com.main.item.tile.floor.Floor1;
@@ -164,6 +165,10 @@ public class Handler implements GameParameter {
 		// Heart
 		Game.heartObj = new Heart(Id.Heart, Game.handler, GameParameter.WIDTH - 38 - 20, 10, 49, 38);
 		addTile(Game.heartObj);
+		
+		// ShowingButtons
+		Game.showingButtons = new ShowingButtons(Id.ShowingButtons, Game.handler, 37, 60, 50, 50);
+		addTile(Game.showingButtons);
 	}
 
 	public void resetLinkedList() {

@@ -16,5 +16,5 @@ public enum Id {
 	GET_TAIKO_RED, GET_TAIKO_GREEN,
 	GET_CONTRA_RUN, GET_CONTRA_JUMP, GET_CONTRA_BULLET, GET_CONTRA_BOSS, GET_CONTRA_INSECTS, GET_TONTOKO_PLAYER, GET_TONTOKO_OBSTACLE,
 	
-	Music_Background, Music_SoundEffect, AddScore,  ;
+	Music_Background, Music_SoundEffect, AddScore, ShowingButtons,  ;
 }

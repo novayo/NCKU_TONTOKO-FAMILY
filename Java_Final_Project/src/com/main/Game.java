@@ -21,6 +21,7 @@ import com.main.item.entity.contra.Contra_Run;
 import com.main.item.entity.dino.Dino_Squart;
 import com.main.item.entity.dino.Dino_Stand_Run;
 import com.main.item.tile.Heart;
+import com.main.item.tile.ShowingButtons;
 import com.main.item.tile.Tile;
 import com.main.item.tile.Treasure;
 import com.main.item.tile.contra.Contra_Obstacle_Boss;
@@ -58,8 +59,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static Contra_Obstacle_Boss contra_Obstacle_Boss = null;
 	public static Floor2_Background floor2_Background = null;
 	public static Heart heartObj;
+	public static ShowingButtons showingButtons = null;
 	public static Image treasureImage;
-	public static Image showbuttons[] = new Image[14];
 	public static boolean runOnce = false;
 	public static Handler handler; // 新增所有遊戲物件
 	private static Random rnd = new Random();
@@ -74,8 +75,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	private void initialize() {
 		// 拿到圖片資源
 		imageSheet = new ImageSheet("/Image/ResSheet_Demo.png"); // 拿取圖片資源
-		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
-//		showbuttons[0] = new 
+		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET); 
 
 		// 在一開始的時候新增東西
 		handler = new Handler();
@@ -433,7 +433,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		game_time = 0;
 		numOfObstacles = totalObstacles;
 		life = GameParameter.INIT_LIVES;
-//		life = 1000;
+		life = 1000;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
