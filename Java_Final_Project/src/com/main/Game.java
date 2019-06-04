@@ -46,6 +46,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static int maxObstaclesOnScreen = 2;
 	public static int game_score = 0;
 	public static int game_bonus = 1;
+	public static int deathlogo = 0;
 	public static boolean GAME_STATE = false; // 整個遊戲的狀態
 	public static boolean GAME_NOT_STARTED = true; // 當一開始或死亡
 	public static boolean FIRST_RUN = true;
@@ -126,7 +127,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	// Thread 會自己跑這裡
 	// 這裡就是跑所有game的地方
 	public void run() {
-
 		if (controlThread == 1) {
 			while (GAME_STATE == true) {
 				frames++;
@@ -152,7 +152,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			// 每1/60秒
 			while (delta >= 1.0) {
 				update();
-				buildObstacles();
 				updates++;
 				delta--;
 			}
@@ -163,6 +162,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				System.out.println("每一秒跑  " + frames + "次render()  " + updates + "次update()");
 				frames = 0;
 				updates = 0;
+				buildObstacles();
 				if (GAME_NOT_STARTED == false)
 					game_time++;
 			}
@@ -343,12 +343,14 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			maxObstaclesOnScreen = 6;
 		} else {
 			maxObstaclesOnScreen = 8;
+			obstacleRange = 600;
 		}
 
 		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
-		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
-
-		if (numOfObstacles == 0 && tmp <= 2) {
+		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets - deathlogo;
+System.out.println(tmp);
+		if (numOfObstacles == 0 && tmp <= 0) {
+			deathlogo = 2;
 			GAME_NOT_STARTED = true;
 			System.out.println("Win");
 		}
@@ -428,12 +430,12 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	}
 
 	public static void gameReset() {
-		handler.resetLinkedList();
-		handler.createStuff();
 		game_time = 0;
+		deathlogo = 0;
 		numOfObstacles = totalObstacles;
+		maxObstaclesOnScreen = 2;
 		life = GameParameter.INIT_LIVES;
-//		life = 1000;
+		life = 1000;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
@@ -441,7 +443,9 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		Item.moveSpeedfloor1 = 3;
 		Item.moveSpeedfloor2 = 2;
 		Item.moveSpeedfloor3 = 4;
-		Item.moveSpeedfloor4 = 1;
+		Item.moveSpeedfloor4 = 6;
+		handler.resetLinkedList();
+		handler.createStuff();
 		playBackgroundMusic("./res/Music/overworld0.wav");
 	}
 
