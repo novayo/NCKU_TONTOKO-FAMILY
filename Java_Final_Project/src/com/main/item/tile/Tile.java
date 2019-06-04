@@ -95,14 +95,6 @@ public abstract class Tile extends Item {
 		this.three_floor_x = three_floor_x;
 	}
 
-	public int getTmp_maxObstaclesOnScreen() {
-		return tmp_maxObstaclesOnScreen;
-	}
-
-	public void setTmp_maxObstaclesOnScreen(int tmp_maxObstaclesOnScreen) {
-		this.tmp_maxObstaclesOnScreen = tmp_maxObstaclesOnScreen;
-	}
-
 	public boolean isHitByPlayer() {
 		return isHitByPlayer;
 	}

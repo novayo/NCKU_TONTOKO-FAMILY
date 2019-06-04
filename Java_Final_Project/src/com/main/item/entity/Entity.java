@@ -70,7 +70,9 @@ public abstract class Entity extends Item {
 	public void doCollidingDetection() {
 		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
 			Tile tile = Game.handler.tileLinkedList.get(i);
-			if (tile.getId() == Id.Tontoko_Obstacle || tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.ContraInsects || tile.getId() == Id.ContraInsectsBullet) {
+			if (tile.getId() == Id.Tontoko_Obstacle || tile.getId() == Id.Dino_Obstacle
+					|| tile.getId() == Id.Dino_Obstacle0 || tile.getId() == Id.ContraInsects
+					|| tile.getId() == Id.ContraInsectsBullet) {
 				if (getBounds().intersects(tile.getBounds())) {
 					// 做出跌倒的動畫
 					if (immutable == false) {
@@ -87,7 +89,6 @@ public abstract class Entity extends Item {
 	public Rectangle getBounds() {
 		return new Rectangle(x, y, width, height);
 	}
-
 
 	/*
 	 * Getters and Setters

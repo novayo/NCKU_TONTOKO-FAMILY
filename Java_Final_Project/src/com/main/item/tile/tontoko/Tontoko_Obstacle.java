@@ -11,6 +11,7 @@ import com.main.item.tile.Tile;
 public class Tontoko_Obstacle extends Tile {
 
 	private Image tontoko_Obstacle = null;
+	private int tmp_maxObstaclesOnScreen = Game.maxObstaclesOnScreen;
 	
 	public Tontoko_Obstacle(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -30,6 +31,10 @@ public class Tontoko_Obstacle extends Tile {
 
 	@Override
 	public void update() {
+		if (tmp_maxObstaclesOnScreen != Game.maxObstaclesOnScreen) {
+			tmp_maxObstaclesOnScreen = Game.maxObstaclesOnScreen;
+			moveSpeed += 1;
+		}
 		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 		
 		doAnimation();

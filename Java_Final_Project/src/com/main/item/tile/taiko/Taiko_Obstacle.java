@@ -38,6 +38,10 @@ public class Taiko_Obstacle extends Tile {
 
 	@Override
 	public void update() {
+		if (tmp_maxObstaclesOnScreen != Game.maxObstaclesOnScreen) {
+			tmp_maxObstaclesOnScreen = Game.maxObstaclesOnScreen;
+			moveSpeed += 1;
+		}
 		animation++;
 		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 		doAnimation();

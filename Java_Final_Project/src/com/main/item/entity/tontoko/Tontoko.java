@@ -7,6 +7,7 @@ import com.main.Handler;
 import com.main.Id;
 import com.main.gfx.Image;
 import com.main.item.entity.Entity;
+import com.main.item.tile.Tile;
 
 public class Tontoko extends Entity {
 
@@ -21,8 +22,12 @@ public class Tontoko extends Entity {
 		sheetLength = 9; // 為了走路動畫對稱
 
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
-		for (int i = 0; i < tontoko_Images.length; i++)
-			tontoko_Images[i] = new Image(Game.imageSheet, i + 1, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[0] = new Image(Game.imageSheet, 1, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[1] = new Image(Game.imageSheet, 2, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[2] = new Image(Game.imageSheet, 3, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[3] = new Image(Game.imageSheet, 4, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[4] = new Image(Game.imageSheet, 5, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[5] = new Image(Game.imageSheet, 6, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
 
 		immutableSpeed = 64 * 2 / moveSpeedfloor1 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
 		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
@@ -41,8 +46,6 @@ public class Tontoko extends Entity {
 			} else {
 				if (jumping == true || falling == true) { // 如果在跳躍途中
 					if (immutable == true && twinkling == true) {
-						// jumping = false;
-						// falling = false;
 						twinkling = false;
 					} else {
 						g.drawImage(tontoko_Images[4].getBufferedImage(), x, y, width, height, null);
@@ -128,6 +131,24 @@ public class Tontoko extends Entity {
 			}
 		}
 	}
+	
+	
+	public void doCollidingDetection() {
+		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
+			Tile tile = Game.handler.tileLinkedList.get(i);
+			if (tile.getId() == Id.Tontoko_Obstacle) {
+				if (getBounds().intersects(tile.getBounds())) {
+					// 做出跌倒的動畫
+					if (immutable == false && ((falling == false) || (falling == true && (tile.getX() + tile.getWidth()/2 - x - 27)>0))) {
+						fallDown(); // 遊戲開始後，非無敵狀態，生命 - 1
+						tile.setHitByPlayer(true);
+						Game.game_bonus = 1;
+					}
+				}
+			}
+		}
+	}
+	
 
 	/*
 	 * Getters and Setters

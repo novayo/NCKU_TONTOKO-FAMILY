@@ -15,6 +15,7 @@ import com.main.gfx.Image;
 import com.main.gfx.ImageSheet;
 import com.main.input.Button;
 import com.main.input.KeyInput;
+import com.main.item.Item;
 import com.main.item.entity.contra.Contra_Jump;
 import com.main.item.entity.contra.Contra_Run;
 import com.main.item.entity.dino.Dino_Squart;
@@ -71,7 +72,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	private void initialize() {
 		// 拿到圖片資源
-		imageSheet = new ImageSheet("/Image/ResSheet.png"); // 拿取圖片資源
+		imageSheet = new ImageSheet("/Image/ResSheet_Demo.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
 
 		// 在一開始的時候新增東西
@@ -124,7 +125,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	// 這裡就是跑所有game的地方
 	public void run() {
 		initialize();
-		
+
 		if (controlThread == 1) {
 			while (GAME_STATE == true) {
 				frames++;
@@ -165,8 +166,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		}
 		stop(); // 整個遊戲停止
 	}
-
-	
 
 	/*
 	 * 顯示圖片
@@ -238,8 +237,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		bufferStrategy.show();
 	}
 
-	
-	
 	/*
 	 * 更新數據
 	 * 
@@ -322,9 +319,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		}
 
 	}
-	
-	
-	
+
 	/*
 	 * 隨機出障礙物 總共的陷阱個數為100個（numObstacle = 100） 一開始畫面中只會出先最多2個障礙物（maxObstaclesOnScreen
 	 * = 3） 之後每過20個就會多增加1格障礙物（difficulty = 15）
@@ -347,7 +342,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			maxObstaclesOnScreen = 8;
 		}
 
-		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4:(maxObstaclesOnScreen - 1);
+		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
 		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
 		if (numOfObstacles == 0 && tmp == 0) {
 			GAME_NOT_STARTED = true;
@@ -356,28 +351,28 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
 			int randomFloor = rnd.nextInt(floorCanMove) + 1;
 			int randomPos = rnd.nextInt(100) + 60;
-			
-			//randomFloor = 4;
-			
+
+//			 randomFloor = 4;
+
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Tontoko_Obstacle) {
-					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - 51 - 32) {
+					if (randomFloor == 1 && tile.getY() <= GameParameter.HEIGHT * 1 / 4 - 10) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange) {
 							break loop1;
 						}
 					} // 若出現的位置太相近就break掉
 				} else if (tile.getId() == Id.Taiko_Obstacle_RED || tile.getId() == Id.Taiko_Obstacle_BLUE) {
-					if (randomFloor == 2 && tile.getY() <= GameParameter.HEIGHT * 2 / 4 - 60 - 32) {
+					if (randomFloor == 2 && tile.getY() <= GameParameter.HEIGHT * 2 / 4 - 10) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
 					} // 若出現的位置太相近就break掉
 				} else if (tile.getId() == Id.ContraInsects) {
-					if (randomFloor == 3 && tile.getY() <= GameParameter.HEIGHT * 3 / 4 - 40 - 32) {
+					if (randomFloor == 3 && tile.getY() <= GameParameter.HEIGHT * 3 / 4 - 10) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
 					} // 若出現的位置太相近就break掉
-				} else if (tile.getId() == Id.Dino_Obstacle) {
-					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - 60 - 32) {
+				} else if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Dino_Obstacle0) {
+					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - 10) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
 					} // 若出現的位置太相近就break掉
@@ -392,17 +387,17 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			switch (randomFloor) {
 			case 1:
 				handler.addTile(new Tontoko_Obstacle(Id.Tontoko_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-						GameParameter.HEIGHT * 1 / 4 - 51 - Game.FLOOR_HEIGHT, 60, 51));
+						GameParameter.HEIGHT * 1 / 4 - 34 - Game.FLOOR_HEIGHT, 40, 34));
 				break;
 			case 2:
 				if (whichObstacle == 0)
-					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_RED, Game.handler,
-							GameParameter.WIDTH + randomPos,
-							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
+					handler.addTile(
+							new Taiko_Obstacle(Id.Taiko_Obstacle_RED, Game.handler, GameParameter.WIDTH + randomPos,
+									GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
 				else
-					handler.addTile(new Taiko_Obstacle(Id.Taiko_Obstacle_BLUE, Game.handler,
-							GameParameter.WIDTH + randomPos,
-							GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
+					handler.addTile(
+							new Taiko_Obstacle(Id.Taiko_Obstacle_BLUE, Game.handler, GameParameter.WIDTH + randomPos,
+									GameParameter.HEIGHT * 2 / 4 - 60 - Game.FLOOR_HEIGHT - 65, 60, 60, whichObstacle));
 				break;
 			case 3:
 				int randomY = rnd.nextInt(106) + 5; // 5 ~ 110
@@ -412,11 +407,14 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				break;
 			case 4:
 				int addY = 0;
-				whichObstacle= 0;
-				if (whichObstacle == 0)
+				if (whichObstacle == 0) {
 					addY = -40; // 如果是飛龍，位置上升40
-				handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
-						GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
+					handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
+							GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
+				} else {
+					handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle0, Game.handler, GameParameter.WIDTH + randomPos,
+							GameParameter.HEIGHT * 4 / 4 - 40 - Game.FLOOR_HEIGHT + addY, 40, 40, whichObstacle));
+				}
 				break;
 			default:
 				break;
@@ -435,6 +433,10 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
+		Item.moveSpeedfloor1 = 3;
+		Item.moveSpeedfloor2 = 2;
+		Item.moveSpeedfloor3 = 4;
+		Item.moveSpeedfloor4 = 1;
 		playBackgroundMusic("./res/Music/overworld0.wav");
 	}
 
@@ -442,12 +444,12 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		@SuppressWarnings("unused")
 		Music music = new Music(path, Id.Music_Background);
 	}
-	
+
 	public static void playSoundEffect(String path) {
 		@SuppressWarnings("unused")
 		Music music = new Music(path, Id.Music_SoundEffect);
 	}
-	
+
 	public static void main(String[] args) {
 		rnd.setSeed(System.currentTimeMillis());
 		dataFile = new DataFile();
@@ -465,7 +467,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		gameFrame.setVisible(true); // 讓視窗顯示出來
 		game.start(); // 開始thread
 		playBackgroundMusic("./res/Music/opening.wav");
-		
+
 		gameFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

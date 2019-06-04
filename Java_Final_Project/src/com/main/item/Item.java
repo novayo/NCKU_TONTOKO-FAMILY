@@ -11,10 +11,10 @@ public abstract class Item implements GameParameter{
 	protected int x, y, width, height;
 	protected Id id;
 	protected Handler handler;
-	protected static int moveSpeedfloor1 = 5;
-	protected static int moveSpeedfloor2 = 4;
-	protected static int moveSpeedfloor3 = 6;
-	protected static int moveSpeedfloor4 = 3;
+	public static int moveSpeedfloor1 = 5;
+	public static int moveSpeedfloor2 = 4;
+	public static int moveSpeedfloor3 = 6;
+	public static int moveSpeedfloor4 = 3;
 	
 	public Item(Id id, Handler handler, int x, int y, int width, int height) {
 		this.id = id;
