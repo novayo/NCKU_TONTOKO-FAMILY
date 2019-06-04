@@ -1,6 +1,7 @@
 package com.main.item.entity.contra;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import com.main.Game;
 import com.main.Handler;
@@ -67,6 +68,11 @@ public class Contra_Run extends Entity {
 	@Override
 	public void doKeyPressed2() {
 		Game.handler.addEntity(new Contra_Bullet(Id.ContraBullet, Game.handler, x + width, y+18, 8, 8));
+	}
+	
+	@Override
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, width-25, height);
 	}
 
 }

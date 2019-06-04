@@ -57,8 +57,8 @@ public class ShowingButtons extends Tile {
 	@Override
 	public void render(Graphics g) {
 		g.drawImage(nowImage[0].getBufferedImage(), x, y, width, height, null);
-		g.drawImage(nowImage[1].getBufferedImage(), x, y + 150, width, height, null);
-		g.drawImage(nowImage[2].getBufferedImage(), x, y + 201, width, height, null);
+		g.drawImage(nowImage[1].getBufferedImage(), x - 25, y + 170, width, height, null);
+		g.drawImage(nowImage[2].getBufferedImage(), x + 25, y + 170, width, height, null);
 		g.drawImage(nowImage[3].getBufferedImage(), x, y + 360, width, height, null);
 		g.drawImage(nowImage[4].getBufferedImage(), x, y + 410, width, height, null);
 		g.drawImage(nowImage[5].getBufferedImage(), x, y + 550, width, height, null);

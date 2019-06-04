@@ -1,6 +1,7 @@
 package com.main.item.entity.dino;
 
 import java.awt.Graphics;
+import java.awt.Rectangle;
 
 import com.main.Game;
 import com.main.Handler;
@@ -110,6 +111,11 @@ public class Dino_Stand_Run extends Entity {
 				y = getStart_y();
 			}
 		}
+	}
+	
+	@Override
+	public Rectangle getBounds() {
+		return new Rectangle(x, y, width-19, height);
 	}
 
 	/*

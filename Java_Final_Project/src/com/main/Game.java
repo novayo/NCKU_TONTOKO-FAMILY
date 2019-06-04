@@ -74,7 +74,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	private void initialize() {
 		// 拿到圖片資源
-		imageSheet = new ImageSheet("/Image/ResSheet_Demo.png"); // 拿取圖片資源
+		imageSheet = new ImageSheet("/Image/ResSheet.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET); 
 
 		// 在一開始的時候新增東西
@@ -152,6 +152,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			// 每1/60秒
 			while (delta >= 1.0) {
 				update();
+				buildObstacles();
 				updates++;
 				delta--;
 			}
@@ -162,7 +163,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				System.out.println("每一秒跑  " + frames + "次render()  " + updates + "次update()");
 				frames = 0;
 				updates = 0;
-				buildObstacles();
 				if (GAME_NOT_STARTED == false)
 					game_time++;
 			}
@@ -270,34 +270,34 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				// 建立treasure圖案
 				ImageSheet imageSheet = null;
 				// 確認分數，得到寶物
-				if (game_score >= 1000) {
+				if (game_score >= 2000) {
 					dataFile.gainTreasure(10);
 					imageSheet = new ImageSheet("/Image/Treasure/10.png");
-				} else if (game_score >= 900) {
+				} else if (game_score >= 1800) {
 					dataFile.gainTreasure(9);
 					imageSheet = new ImageSheet("/Image/Treasure/9.png");
-				} else if (game_score >= 800) {
+				} else if (game_score >= 1600) {
 					dataFile.gainTreasure(8);
 					imageSheet = new ImageSheet("/Image/Treasure/8.png");
-				} else if (game_score >= 700) {
+				} else if (game_score >= 1400) {
 					dataFile.gainTreasure(7);
 					imageSheet = new ImageSheet("/Image/Treasure/7.png");
-				} else if (game_score >= 600) {
+				} else if (game_score >= 1200) {
 					dataFile.gainTreasure(6);
 					imageSheet = new ImageSheet("/Image/Treasure/6.png");
-				} else if (game_score >= 500) {
+				} else if (game_score >= 1000) {
 					dataFile.gainTreasure(5);
 					imageSheet = new ImageSheet("/Image/Treasure/5.png");
-				} else if (game_score >= 400) {
+				} else if (game_score >= 800) {
 					dataFile.gainTreasure(4);
 					imageSheet = new ImageSheet("/Image/Treasure/4.png");
-				} else if (game_score >= 300) {
+				} else if (game_score >= 600) {
 					dataFile.gainTreasure(3);
 					imageSheet = new ImageSheet("/Image/Treasure/3.png");
-				} else if (game_score >= 200) {
+				} else if (game_score >= 400) {
 					dataFile.gainTreasure(2);
 					imageSheet = new ImageSheet("/Image/Treasure/2.png");
-				} else if (game_score >= 100) {
+				} else if (game_score >= 200) {
 					dataFile.gainTreasure(1);
 					imageSheet = new ImageSheet("/Image/Treasure/1.png");
 				} else {
@@ -331,15 +331,15 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	 */
 	public void buildObstacles() {
 		int obstacleRange = 500;
-		if (numOfObstacles > totalObstacles - 1 * difficulty) {
+		if (numOfObstacles > totalObstacles - 1 * difficulty) { // 95
 			maxObstaclesOnScreen = 2;
-		} else if (numOfObstacles > totalObstacles - 2 * difficulty) {
+		} else if (numOfObstacles > totalObstacles - 2 * difficulty) { // 90
 			maxObstaclesOnScreen = 3;
-		} else if (numOfObstacles > totalObstacles - 3 * difficulty) {
+		} else if (numOfObstacles > totalObstacles - 4 * difficulty) { // 80
 			maxObstaclesOnScreen = 4;
-		} else if (numOfObstacles > totalObstacles - 4 * difficulty) {
+		} else if (numOfObstacles > totalObstacles - 6 * difficulty) { // 70
 			maxObstaclesOnScreen = 5;
-		} else if (numOfObstacles > totalObstacles - 5 * difficulty) {
+		} else if (numOfObstacles > totalObstacles - 8 * difficulty) { // 60
 			maxObstaclesOnScreen = 6;
 		} else {
 			maxObstaclesOnScreen = 8;
@@ -347,7 +347,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
 		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
-		System.out.println(tmp);
+
 		if (numOfObstacles == 0 && tmp <= 2) {
 			GAME_NOT_STARTED = true;
 			System.out.println("Win");
@@ -433,7 +433,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		game_time = 0;
 		numOfObstacles = totalObstacles;
 		life = GameParameter.INIT_LIVES;
-		life = 1000;
+//		life = 1000;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
