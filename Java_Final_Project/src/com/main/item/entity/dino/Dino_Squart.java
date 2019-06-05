@@ -61,7 +61,7 @@ public class Dino_Squart extends Entity {
 	public void doKeyPressed2() {
 		Game.handler.addEntity(Game.dino_Stand_Run); // 建立站著恐龍
 		Game.handler.removeEntity(this);
-		System.out.println("Stand");
+//		System.out.println("Stand");
 	}
 
 }
