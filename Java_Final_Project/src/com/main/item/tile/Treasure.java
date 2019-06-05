@@ -12,10 +12,10 @@ public class Treasure extends Tile{
 
 	
 	private Image boxImage[] = new Image[3];
-	private final int boxAnimationTime = 300; // 1/60秒 （設定五秒）
+	private final int boxAnimationTime = 300; // 1/60蝘� 嚗身摰����
 	private int countBoxAnimationTime = 0;
 	private boolean boxAnimationFlag = false;
-	private boolean doOnce = false;
+	private boolean doOnce = true;
 	
 	public Treasure(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
@@ -28,6 +28,7 @@ public class Treasure extends Tile{
 
 		tmpImageSheet = new ImageSheet("/Image/Treasure/box2.png");
 		boxImage[2] = new Image(tmpImageSheet, 0, 0, Id.GET_WHOLE_SHEET);
+		
 	}
 
 	@Override
@@ -35,6 +36,10 @@ public class Treasure extends Tile{
 		if (countBoxAnimationTime < boxAnimationTime*3/5) {
 			g.drawImage(boxImage[0].getBufferedImage(), x, y, width, height, null);
 		} else if (countBoxAnimationTime < boxAnimationTime) {
+			if (doOnce == true) {
+				Game.playSoundEffect("drum.wav");
+				doOnce = false;
+			}
 			if (boxAnimationFlag == false) {
 				g.drawImage(boxImage[1].getBufferedImage(), x, y, width, height, null);
 				boxAnimationFlag = true;
