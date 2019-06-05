@@ -76,7 +76,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	private void initialize() {
 		// ��������
 		imageSheet = new ImageSheet("/Image/ResSheet.png"); // ��������
-		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET); 
+		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
 
 		// �銝�������憓镼�
 		handler = new Handler();
@@ -92,7 +92,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	/*
 	 * THEAD
 	 * 
-	 * synchronized ��鈭��hread��郊 implements Runnable ��� thread��撌梯�� run��
+	 * synchronized ��鈭��hread��郊 implements Runnable ��� thread��撌梯��
+	 * run��
 	 */
 	private Thread threadUpdate;
 	private Thread threadRender;
@@ -133,7 +134,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				render(background);
 			}
 		}
-		
+
 		initialize();
 		controlThread++;
 		threadRender.start(); // 靽����pdate���ender
@@ -143,7 +144,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		double ns = 1000000000.0 / 60.0;
 		double delta = 0.0;
 		int updates = 0;
-		
+
 		while (GAME_STATE == true) {
 			long nowTime = System.nanoTime();
 			delta += (nowTime - lastTime) / ns;
@@ -177,7 +178,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	@Override
 	public void render(Graphics background) {
 		// ��render頝�翰嚗����閬������嚗����頛詨����嚗���load�脖��璅�����������閬���鞎餌��
-		// ��迨���� bufferStrategy �撱箇��惜嚗�����洵銝���惜嚗�末鈭�������洵鈭��惜靘��蒂�show()靘＊蝷箏歇蝬�末���惜
+		// ��迨���� bufferStrategy
+		// �撱箇��惜嚗�����洵銝���惜嚗�末鈭�������洵鈭��惜靘��蒂�show()靘＊蝷箏歇蝬�末���惜
 		// �隞亥�������絲靘瘚
 		BufferStrategy bufferStrategy = getBufferStrategy(); // ����惜
 		if (bufferStrategy == null) { // 憒����
@@ -324,8 +326,9 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	}
 
 	/*
-	 * �璈��� 蝮賢�����100��umObstacle = 100嚗� 銝�����銝剖�����憭�2���嚗axObstaclesOnScreen
-	 * = 3嚗� 銋����20�停������1����嚗ifficulty = 15嚗�
+	 * �璈��� 蝮賢�����100��umObstacle = 100嚗�
+	 * 銝�����銝剖�����憭�2���嚗axObstaclesOnScreen = 3嚗�
+	 * 銋����20�停������1����嚗ifficulty = 15嚗�
 	 * 
 	 * Game.handler.tileLinkedList.size() ���5��
 	 */

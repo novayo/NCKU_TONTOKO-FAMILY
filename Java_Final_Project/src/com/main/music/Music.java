@@ -49,11 +49,18 @@ public class Music extends Thread {
 
 		if (id == Id.Music_Background) {
 			clip.loop(Clip.LOOP_CONTINUOUSLY);
-			while (Game.GAME_NOT_STARTED == false || Game.FIRST_RUN == true) {
-				if (Game.FIRST_RUN == true)
-					;
+			loop1:while (Game.GAME_NOT_STARTED == false || Game.FIRST_RUN == true) {
+				if (Game.FIRST_RUN == true) {
+					while (Game.FIRST_RUN == true) {
+						System.out.print("");
+						
+					}
+					break loop1;
+				}
 				System.out.print("");
 			}
+			
+			System.out.println(Game.GAME_NOT_STARTED + "    " + Game.FIRST_RUN);
 			clip.stop();
 		} else if (id == Id.Music_SoundEffect) {
 
