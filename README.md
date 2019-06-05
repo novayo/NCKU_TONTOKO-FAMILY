@@ -63,7 +63,7 @@
 5. Player2 Hitting 
 6. Player3 Jumping 
 7. Player4 Stop & Move
-
+8. 
 
 ## Reference
 - [Original Game](http://www.i-gamer.net/play/4148.html)
