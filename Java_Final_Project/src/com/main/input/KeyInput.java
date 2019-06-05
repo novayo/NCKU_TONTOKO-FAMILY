@@ -26,7 +26,7 @@ public class KeyInput implements KeyListener {
 					switch (key) {
 					// Player1
 					case KeyEvent.VK_A:
-						if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 2) {
+						if (Game.FIRST_RUN == true || Game.floorCanMove>=1) {
 							Game.showingButtons.AButton(1);
 							if (entity.getId() == Id.Tontoko_Player) {
 								entity.doKeyPressed1();
@@ -37,7 +37,7 @@ public class KeyInput implements KeyListener {
 
 					// Player2
 					case KeyEvent.VK_S:
-						if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 3) {
+						if (Game.FIRST_RUN == true || Game.floorCanMove>=2) {
 							Game.showingButtons.SButton(1);
 							Game.floor2_Background.hitRed();
 							if (entity.getId() == Id.TAIKOPLAYER) {
@@ -48,7 +48,7 @@ public class KeyInput implements KeyListener {
 						break;
 
 					case KeyEvent.VK_X:
-						if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 3) {
+						if (Game.FIRST_RUN == true || Game.floorCanMove>=2) {
 							Game.showingButtons.XButton(1);
 							Game.floor2_Background.hitBlue();
 							if (entity.getId() == Id.TAIKOPLAYER) {
@@ -60,7 +60,7 @@ public class KeyInput implements KeyListener {
 
 					// Player3
 					case KeyEvent.VK_D:
-						if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 4) {
+						if (Game.FIRST_RUN == true || Game.floorCanMove>=3) {
 							Game.showingButtons.DButton(1);
 							if (entity.getId() == Id.ContraRun) {
 								entity.doKeyPressed1();
@@ -69,7 +69,7 @@ public class KeyInput implements KeyListener {
 						}
 						break;
 					case KeyEvent.VK_C:
-						if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 4) {
+						if (Game.FIRST_RUN == true || Game.floorCanMove>=3) {
 							Game.showingButtons.CButton(1);
 							if (entity.getId() == Id.ContraRun || entity.getId() == Id.ContraJump) {
 								entity.doKeyPressed2();
@@ -80,7 +80,7 @@ public class KeyInput implements KeyListener {
 
 					// Player4
 					case KeyEvent.VK_F:
-						if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 5) {
+						if (Game.FIRST_RUN == true || Game.floorCanMove>=4) {
 							Game.showingButtons.FButton(1);
 							if (entity.getId() == Id.Dino_Stand_Run) {
 								entity.doKeyPressed1();
@@ -89,7 +89,7 @@ public class KeyInput implements KeyListener {
 						}
 						break;
 					case KeyEvent.VK_V:
-						if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 5) {
+						if (Game.FIRST_RUN == true || Game.floorCanMove>=4) {
 							Game.showingButtons.VButton(1);
 							if (entity.getId() == Id.Dino_Stand_Run) {
 								entity.doKeyPressed2();
@@ -123,7 +123,7 @@ public class KeyInput implements KeyListener {
 			Entity entity = Game.handler.entityLinkedList.get(i);
 			switch (key) {
 			case KeyEvent.VK_A:
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 2) {
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=1) {
 					Game.showingButtons.AButton(0);
 					if (entity.getId() == Id.Tontoko_Player) {
 						entity.setVelY(0);
@@ -131,17 +131,17 @@ public class KeyInput implements KeyListener {
 				}
 				break;
 			case KeyEvent.VK_S:
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 3) {
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=2) {
 					Game.showingButtons.SButton(0);
 				}
 				break;
 			case KeyEvent.VK_X:
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 3) {
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=2) {
 					Game.showingButtons.XButton(0);
 				}
 				break;
 			case KeyEvent.VK_D:
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 4) {
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=3) {
 					Game.showingButtons.DButton(0);
 					if (entity.getId() == Id.ContraJump) {
 						entity.setVelY(0);
@@ -149,12 +149,12 @@ public class KeyInput implements KeyListener {
 				}
 				break;
 			case KeyEvent.VK_C:
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 4) {
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=3) {
 					Game.showingButtons.CButton(0);
 				}
 				break;
 			case KeyEvent.VK_F:
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 5) {
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=4) {
 					Game.showingButtons.FButton(0);
 					if (entity.getId() == Id.Dino_Stand_Run) {
 						entity.setVelY(0);
@@ -162,7 +162,7 @@ public class KeyInput implements KeyListener {
 				}
 				break;
 			case KeyEvent.VK_V:
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 5) {
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=4) {
 					Game.showingButtons.VButton(0);
 				}
 				break;

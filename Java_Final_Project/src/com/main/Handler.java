@@ -50,21 +50,21 @@ public class Handler implements GameParameter {
 		for (int i = 0; i < tileLinkedList.size(); i++) {
 			Tile tile = tileLinkedList.get(i);
 			if (tile.getId() == Id.Floor1) { // maxObstaclesOnScreen = 2, 代表等級1
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 2)
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=1)
 					tile.update();
 			} else if (tile.getId() == Id.Floor2 || tile.getId() == Id.Floor2_Background) { // maxObstaclesOnScreen
 																							// =
 																							// 3,
 																							// 代表等級2
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 3)
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=2)
 					tile.update();
 			} else if (tile.getId() == Id.Floor3 || tile.getId() == Id.ContraBoss) { // maxObstaclesOnScreen
 																												// = 4,
 																												// 代表等級3
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 4)
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=3)
 					tile.update();
 			} else if (tile.getId() == Id.Floor4) { // maxObstaclesOnScreen = 5, 代表等級4
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 5)
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=4)
 					tile.update();
 			} else {
 				tile.update();
@@ -74,15 +74,15 @@ public class Handler implements GameParameter {
 		for (int i = 0; i < entityLinkedList.size(); i++) {
 			Entity entity = entityLinkedList.get(i);
 			if (entity.getId() == Id.Tontoko_Player) { // maxObstaclesOnScreen = 2, 代表等級1
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 2)
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=1)
 					entity.update();
 			} else if (entity.getId() == Id.ContraRun || entity.getId() == Id.ContraJump
 					|| entity.getId() == Id.ContraBullet) { // maxObstaclesOnScreen = 4, 代表等級3
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 4)
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=3)
 					entity.update();
 			} else if (entity.getId() == Id.Dino_Stand_Run
 					|| entity.getId() == Id.Dino_Squart) { // maxObstaclesOnScreen = 5, 代表等級4
-				if (Game.FIRST_RUN == true || Game.maxObstaclesOnScreen >= 5)
+				if (Game.FIRST_RUN == true || Game.floorCanMove>=4)
 					entity.update();
 			} else {
 				entity.update();

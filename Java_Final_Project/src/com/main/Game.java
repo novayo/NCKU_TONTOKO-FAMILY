@@ -62,6 +62,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static ShowingButtons showingButtons = null;
 	public static Image treasureImage;
 	public static boolean runOnce = false;
+	public static int floorCanMove = 1;
 	public static Handler handler; // 新增所有遊戲物件
 	private static Random rnd = new Random();
 
@@ -345,9 +346,9 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			obstacleRange = 600;
 		}
 
-		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
+		floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
 		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
-
+//		floorCanMove = 4;
 //		System.out.println("tmp = " + tmp + " handler.tileLinkedList.size() = " + handler.tileLinkedList.size() + " contra_InsectBullets = " + contra_InsectBullets);
 		
 		if (numOfObstacles == 0 && tmp == 0 && contra_InsectBullets == 0) {
@@ -359,7 +360,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			int randomFloor = rnd.nextInt(floorCanMove) + 1;
 			int randomPos = rnd.nextInt(100) + 60;
 
-//			 randomFloor = 1;
+//			 randomFloor = 4;
 
 			for (Tile tile : handler.tileLinkedList) {
 				if (tile.getId() == Id.Tontoko_Obstacle) {
@@ -415,7 +416,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			case 4:
 				int addY = 0;
 				if (whichObstacle == 0) {
-					addY = -20; // 如果是飛龍，位置上升40
+					addY = -10; // 如果是飛龍，位置上升10
 					handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
 							GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
 				} else {
