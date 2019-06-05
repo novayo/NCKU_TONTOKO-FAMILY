@@ -94,7 +94,7 @@ public class Tontoko extends Entity {
 		if (jumping == false && falling == false) {
 			jumping = true;
 			player_gravity = player_jumping_height;
-			Game.playSoundEffect("./res/Music/tontoko_jump.wav");
+			Game.playSoundEffect("tontoko_jump.wav");
 		}
 	}
 

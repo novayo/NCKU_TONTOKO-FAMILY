@@ -59,7 +59,7 @@ public class TaikoPlayer extends Entity{
 
 	@Override
 	public void doKeyPressed1() {
-		Game.playSoundEffect("./res/Music/taiko_hitred.wav");
+		Game.playSoundEffect("taiko_hitred.wav");
 		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
 			Tile tile = Game.handler.tileLinkedList.get(i);
 			if (tile.getId() == Id.Taiko_Obstacle_RED) {
@@ -94,7 +94,7 @@ public class TaikoPlayer extends Entity{
 
 	@Override
 	public void doKeyPressed2() {
-		Game.playSoundEffect("./res/Music/taiko_hitblue.wav");
+		Game.playSoundEffect("taiko_hitblue.wav");
 		for (int i = 0; i < Game.handler.tileLinkedList.size(); i++) {
 			Tile tile = Game.handler.tileLinkedList.get(i);
 			if (tile.getId() == Id.Taiko_Obstacle_BLUE) {

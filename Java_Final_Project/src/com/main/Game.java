@@ -265,7 +265,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 						(GameParameter.WIDTH - LOGO_DEATH_WIDTH * 4 / 5) / 2,
 						(GameParameter.WIDTH - LOGO_DEATH_HEIGHT * 4 / 5) / 2 - 180, LOGO_DEATH_WIDTH * 4 / 5,
 						LOGO_DEATH_HEIGHT * 4 / 5)); // (574, 736)
-				Game.playSoundEffect("./res/Music/showdeathscene.wav");
+				Game.playSoundEffect("showdeathscene.wav");
 
 				// 建立treasure圖案
 				ImageSheet imageSheet = null;
@@ -348,11 +348,11 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
 		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets - deathlogo;
-System.out.println(tmp);
+//System.out.println(tmp);
 		if (numOfObstacles == 0 && tmp <= 0) {
 			deathlogo = 2;
 			GAME_NOT_STARTED = true;
-			System.out.println("Win");
+//			System.out.println("Win");
 		}
 		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
 			int randomFloor = rnd.nextInt(floorCanMove) + 1;
@@ -435,7 +435,7 @@ System.out.println(tmp);
 		numOfObstacles = totalObstacles;
 		maxObstaclesOnScreen = 2;
 		life = GameParameter.INIT_LIVES;
-		life = 1000;
+//		life = 1000;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
@@ -446,17 +446,17 @@ System.out.println(tmp);
 		Item.moveSpeedfloor4 = 6;
 		handler.resetLinkedList();
 		handler.createStuff();
-		playBackgroundMusic("./res/Music/overworld0.wav");
+		playBackgroundMusic("overworld0.wav");
 	}
 
 	public static void playBackgroundMusic(String path) {
 		@SuppressWarnings("unused")
-		Music music = new Music(path, Id.Music_Background);
+		Music music = new Music("./res/Music/" + path, Id.Music_Background);
 	}
 
 	public static void playSoundEffect(String path) {
 		@SuppressWarnings("unused")
-		Music music = new Music(path, Id.Music_SoundEffect);
+		Music music = new Music("./res/Music/" + path, Id.Music_SoundEffect);
 	}
 
 	public static void main(String[] args) {
@@ -475,7 +475,7 @@ System.out.println(tmp);
 		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 讓視窗按下x時關閉
 		gameFrame.setVisible(true); // 讓視窗顯示出來
 		game.start(); // 開始thread
-		playBackgroundMusic("./res/Music/opening.wav");
+		playBackgroundMusic("opening.wav");
 
 		// 當你按下右上角叉叉後
 		gameFrame.addWindowListener(new WindowAdapter() {

@@ -43,7 +43,7 @@ public class Treasure extends Tile{
 				boxAnimationFlag = false;
 			}
 		} else {
-			if (doOnce == false) Game.playSoundEffect("./res/Music/openbox.wav");
+			if (doOnce == false) Game.playSoundEffect("openbox.wav");
 			g.drawImage(Game.treasureImage.getBufferedImage(), x, y, width, height, null);
 			doOnce = true;
 		}

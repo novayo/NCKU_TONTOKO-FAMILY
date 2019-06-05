@@ -19,6 +19,7 @@ public class AddScore extends Tile{
 		this.score = score;
 		Game.game_score += 10 * Game.game_bonus;
 		Game.game_bonus += 1;
+		Game.playSoundEffect("addscore.wav");
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class Contra_Bullet extends Entity {
 
 		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
 		contraBulletImages = new Image(Game.imageSheet, 8, 3, Id.GET_CONTRA_BULLET);
-		Game.playSoundEffect("./res/Music/contra_shoot.wav");
+		Game.playSoundEffect("contra_shoot.wav");
 	}
 
 	@Override
@@ -57,7 +57,6 @@ public class Contra_Bullet extends Entity {
 						Game.handler.removeTile(tile);
 						@SuppressWarnings("unused")
 						AddScore addScore = new AddScore(Id.AddScore, Game.handler, x, y, 100, 60, Game.game_bonus);
-						Game.playSoundEffect("./res/Music/addscore.wav");
 					}
 				}
 			}

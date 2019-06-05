@@ -73,7 +73,7 @@ public class Dino_Stand_Run extends Entity {
 		if (jumping == false && falling == false) {
 			jumping = true;
 			player_gravity = player_jumping_height;
-			Game.playSoundEffect("./res/Music/dino_jump.wav");
+			Game.playSoundEffect("dino_jump.wav");
 		}
 	}
 

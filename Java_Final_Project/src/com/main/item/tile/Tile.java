@@ -35,7 +35,6 @@ public abstract class Tile extends Item {
 						} else if (isHitByPlayer == false) {
 							@SuppressWarnings("unused")
 							AddScore addScore = new AddScore(Id.AddScore, Game.handler, x, y, 100, 60, Game.game_bonus);
-							Game.playSoundEffect("./res/Music/addscore.wav");
 						}
 						done = true;
 					}

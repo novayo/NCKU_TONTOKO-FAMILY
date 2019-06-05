@@ -33,7 +33,7 @@ public abstract class Entity extends Item {
 			}
 			immutable = true;
 		}
-		Game.playSoundEffect("./res/Music/falldown.wav");
+		Game.playSoundEffect("falldown.wav");
 	}
 
 	public abstract void doKeyPressed1();

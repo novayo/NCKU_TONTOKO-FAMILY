@@ -58,7 +58,6 @@ public class Taiko_Obstacle extends Tile {
 		} else if (200 >= x && x > 130) {
 			@SuppressWarnings("unused")
 			AddScore addScore = new AddScore(Id.AddScore, Game.handler, x, y, 100, 60, Game.game_bonus);
-			Game.playSoundEffect("./res/Music/addscore.wav");
 			Game.handler.removeTile(this);
 		} else if (130 >= x) {
 			die();
@@ -66,7 +65,7 @@ public class Taiko_Obstacle extends Tile {
 	}
 
 	public void die() {
-		Game.playSoundEffect("./res/Music/falldown.wav");
+		Game.playSoundEffect("falldown.wav");
 		Game.handler.removeTile(this);
 		Game.game_bonus = 1;
 		if (Game.GAME_NOT_STARTED == false) {
