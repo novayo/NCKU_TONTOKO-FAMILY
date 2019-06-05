@@ -52,6 +52,7 @@ public class Contra_Bullet extends Entity {
 					if (tile.getId() == Id.ContraInsectsBullet) {
 						Game.handler.removeEntity(this);
 						Game.handler.removeTile(tile);
+						Game.contra_InsectBullets--;
 					} else {
 						Game.handler.removeEntity(this);
 						Game.handler.removeTile(tile);

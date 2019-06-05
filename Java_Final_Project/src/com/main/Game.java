@@ -46,7 +46,6 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static int maxObstaclesOnScreen = 2;
 	public static int game_score = 0;
 	public static int game_bonus = 1;
-	public static int deathlogo = 0;
 	public static boolean GAME_STATE = false; // ���������
 	public static boolean GAME_NOT_STARTED = true; // �銝�����香鈭�
 	public static boolean FIRST_RUN = true;
@@ -350,12 +349,10 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		}
 
 		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
-		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets - deathlogo;
-//System.out.println(tmp);
-		if (numOfObstacles == 0 && tmp <= 0) {
-			deathlogo = 2;
+		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
+
+		if (numOfObstacles == 0 && tmp <= 2 && contra_InsectBullets == 0) {
 			GAME_NOT_STARTED = true;
-//			System.out.println("Win");
 		}
 		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
 			int randomFloor = rnd.nextInt(floorCanMove) + 1;
@@ -434,11 +431,10 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	public static void gameReset() {
 		game_time = 0;
-		deathlogo = 0;
 		numOfObstacles = totalObstacles;
 		maxObstaclesOnScreen = 2;
 		life = GameParameter.INIT_LIVES;
-//		life = 1;
+		life = 1000;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
@@ -454,12 +450,12 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	public static void playBackgroundMusic(String path) {
 		@SuppressWarnings("unused")
-		Music music = new Music("./Java_Final_Project/res/Music/" + path, Id.Music_Background);
+		Music music = new Music("./res/Music/" + path, Id.Music_Background);
 	}
 
 	public static void playSoundEffect(String path) {
 		@SuppressWarnings("unused")
-		Music music = new Music("./Java_Final_Project/res/Music/" + path, Id.Music_SoundEffect);
+		Music music = new Music("./res/Music/" + path, Id.Music_SoundEffect);
 	}
 
 	public static void main(String[] args) {

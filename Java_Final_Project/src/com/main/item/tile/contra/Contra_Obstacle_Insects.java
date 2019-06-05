@@ -49,8 +49,11 @@ public class Contra_Obstacle_Insects extends Tile {
 
 		doAnimation();
 
-		if (x <= -width)
+		if (x <= -width) {
 			die();
+			if (getId() == Id.ContraInsectsBullet) Game.contra_InsectBullets--;
+		}
+			
 	}
 
 	public void doAnimation() {

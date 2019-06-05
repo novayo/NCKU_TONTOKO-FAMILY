@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class DataFile{
 
 	// 26�ata
-	private final String DATA_NAME = "./Java_Final_Project/res/data.txt";
+	private final String DATA_NAME = "./res/data.txt";
 	private int DATA[] = new int[11];
 	private int numOfTreasure = 0;
 	private Formatter dataFormatter;

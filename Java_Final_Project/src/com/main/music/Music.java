@@ -59,8 +59,6 @@ public class Music extends Thread {
 				}
 				System.out.print("");
 			}
-			
-			System.out.println(Game.GAME_NOT_STARTED + "    " + Game.FIRST_RUN);
 			clip.stop();
 		} else if (id == Id.Music_SoundEffect) {
 
