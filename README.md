@@ -1,8 +1,8 @@
 # Java Final Project
 ###### tags: `Java`
-[Source Code](https://novayo.github.io/NCKU_TONTOKO-FAMILY/)
-[PowerPoint Online](https://1drv.ms/p/s!Avpz7A1Ux2D_g2SeoGdwcTasMqia)
-[Hackmd](https://hackmd.io/@novayo/SkLHm8wo7)
+- [Source Code](https://novayo.github.io/NCKU_TONTOKO-FAMILY/)
+- [PowerPoint Online](https://1drv.ms/p/s!Avpz7A1Ux2D_g2SeoGdwcTasMqia)
+- [Hackmd](https://hackmd.io/@novayo/SkLHm8wo7)
 
 ---
 
