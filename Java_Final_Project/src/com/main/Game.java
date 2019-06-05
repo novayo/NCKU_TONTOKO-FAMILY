@@ -349,8 +349,12 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
 		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
 
-		if (numOfObstacles == 0 && tmp <= 2 && contra_InsectBullets == 0) {
+		//System.out.println("tmp = " + tmp + " handler.tileLinkedList.size() = " + handler.tileLinkedList.size() + " contra_InsectBullets = " + contra_InsectBullets);
+		
+		if (numOfObstacles == 0 && tmp == 0 && contra_InsectBullets == 0) {
+			//System.out.println("Win");
 			GAME_NOT_STARTED = true;
+			return;
 		}
 		loop1: while (tmp < maxObstaclesOnScreen && numOfObstacles > 0) {
 			int randomFloor = rnd.nextInt(floorCanMove) + 1;
