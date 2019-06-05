@@ -32,7 +32,7 @@ import com.main.item.tile.taiko.Taiko_Obstacle;
 import com.main.item.tile.tontoko.Tontoko_Obstacle;
 import com.main.music.Music;
 
-@SuppressWarnings("serial") // �����芰�arning嚗��隞交�
+@SuppressWarnings("serial") // 有個奇怪的warning，用這個可以消除
 public class Game extends Canvas implements Runnable, GameParameter {
 
 	public static DataFile dataFile = null;
@@ -46,11 +46,11 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static int maxObstaclesOnScreen = 2;
 	public static int game_score = 0;
 	public static int game_bonus = 1;
-	public static boolean GAME_STATE = false; // ���������
-	public static boolean GAME_NOT_STARTED = true; // �銝�����香鈭�
+	public static boolean GAME_STATE = false; // 整個遊戲的狀態
+	public static boolean GAME_NOT_STARTED = true; // 當一開始或死亡
 	public static boolean FIRST_RUN = true;
 	public static ImageSheet imageSheet = null;
-	public static Image immutableSheet = null; // 霈����＊蝷箇��
+	public static Image immutableSheet = null; // 變成透明，顯示為無敵
 	public static Dino_Stand_Run dino_Stand_Run = null;
 	public static Dino_Squart dino_Squart = null;
 	public static Contra_Run contra_Run = null;
@@ -62,7 +62,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	public static ShowingButtons showingButtons = null;
 	public static Image treasureImage;
 	public static boolean runOnce = false;
-	public static Handler handler; // �憓�����隞�
+	public static Handler handler; // 新增所有遊戲物件
 	private static Random rnd = new Random();
 
 	public Game() {
@@ -73,26 +73,25 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	}
 
 	private void initialize() {
-		// ��������
-		imageSheet = new ImageSheet("/Image/ResSheet.png"); // ��������
+		// 拿到圖片資源
+		imageSheet = new ImageSheet("/Image/ResSheet.png"); // 拿取圖片資源
 		immutableSheet = new Image(imageSheet, 32, 32, Id.GET_ONE_OF_SHEET);
 
-		// �銝�������憓镼�
+		// 在一開始的時候新增東西
 		handler = new Handler();
 		handler.createStuff();
-		initialNumTile = handler.tileLinkedList.size(); // 1���logo
-		life = GameParameter.INIT_LIVES - 1; // ������銋����璇�
+		initialNumTile = handler.tileLinkedList.size(); // 1是包含logo
+		life = GameParameter.INIT_LIVES - 1; // 還沒開始遊戲之前，命是兩條
 
-		// ���皜祇�
+		// 加入偵測鍵盤
 		addKeyListener(new KeyInput());
-		requestFocus(); // 霈����������◤���������
+		requestFocus(); // 讓我們的按下的按鍵都會被我們的程式讀取到
 	}
 
 	/*
 	 * THEAD
 	 * 
-	 * synchronized ��鈭��hread��郊 implements Runnable ��� thread��撌梯��
-	 * run��
+	 * synchronized 是為了保證thread同步 implements Runnable 是因為 thread會自己跑 run函數
 	 */
 	private Thread threadUpdate;
 	private Thread threadRender;
@@ -101,31 +100,31 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 	public synchronized void start() {
 		if (GAME_STATE == true)
-			return; // 蝣箔�蝙�game.start()�����ain.GAME_RUNNING�false
+			return; // 確保使用game.start()的時候，Main.GAME_RUNNING是false
 		else
 			GAME_STATE = true;
 
 		threadRender = new Thread(this, "ThreadRender");
 		threadUpdate = new Thread(this, "threadUpdate");
-		threadUpdate.start(); // thread ����
+		threadUpdate.start(); // thread 開始
 	}
 
 	private synchronized void stop() {
 		if (GAME_STATE == false)
-			return; // 蝣箔�蝙�game.stop()�����ain.GAME_RUNNING�true
+			return; // 確保使用game.stop()的時候，Main.GAME_RUNNING是true
 		else
 			GAME_STATE = false;
 
 		try {
-			threadUpdate.join(); // thread ��迫
+			threadUpdate.join(); // thread 停止
 			threadRender.join();
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
 	}
 
-	// Thread ��撌梯��ㄐ
-	// �ㄐ撠望頝���ame���
+	// Thread 會自己跑這裡
+	// 這裡就是跑所有game的地方
 	public void run() {
 		if (controlThread == 1) {
 			while (GAME_STATE == true) {
@@ -136,8 +135,8 @@ public class Game extends Canvas implements Runnable, GameParameter {
 
 		initialize();
 		controlThread++;
-		threadRender.start(); // 靽����pdate���ender
-		// ��瘥�隞亥�嗾甈� render() 嚗� update()
+		threadRender.start(); // 保證會先跑update再跑render
+		// 控制每秒可以跑幾次 render() ＆ update()
 		long lastTime = System.nanoTime();
 		long timer = System.currentTimeMillis();
 		double ns = 1000000000.0 / 60.0;
@@ -149,14 +148,14 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			delta += (nowTime - lastTime) / ns;
 			lastTime = nowTime;
 
-			// 瘥�1/60蝘�
+			// 每1/60秒
 			while (delta >= 1.0) {
 				update();
 				updates++;
 				delta--;
 			}
 
-			// 瘥�蝘�
+			// 每一秒
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
 				System.out.println("瘥�蝘��  " + frames + "甈〉ender()  " + updates + "甈「pdate()");
@@ -167,36 +166,35 @@ public class Game extends Canvas implements Runnable, GameParameter {
 					game_time++;
 			}
 		}
-		stop(); // �����迫
+		stop(); // 整個遊戲停止
 	}
 
 	/*
-	 * 憿舐內����
+	 * 顯示圖片
 	 * 
 	 */
 	@Override
 	public void render(Graphics background) {
-		// ��render頝�翰嚗����閬������嚗����頛詨����嚗���load�脖��璅�����������閬���鞎餌��
-		// ��迨���� bufferStrategy
-		// �撱箇��惜嚗�����洵銝���惜嚗�末鈭�������洵鈭��惜靘��蒂�show()靘＊蝷箏歇蝬�末���惜
-		// �隞亥�������絲靘瘚
-		BufferStrategy bufferStrategy = getBufferStrategy(); // ����惜
-		if (bufferStrategy == null) { // 憒����
-			createBufferStrategy(4); // 撱箇����惜
+		// 因為render跑很快，但我們需要一直更新畫面，但會一直輸出畫面呀，會一直load進不一樣的圖案，這些都是需要時間的花費的
+		// 因此我們利用 bufferStrategy 去建立圖層，他會先去抓第一個圖層，做好事情之後自動去抓第二個圖層來跑，並用show()來顯示已經跑好的圖層
+		// 可以讓我們的畫面看起來更流暢
+		BufferStrategy bufferStrategy = getBufferStrategy(); // 拿到圖層
+		if (bufferStrategy == null) { // 如果沒有
+			createBufferStrategy(4); // 建立四個圖層
 			return;
 		}
 
 		background = bufferStrategy.getDrawGraphics();
-		background.setColor(Color.WHITE); // 閮剖�ackground憿 // 銋隞亦 new Color(r, g, b)
-		background.fillRect(0, 0, GameParameter.WIDTH, GameParameter.HEIGHT); // 閮剖�ackground雿蔭頝之撠�
+		background.setColor(Color.WHITE); // 設定background顏色 // 也可以用 new Color(r, g, b)
+		background.fillRect(0, 0, GameParameter.WIDTH, GameParameter.HEIGHT); // 設定background位置跟大小
 
-		// 憿舐內������ linkedlist ��镼選�����ntity頝ile
+		// 顯示所有的 linkedlist 的東西，所有的entity跟tile
 		handler.render(background);
 
-		// ���甇颱滿
+		// 當遊戲死亡
 		if (FIRST_RUN == false && GAME_NOT_STARTED == true) {
-			// 憿舐內蝮賢����敺��
-			// 憿舐內 0 POINT
+			// 顯示總分數在最後的畫面
+			// 顯示 0 POINT
 			background.setColor(Color.MAGENTA);
 			background.setFont(new Font("Courier", Font.BOLD, 50));
 			for (int i = 0; i < handler.tileLinkedList.size(); i++) {
@@ -206,20 +204,20 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				}
 			}
 
-			// 憿舐內撖嗥
+			// 顯示寶物
 			background.setColor(Color.BLACK);
 			background.setFont(new Font("Courier", Font.BOLD, 40));
 			int logodeath_x = 0, logodeath_y = 0;
 			for (int i = 0; i < handler.tileLinkedList.size(); i++) {
 				Tile tile = handler.tileLinkedList.get(i);
 				if (tile.getId() == Id.LOGODEATH) {
-					// 憿舐內撖嗥�
+					// 顯示寶物個數
 					logodeath_x = tile.getX() + tile.getWidth();
 					logodeath_y = tile.getY() + tile.getHeight();
 					background.drawString(dataFile.getNumOfTreasure() + "/11", tile.getX() + tile.getWidth() - 150,
 							tile.getY() + tile.getHeight() - 80);
 				} else if (tile.getId() == Id.TREASURE) {
-					// 憿舐內撖嗥����
+					// 顯示寶物圖片
 					tile.setX(logodeath_x - 330);
 					tile.setY(logodeath_y - 400);
 				}
@@ -434,7 +432,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		numOfObstacles = totalObstacles;
 		maxObstaclesOnScreen = 2;
 		life = GameParameter.INIT_LIVES;
-		life = 1000;
+//		life = 1000;
 		game_score = 0;
 		game_bonus = 1;
 		runOnce = false;
