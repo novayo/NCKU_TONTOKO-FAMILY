@@ -11,31 +11,31 @@ import com.main.item.tile.Tile;
 
 public class Tontoko extends Entity {
 
-	private Image tontoko_Images[] = new Image[6]; // 閮剖����
-	private final double player_jumping_height = 8.0; // 頝唾��漲
-	private final double jumping_speed = 0.3; // 頝唾��漲
-	protected double player_gravity = 0.8; // 銝����
+	private Image tontoko_Images[] = new Image[6]; // 設定圖片
+	private final double player_jumping_height = 8.0; // 跳躍高度
+	private final double jumping_speed = 0.3; // 跳躍高度
+	protected double player_gravity = 0.8; // 下降重力
 
 	public Tontoko(Id id, Handler handler, int x, int y, int width, int height) {
 		super(id, handler, x, y, width, height);
 
-		sheetLength = 9; // �鈭粥頝臬�撠迂
+		sheetLength = 9; // 為了走路動畫對稱
 
-		// 閮剖����椰銝�(1,1)嚗�(sheet, x, y, 閬�撟曉��脖��)
-		tontoko_Images[0] = new Image(Game.imageSheet, 1, 4, Id.GET_TONTOKO_PLAYER); // ��敺�撘菜��銋��
-		tontoko_Images[1] = new Image(Game.imageSheet, 2, 4, Id.GET_TONTOKO_PLAYER); // ��敺�撘菜��銋��
-		tontoko_Images[2] = new Image(Game.imageSheet, 3, 4, Id.GET_TONTOKO_PLAYER); // ��敺�撘菜��銋��
-		tontoko_Images[3] = new Image(Game.imageSheet, 4, 4, Id.GET_TONTOKO_PLAYER); // ��敺�撘菜��銋��
-		tontoko_Images[4] = new Image(Game.imageSheet, 5, 4, Id.GET_TONTOKO_PLAYER); // ��敺�撘菜��銋��
-		tontoko_Images[5] = new Image(Game.imageSheet, 6, 4, Id.GET_TONTOKO_PLAYER); // ��敺�撘菜��銋��
+		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
+		tontoko_Images[0] = new Image(Game.imageSheet, 1, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[1] = new Image(Game.imageSheet, 2, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[2] = new Image(Game.imageSheet, 3, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[3] = new Image(Game.imageSheet, 4, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[4] = new Image(Game.imageSheet, 5, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
+		tontoko_Images[5] = new Image(Game.imageSheet, 6, 4, Id.GET_TONTOKO_PLAYER); // 最後一張是撞到之後
 
-		immutableSpeed = 64 * 2 / moveSpeedfloor1 + 1; // �� (1/animation_speed) 蝘�擃����2�摨衣�犖�
-		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 瘥� (1/animation_speed) 蝘� 霈��甈∪�
+		immutableSpeed = 64 * 2 / moveSpeedfloor1 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
+		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 	}
 
 	@Override
 	public void render(Graphics g) {
-		/***** 閮剖���� *****/
+		/***** 設定圖片 *****/
 
 		if (immutable == true && twinkling == true) {
 			g.drawImage(Game.immutableSheet.getBufferedImage(), x, y, width, height, null);
@@ -44,14 +44,14 @@ public class Tontoko extends Entity {
 			if (immutable == true) {
 				g.drawImage(tontoko_Images[5].getBufferedImage(), x, y, width, height, null);
 			} else {
-				if (jumping == true || falling == true) { // 憒�頝唾��葉
+				if (jumping == true || falling == true) { // 如果在跳躍途中
 					if (immutable == true && twinkling == true) {
 						twinkling = false;
 					} else {
 						g.drawImage(tontoko_Images[4].getBufferedImage(), x, y, width, height, null);
 						twinkling = true;
 					}
-				} else { // 憒�迤撣貊宏���
+				} else { // 如果正常移動
 					if (animation % 8 == 0)
 						g.drawImage(tontoko_Images[0].getBufferedImage(), x, y, width, height, null);
 					else if (animation % 8 == 1)
@@ -77,16 +77,16 @@ public class Tontoko extends Entity {
 
 	@Override
 	public void update() {
-		/***** ������ *****/
+		/***** 更新數據 *****/
 		y += velY;
-		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 瘥� (animation_speed/60) 蝘� 霈��甈∪�
-		immutableSpeed = 64 * 2 / moveSpeedfloor1 + 1; // �� (1/animation_speed) 蝘�擃����2�摨衣�犖�
+		animation_speed = (60 / moveSpeedfloor1 > 0) ? 60 / moveSpeedfloor1 : 1; // 每 (animation_speed/60) 秒 變換一次動畫
+		immutableSpeed = 64 * 2 / moveSpeedfloor1 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
 
-		/***** ���� *****/
-		jump(); // 頝唾��
-		doCollidingDetection(); // ��蝣唳��
-		doAnimation(); // ����
-		do_check_Immutable(); // ����
+		/***** 做事 *****/
+		jump(); // 跳躍
+		doCollidingDetection(); // 判斷碰撞
+		doAnimation(); // 處理動畫
+		do_check_Immutable(); // 處理無敵
 	}
 
 	@Override
@@ -108,7 +108,7 @@ public class Tontoko extends Entity {
 			player_gravity -= jumping_speed;
 			setVelY((int) -player_gravity);
 
-			// ���擃�����
+			// 到達至高點的時候
 			if (player_gravity <= 0.8) {
 				jumping = false;
 				falling = true;
@@ -116,18 +116,18 @@ public class Tontoko extends Entity {
 			}
 		}
 
-		// 銝�����
+		// 下降的時候
 		if (falling == true) {
 			player_gravity += jumping_speed;
 			setVelY((int) player_gravity);
 
-			// ���雿�����
+			// 到達至低點的時候
 			if (y >= getStart_y() || player_gravity >= player_jumping_height) {
 				jumping = false;
 				falling = false;
 				velY = 0;
 				y = getStart_y();
-				animation = 2; // ��蝡������
+				animation = 2; // 回到站著的狀態
 			}
 		}
 	}
@@ -138,9 +138,9 @@ public class Tontoko extends Entity {
 			Tile tile = Game.handler.tileLinkedList.get(i);
 			if (tile.getId() == Id.Tontoko_Obstacle) {
 				if (getBounds().intersects(tile.getBounds())) {
-					// ��頝���
+					// 做出跌倒的動畫
 					if (immutable == false && ((falling == false) || (falling == true && (tile.getX() + tile.getWidth()/2 - x - 27)>0))) {
-						fallDown(); // ��������������� - 1
+						fallDown(); // 遊戲開始後，非無敵狀態，生命 - 1
 						tile.setHitByPlayer(true);
 						Game.game_bonus = 1;
 					}

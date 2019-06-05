@@ -15,19 +15,18 @@ public class Dino_Squart extends Entity {
 
 		sheetLength = Dino_Stand_Run.dino_Stand_Run_Images.length;
 
-		// 閮剖����椰銝�(1,1)嚗�(sheet, x, y, 閬�撟曉��脖��)
+		// 設定圖片，左上角是(1,1)，(sheet, x, y, 要讀幾個進來)
 		for (int i = 0; i < sheetLength - 3; i++)
 			Dino_Stand_Run.dino_Stand_Run_Images[i + 3] = new Image(Game.imageSheet, i + 3 + 1, 1, Id.GET_DINO_SQUART);
 
-		immutableSpeed = 64 * 2 / moveSpeedfloor4 + 1; // �� (1/animation_speed) 蝘�擃����2�摨衣�犖�
-		animation_speed = (60 / moveSpeedfloor4 > 0) ? 60 / moveSpeedfloor4 : 1; // 瘥� (1/animation_speed) 蝘� 霈��甈∪�
+		immutableSpeed = 64 * 2 / moveSpeedfloor4 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
+		animation_speed = (60 / moveSpeedfloor4 > 0) ? 60 / moveSpeedfloor4 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
 	}
 
 	@Override
 	public void render(Graphics g) {
-//		System.out.println("SQUART");
-		/***** 閮剖���� *****/
-		// 憒�僕銝�
+		/***** 設定圖片 *****/
+		// 如果蹲下
 		if (immutable == true && twinkling == true) {
 			g.drawImage(Game.immutableSheet.getBufferedImage(), x, y, width, height, null);
 			twinkling = false;
@@ -42,26 +41,25 @@ public class Dino_Squart extends Entity {
 
 	@Override
 	public void update() {
-		/***** ������ *****/
-		animation_speed = (60 / moveSpeedfloor4 > 0) ? 60 / moveSpeedfloor4 : 1; // 瘥� (1/animation_speed) 蝘� 霈��甈∪�
-		immutableSpeed = 64 * 2 / moveSpeedfloor4 + 1; // �� (1/animation_speed) 蝘�擃����2�摨衣�犖�
+		/***** 更新數據 *****/
+		animation_speed = (60 / moveSpeedfloor4 > 0) ? 60 / moveSpeedfloor4 : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		immutableSpeed = 64 * 2 / moveSpeedfloor4 + 1; // 無敵 (1/animation_speed) 秒，物體要通過2個長度的人物
 
-		/***** ���� *****/
-		doCollidingDetection(); // ��蝣唳��
-		doAnimation(); // ����
-		do_check_Immutable(); // ����
+		/***** 做事 *****/
+		doCollidingDetection(); // 判斷碰撞
+		doAnimation(); // 處理動畫
+		do_check_Immutable(); // 處理無敵
 	}
 
 	@Override
 	public void doKeyPressed1() {
-		// 銝���
+		// 不做事
 	}
 
 	@Override
 	public void doKeyPressed2() {
-		Game.handler.addEntity(Game.dino_Stand_Run); // 撱箇������
+		Game.handler.addEntity(Game.dino_Stand_Run); // 建立站著恐龍
 		Game.handler.removeEntity(this);
-//		System.out.println("Stand");
 	}
 
 }

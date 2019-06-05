@@ -158,7 +158,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			// 每一秒
 			if (System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println("瘥�蝘��  " + frames + "甈〉ender()  " + updates + "甈「pdate()");
+				System.out.println("每一秒跑  " + frames + "次render()  " + updates + "次update()");
 				frames = 0;
 				updates = 0;
 				buildObstacles();
@@ -224,29 +224,29 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			}
 		}
 
-		// 憿舐內REST
+		// 顯示REST
 		background.setColor(Color.BLACK);
 		background.setFont(new Font("Courier", Font.BOLD, (int) (GameParameter.FLOOR_HEIGHT * 1.1)));
 		background.drawString("REST", GameParameter.WIDTH - 190, GameParameter.HEIGHT);
 
-		// 憿舐內numOfObstacles
+		// 顯示numOfObstacles
 		background.setColor(Color.WHITE);
 		background.setFont(new Font("Courier", Font.BOLD, (int) (GameParameter.FLOOR_HEIGHT * 1.5)));
 		background.drawString(Integer.toString(numOfObstacles), GameParameter.WIDTH - 100, GameParameter.HEIGHT);
 
-		// 憿舐內background
+		// 顯示background
 		background.dispose();
 		bufferStrategy.show();
 	}
 
 	/*
-	 * ������
+	 * 更新數據
 	 * 
 	 */
 	@Override
 	public void update() {
 		if (FIRST_RUN == true || GAME_NOT_STARTED == false) {
-			// �������迤���
+			// 遊戲剛開始、正在遊戲
 			handler.update();
 			if (FIRST_RUN == true && runOnce == false) {
 				handler.addTile(
@@ -255,20 +255,20 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				runOnce = true;
 			}
 		} else if (FIRST_RUN == false && GAME_NOT_STARTED == true) {
-			// ���甇颱滿
+			// 當遊戲死亡
 			button.showDeathScreen();
 
 			if (runOnce == false) {
-				// 撱箇���ogo death
+				// 建立一個logo death
 				handler.addTile(new com.main.item.tile.LogoDeath(Id.LOGODEATH, Game.handler,
 						(GameParameter.WIDTH - LOGO_DEATH_WIDTH * 4 / 5) / 2,
 						(GameParameter.WIDTH - LOGO_DEATH_HEIGHT * 4 / 5) / 2 - 180, LOGO_DEATH_WIDTH * 4 / 5,
 						LOGO_DEATH_HEIGHT * 4 / 5)); // (574, 736)
 				Game.playSoundEffect("showdeathscene.wav");
 
-				// 撱箇�reasure����
+				// 建立treasure圖案
 				ImageSheet imageSheet = null;
-				// 蝣箄��嚗�撖嗥
+				// 確認分數，得到寶物
 				if (game_score >= 2000) {
 					dataFile.gainTreasure(10);
 					imageSheet = new ImageSheet("/Image/Treasure/10.png");
@@ -311,7 +311,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				runOnce = true;
 			}
 
-			// 頝ogo death��� update()
+			// 跑logo death的 update()
 			for (int i = 0; i < handler.tileLinkedList.size(); i++) {
 				Tile tile = handler.tileLinkedList.get(i);
 				if (tile.getId() == Id.LOGODEATH || tile.getId() == Id.TREASURE) {
@@ -323,11 +323,10 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	}
 
 	/*
-	 * �璈��� 蝮賢�����100��umObstacle = 100嚗�
-	 * 銝�����銝剖�����憭�2���嚗axObstaclesOnScreen = 3嚗�
-	 * 銋����20�停������1����嚗ifficulty = 15嚗�
+	 * 隨機出障礙物 總共的陷阱個數為100個（numObstacle = 100） 
+	 * 一開始畫面中只會出先最多2個障礙物（maxObstaclesOnScreen = 3） 之後每過20個就會多增加1格障礙物（difficulty = 15）
 	 * 
-	 * Game.handler.tileLinkedList.size() ���5��
+	 * Game.handler.tileLinkedList.size() 初始為5個
 	 */
 	public void buildObstacles() {
 		int obstacleRange = 500;
@@ -349,7 +348,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 		int floorCanMove = (Game.FIRST_RUN == true || (maxObstaclesOnScreen - 1) > 4) ? 4 : (maxObstaclesOnScreen - 1);
 		int tmp = handler.tileLinkedList.size() - initialNumTile - contra_InsectBullets;
 
-		//System.out.println("tmp = " + tmp + " handler.tileLinkedList.size() = " + handler.tileLinkedList.size() + " contra_InsectBullets = " + contra_InsectBullets);
+//		System.out.println("tmp = " + tmp + " handler.tileLinkedList.size() = " + handler.tileLinkedList.size() + " contra_InsectBullets = " + contra_InsectBullets);
 		
 		if (numOfObstacles == 0 && tmp == 0 && contra_InsectBullets == 0) {
 			//System.out.println("Win");
@@ -368,27 +367,27 @@ public class Game extends Canvas implements Runnable, GameParameter {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange) {
 							break loop1;
 						}
-					} // ������蔭憭芰餈停break���
+					} // 若出現的位置太相近就break掉
 				} else if (tile.getId() == Id.Taiko_Obstacle_RED || tile.getId() == Id.Taiko_Obstacle_BLUE) {
 					if (randomFloor == 2 && tile.getY() <= GameParameter.HEIGHT * 2 / 4 - 10) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
-					} // ������蔭憭芰餈停break���
+					} // 若出現的位置太相近就break掉
 				} else if (tile.getId() == Id.ContraInsects) {
 					if (randomFloor == 3 && tile.getY() <= GameParameter.HEIGHT * 3 / 4 - 10) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
-					} // ������蔭憭芰餈停break���
+					} // 若出現的位置太相近就break掉
 				} else if (tile.getId() == Id.Dino_Obstacle || tile.getId() == Id.Dino_Obstacle0) {
 					if (randomFloor == 4 && tile.getY() <= GameParameter.HEIGHT * 4 / 4 - 10) {
 						if ((GameParameter.WIDTH + randomPos) - tile.getX() < obstacleRange)
 							break loop1;
-					} // ������蔭憭芰餈停break���
+					} // 若出現的位置太相近就break掉
 				}
 			}
 
 			if (GAME_NOT_STARTED == false) {
-				numOfObstacles--; // 瘥香������嚗停霈��-1
+				numOfObstacles--; // 每死掉一個障礙物，就讓值-1
 			}
 
 			int whichObstacle = rnd.nextInt(2);
@@ -416,7 +415,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 			case 4:
 				int addY = 0;
 				if (whichObstacle == 0) {
-					addY = -20; // 憒�憌���蔭銝��40
+					addY = -20; // 如果是飛龍，位置上升40
 					handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
 							GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
 				} else {
@@ -461,24 +460,24 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	}
 
 	public static void main(String[] args) {
-		rnd.setSeed(System.currentTimeMillis()); // 閮剖�� 鈭��車摮�
-		dataFile = new DataFile(); // 閮�窄�
+		rnd.setSeed(System.currentTimeMillis()); // 設定 亂數的種子
+		dataFile = new DataFile(); // 記錄寶物
 
-		// 撱箇��
+		// 建立遊戲
 		Game game = new Game();
-		gameFrame = new JFrame(GameParameter.TITLE_STRING); // 撱箇����
+		gameFrame = new JFrame(GameParameter.TITLE_STRING); // 建立視窗
 		button = new Button();
 		button.addInJFrame(gameFrame);
-		gameFrame.add(game); // ��ame���脣閬�銝�
-		gameFrame.pack(); // 霈��之撠��ame閮剖���璅�憭�
-		gameFrame.setResizable(false); // 霈�����之����
-		gameFrame.setLocationRelativeTo(null); // 霈���身����撟葉���
-		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 霈���������
-		gameFrame.setVisible(true); // 霈��＊蝷箏靘�
-		game.start(); // ���hread
+		gameFrame.add(game); // 把game加進去視窗當中
+		gameFrame.pack(); // 讓視窗大小跟著game設定的一樣大
+		gameFrame.setResizable(false); // 讓視窗不能拉大拉小
+		gameFrame.setLocationRelativeTo(null); // 讓視窗預設出現在螢幕中間
+		gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // 讓視窗按下x時關閉
+		gameFrame.setVisible(true); // 讓視窗顯示出來
+		game.start(); // 開始thread
 		playBackgroundMusic("opening.wav");
 
-		// �雿��銝�����
+		// 當你按下右上角叉叉後
 		gameFrame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {

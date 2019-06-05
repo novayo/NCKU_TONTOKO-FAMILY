@@ -43,7 +43,7 @@ public class Taiko_Obstacle extends Tile {
 			moveSpeed += 1;
 		}
 		animation++;
-		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (1/animation_speed) 秒 變換一次動畫
+		animation_speed = (60 / moveSpeed > 0) ? 60 / moveSpeed : 1; // 每 (animation_speed/60) 秒 變換一次動畫
 		doAnimation();
 
 		if (x <= 130) {

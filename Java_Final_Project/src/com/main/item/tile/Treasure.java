@@ -12,7 +12,7 @@ public class Treasure extends Tile{
 
 	
 	private Image boxImage[] = new Image[3];
-	private final int boxAnimationTime = 300; // 1/60蝘� 嚗身摰����
+	private final int boxAnimationTime = 300; // 1/60秒 （設定五秒）
 	private int countBoxAnimationTime = 0;
 	private boolean boxAnimationFlag = false;
 	private boolean doOnce = true;
