@@ -415,8 +415,9 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				break;
 			case 4:
 				int addY = 0;
+//				whichObstacle= 0;
 				if (whichObstacle == 0) {
-					addY = -10; // 如果是飛龍，位置上升10
+					addY = -20; // 如果是飛龍，位置上升10
 					handler.addTile(new Dino_Obstacle(Id.Dino_Obstacle, Game.handler, GameParameter.WIDTH + randomPos,
 							GameParameter.HEIGHT * 4 / 4 - 60 - Game.FLOOR_HEIGHT + addY, 52, 33, whichObstacle));
 				} else {
@@ -432,6 +433,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 	}
 
 	public static void gameReset() {
+		floorCanMove = 1;
 		game_time = 0;
 		numOfObstacles = totalObstacles;
 		maxObstaclesOnScreen = 2;
