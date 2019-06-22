@@ -154,7 +154,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				update();
 				updates++;
 				delta--;
-//				buildObstacles();
+				buildObstacles();
 			}
 
 			// 每一秒
@@ -163,7 +163,7 @@ public class Game extends Canvas implements Runnable, GameParameter {
 				System.out.println("每一秒跑  " + frames + "次render()  " + updates + "次update()");
 				frames = 0;
 				updates = 0;
-				buildObstacles(); // 為了降低難度，使他每一秒才去判斷一次，如果是真的要隨著難度增加而增加怪物數量，把這行改到157行
+//				buildObstacles(); // 為了降低難度，使他每一秒才去判斷一次，如果是真的要隨著難度增加而增加怪物數量，把這行改到157行
 				if (GAME_NOT_STARTED == false)
 					game_time++;
 			}
